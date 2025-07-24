@@ -20,6 +20,15 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 
 ---
 
+## Cosa puoi migliorare (opzionale, per massima sicurezza)
+
+- [ ] **HSTS (Strict Transport Security):**
+  Attivando HSTS, i browser forzeranno sempre l’uso di HTTPS anche in caso di tentativi di downgrade. Consigliato per produzione. Vuoi che ti aiuti ad attivare questa opzione?
+- [ ] **OCSP Stapling:**
+  Non è obbligatorio, ma migliora la velocità di verifica del certificato SSL/TLS. Consigliato per produzione.
+
+---
+
 ## Esempi di configurazione
 
 ### MikroTik (firewall e NAT)
@@ -44,9 +53,33 @@ server {
 }
 ```
 
+### Nginx (HTTPS con HSTS e OCSP Stapling)
+```nginx
+server {
+    listen 443 ssl;
+    server_name gestionale.miaazienda.com;
+
+    # Certificati SSL
+    ssl_certificate /etc/letsencrypt/live/gestionale.miaazienda.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/gestionale.miaazienda.com/privkey.pem;
+
+    # HSTS: forza HTTPS per 1 anno anche su sottodomini
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # OCSP Stapling
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+
+    # ... altre configurazioni ...
+}
+```
+
 ---
 
 ## Note operative
 - Aggiorna questa checklist ad ogni modifica della configurazione.
 - Segnala eventuali problemi o eccezioni.
-- Consulta anche docs/DEPLOY_ARCHITETTURA_GESTIONALE.md per la checklist generale di deploy. 
+- Consulta anche docs/DEPLOY_ARCHITETTURA_GESTIONALE.md per la checklist generale di deploy.
+- **Per attivare HSTS e OCSP Stapling, copia la configurazione sopra nel blocco server HTTPS di Nginx. Riavvia Nginx dopo le modifiche.** 

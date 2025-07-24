@@ -1,0 +1,1497 @@
+# jul/24/2025 14:13:57 by RouterOS 7.1.5
+# software id = RKER-QGS9
+#
+# model = 1100AHx2
+# serial number = 716D06D17CE7
+/interface bridge
+add fast-forward=no name=Br-VLAN10-Ufficio
+add name=Br-VLAN20-Ospiti
+add fast-forward=no name=Br-VLAN30-Telecamere
+add fast-forward=no name=Br-VLAN60-Game
+add fast-forward=no name=Br-VLAN70-Guest
+/interface ethernet
+set [ find default-name=ether1 ] name=ether1-Management speed=100Mbps
+set [ find default-name=ether2 ] name=ether2-WAN1 speed=100Mbps
+set [ find default-name=ether3 ] loop-protect=on name=ether3-Switch1 speed=\
+    100Mbps
+set [ find default-name=ether4 ] loop-protect=on name=ether4-Switch1 speed=\
+    100Mbps
+set [ find default-name=ether5 ] loop-protect=on name=ether5-Switch2 speed=\
+    100Mbps
+set [ find default-name=ether6 ] loop-protect=on name=ether6-Switch2 speed=\
+    100Mbps
+set [ find default-name=ether7 ] loop-protect=on name=ether7-Switch3 speed=\
+    100Mbps
+set [ find default-name=ether8 ] loop-protect=on name=ether8-Switch3 speed=\
+    100Mbps
+set [ find default-name=ether9 ] name=ether9-Antenna1 speed=100Mbps
+set [ find default-name=ether10 ] name=ether10-Antenna2 speed=100Mbps
+set [ find default-name=ether11 ] advertise=\
+    10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full name=\
+    ether11-AP1
+set [ find default-name=ether1 ] advertise=\
+    10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full name=\
+    ether12-AP2
+set [ find default-name=ether2 ] advertise=\
+    10M-half,10M-full,100M-half,100M-full,1000M-half,1000M-full name=\
+    "ether13-Router Saletta"
+/interface l2tp-client
+add connect-to=151.248.8.253 name=l2tp-out1-Andrea user=mauri_ferrari
+/interface wireguard
+add disabled=yes listen-port=13231 mtu=1420 name=NordVPN
+/interface vlan
+add interface=ether11-AP1 name=AP1-VLAN10-Ufficio vlan-id=10
+add interface=ether11-AP1 name=AP1-VLAN20-Ospiti vlan-id=20
+add interface=ether11-AP1 name=AP1-VLAN30-Telecamere vlan-id=30
+add interface=ether11-AP1 name=AP1-VLAN70-Guest vlan-id=70
+add interface=ether12-AP2 name=AP2-VLAN10-Ufficio vlan-id=10
+add interface=ether12-AP2 name=AP2-VLAN20-Ospiti vlan-id=20
+add interface=ether12-AP2 name=AP2-VLAN30-Telecamere vlan-id=30
+add interface=ether12-AP2 name=AP2-VLAN70-Guest vlan-id=70
+add interface=ether9-Antenna1 name=Ant1-VLAN10-Ufficio vlan-id=10
+add interface=ether9-Antenna1 name=Ant1-VLAN40-Stefano vlan-id=40
+add interface=ether9-Antenna1 name=Ant1-VLAN45-Gianni vlan-id=45
+add interface=ether9-Antenna1 name=Ant1-VLAN60-Game vlan-id=60
+add interface=ether10-Antenna2 name=Ant2-VLAN10-Ufficio vlan-id=10
+add interface=ether10-Antenna2 name=Ant2-VLAN50-Generale vlan-id=50
+add interface=ether10-Antenna2 name=Ant2-VLAN60-Game vlan-id=60
+add interface="ether13-Router Saletta" name=Saletta-VLAN10-Ufficio vlan-id=10
+add interface="ether13-Router Saletta" name=Saletta-VLAN20-Ospiti vlan-id=20
+add interface="ether13-Router Saletta" name=Saletta-VLAN30-Telecamere \
+    vlan-id=30
+/interface bonding
+add name=Bonding-Switch1 slaves=ether3-Switch1,ether4-Switch1
+add name=Bonding-Switch2 slaves=ether5-Switch2,ether6-Switch2
+add name=Bonding-Switch3 slaves=ether7-Switch3,ether8-Switch3
+/interface vlan
+add interface=Bonding-Switch1 name=Switch1-VLAN10-Ufficio vlan-id=10
+add interface=Bonding-Switch1 name=Switch1-VLAN20-Ospiti vlan-id=20
+add interface=Bonding-Switch1 name=Switch1-VLAN30-Telecamere vlan-id=30
+add interface=Bonding-Switch2 name=Switch2-VLAN10-Ufficio vlan-id=10
+add interface=Bonding-Switch2 name=Switch2-VLAN20-Ospiti vlan-id=20
+add interface=Bonding-Switch2 name=Switch2-VLAN30-Telecamere vlan-id=30
+add interface=Bonding-Switch3 name=Switch3-VLAN10-Ufficio vlan-id=10
+add interface=Bonding-Switch3 name=Switch3-VLAN20-Ospiti vlan-id=20
+add interface=Bonding-Switch3 name=Switch3-VLAN30-Telecamere vlan-id=30
+/interface list
+add name=Internet
+/interface lte apn
+set [ find default=yes ] ip-type=ipv4 use-network-apn=no
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
+/ip ipsec proposal
+set [ find default=yes ] enc-algorithms=\
+    aes-256-cbc,aes-192-cbc,aes-128-cbc,3des pfs-group=none
+/ip pool
+add name=Pool-DHCP-VLAN10 ranges=10.10.10.200-10.10.10.254
+add name=Pool-DHCP-VLAN20 ranges=10.10.20.200-10.10.20.254
+add name=Pool-DHCP-VLAN30 ranges=10.10.30.200-10.10.30.254
+add name=Pool-DHCP-VLAN40 ranges=10.10.40.200-10.10.40.254
+add name=Pool-DHCP-VLAN50 ranges=10.10.50.200-10.10.50.254
+add name=Pool-DHCP-Managmenet ranges=192.168.88.200-192.168.88.254
+add name=Pool-DHCP-VLAN70 ranges=10.10.70.10-10.10.70.254
+add name=Pool-DHCP-VLAN60 ranges=10.10.60.10-10.10.60.254
+add name=Pool-DHCP-VLAN45 ranges=10.10.45.200-10.10.45.254
+/ip dhcp-server
+add address-pool=Pool-DHCP-VLAN10 authoritative=after-2sec-delay interface=\
+    Br-VLAN10-Ufficio lease-time=1d name=DHCP-S-VLAN10 relay=255.255.255.255
+add address-pool=Pool-DHCP-VLAN20 authoritative=after-2sec-delay interface=\
+    Br-VLAN20-Ospiti lease-time=1d name=DHCP-S-VLAN20 relay=255.255.255.255
+add address-pool=Pool-DHCP-VLAN30 authoritative=after-2sec-delay interface=\
+    Br-VLAN30-Telecamere lease-time=1d name=DHCP-S-VLAN30 relay=\
+    255.255.255.255
+add address-pool=Pool-DHCP-VLAN40 authoritative=after-2sec-delay disabled=yes \
+    interface=Ant1-VLAN40-Stefano lease-time=1d name=DHCP-S-VLAN40 relay=\
+    255.255.255.255
+add address-pool=Pool-DHCP-VLAN50 authoritative=after-2sec-delay interface=\
+    Ant2-VLAN50-Generale lease-time=1d name=DHCP-S-VLAN50 relay=\
+    255.255.255.255
+add address-pool=Pool-DHCP-Managmenet authoritative=after-2sec-delay \
+    interface=ether1-Management lease-time=1d name=DHCP-S-Management relay=\
+    255.255.255.255
+add address-pool=Pool-DHCP-VLAN70 authoritative=after-2sec-delay interface=\
+    Br-VLAN70-Guest lease-time=1d name=DHCP-S-VLAN70 relay=255.255.255.255
+add address-pool=Pool-DHCP-VLAN60 authoritative=after-2sec-delay disabled=yes \
+    interface=Br-VLAN60-Game lease-time=1d name=DHCP-S-VLAN60 relay=\
+    255.255.255.255
+add address-pool=Pool-DHCP-VLAN45 authoritative=after-2sec-delay interface=\
+    Ant1-VLAN45-Gianni lease-time=1d name=DHCP-S-VLAN45 relay=255.255.255.255
+/port
+set 0 name=serial0
+set 1 name=serial1
+/interface l2tp-client
+add add-default-route=yes comment=NordVPN connect-to=no4.nordvpn.com name=\
+    "l2tp - NordVPN" profile=default use-ipsec=yes user=\
+    posta@carpenteriaferrari.com
+/queue simple
+add dst=ether2-WAN1 max-limit=100M/100M name="PC Mauri" target=10.10.10.33/32
+add dst=ether2-WAN1 max-limit=100M/100M name=PC-PIETRO target=10.10.45.226/32
+add disabled=yes dst=ether2-WAN1 max-limit=100M/100M name=SKY-Stefano target=\
+    10.10.40.248/32
+add dst=ether2-WAN1 max-limit=100M/100M name=AppleWatchStefano target=\
+    10.10.70.14/32
+add dst=ether2-WAN1 max-limit=100M/100M name=GalaxyA20 target=10.10.70.26/32
+add dst=ether2-WAN1 max-limit=100M/100M name=GalaxyS20Toni target=\
+    10.10.70.28/32
+add comment="Wifi Guest" dst=ether2-WAN1 max-limit=100M/100M name=RedmiNote4 \
+    target=10.10.70.10/32
+add dst=ether2-WAN1 max-limit=100M/100M name="android 74deb48" target=\
+    10.10.70.29/32
+add dst=ether2-WAN1 max-limit=100M/100M name=GalaxyA50 target=10.10.70.31/32
+add dst=ether2-WAN1 max-limit=100M/100M name=GalaxyS10Vlady target=\
+    10.10.70.37/32
+add dst=ether2-WAN1 max-limit=100M/100M name=GalaxyA70Vlady target=\
+    10.10.70.39/32
+add dst=ether2-WAN1 max-limit=100M/100M name=Honor6X target=10.10.70.32/32
+/queue tree
+add limit-at=100M max-limit=100M name=DOWNLOAD parent=global priority=1
+add limit-at=10M max-limit=10M name=UPLOAD parent=global priority=2
+/queue type
+add kind=pcq name=DOWNLOAD pcq-classifier=dst-address
+add kind=pcq name=UPLOAD pcq-classifier=src-address
+/queue tree
+add disabled=yes name=Game-IN packet-mark=Game-IN parent=DOWNLOAD priority=2 \
+    queue=DOWNLOAD
+add disabled=yes name=Game-OUT packet-mark=Game-OUT parent=UPLOAD priority=2 \
+    queue=UPLOAD
+add max-limit=35M name=Ufficio-IN packet-mark=Ufficio-IN parent=DOWNLOAD \
+    priority=3 queue=DOWNLOAD
+add limit-at=1600k max-limit=1800k name=Ufficio-OUT packet-mark=Ufficio-OUT \
+    parent=UPLOAD priority=3 queue=UPLOAD
+add limit-at=6M max-limit=7M name=Ospiti-IN packet-mark=Ospiti-IN parent=\
+    DOWNLOAD priority=1 queue=DOWNLOAD
+add limit-at=800k max-limit=1M name=Ospiti-OUT packet-mark=Ospiti-OUT parent=\
+    UPLOAD priority=1 queue=UPLOAD
+add name=Telecamere-IN packet-mark=Telecamere-IN parent=DOWNLOAD priority=5 \
+    queue=DOWNLOAD
+add name=Telecamere-OUT packet-mark=Telecamere-OUT parent=UPLOAD priority=5 \
+    queue=UPLOAD
+add max-limit=20M name=Stefano-IN packet-mark=Stefano-IN parent=DOWNLOAD \
+    priority=4 queue=DOWNLOAD
+add limit-at=1300k max-limit=1500k name=Stefano-OUT packet-mark=Stefano-OUT \
+    parent=UPLOAD priority=4 queue=UPLOAD
+add max-limit=20M name=Gianni-IN packet-mark=Gianni-IN parent=DOWNLOAD \
+    priority=4 queue=DOWNLOAD
+add limit-at=1300k max-limit=1500k name=Gianni-OUT packet-mark=Gianni-OUT \
+    parent=UPLOAD priority=4 queue=UPLOAD
+add limit-at=6M max-limit=7M name=Guest-IN packet-mark=Guest-IN parent=\
+    DOWNLOAD queue=DOWNLOAD
+add limit-at=800k max-limit=1M name=Guest-OUT packet-mark=Guest-OUT parent=\
+    UPLOAD queue=UPLOAD
+add limit-at=4M max-limit=4500k name=Ufficio-IN-icmp packet-mark=\
+    Ufficio-IN-icmp parent=Ufficio-IN priority=1 queue=DOWNLOAD
+add limit-at=240k max-limit=480k name=Ufficio-IN-dns packet-mark=\
+    Ufficio-IN-dns parent=Ufficio-IN priority=2 queue=DOWNLOAD
+add limit-at=20M max-limit=35M name=Ufficio-IN-quic packet-mark=\
+    Ufficio-IN-quic parent=Ufficio-IN priority=3 queue=DOWNLOAD
+add limit-at=20M max-limit=35M name=Ufficio-IN-resto packet-mark=\
+    Ufficio-IN-resto parent=Ufficio-IN priority=5 queue=DOWNLOAD
+add limit-at=20M max-limit=35M name=Ufficio-IN-web packet-mark=Ufficio-IN-web \
+    parent=Ufficio-IN priority=4 queue=DOWNLOAD
+add limit-at=4M max-limit=4500k name=Stefano-IN-icmp packet-mark=\
+    Stefano-IN-icmp parent=Stefano-IN priority=1 queue=DOWNLOAD
+add limit-at=240k max-limit=480k name=Stefano-IN-dns packet-mark=\
+    Stefano-IN-dns parent=Stefano-IN priority=2 queue=DOWNLOAD
+add limit-at=20M max-limit=20M name=Stefano-IN-quic packet-mark=\
+    Stefano-IN-quic parent=Stefano-IN priority=3 queue=DOWNLOAD
+add limit-at=20M max-limit=20M name=Stefano-IN-web packet-mark=Stefano-IN-web \
+    parent=Stefano-IN priority=4 queue=DOWNLOAD
+add limit-at=20M max-limit=20M name=Stefano-IN-resto packet-mark=\
+    Stefano-IN-resto parent=Stefano-IN priority=5 queue=DOWNLOAD
+add limit-at=4M max-limit=4500k name=Gianni-IN-icmp packet-mark=\
+    Gianni-IN-icmp parent=Gianni-IN priority=1 queue=DOWNLOAD
+add limit-at=240k max-limit=480k name=Gianni-IN-dns packet-mark=Gianni-IN-dns \
+    parent=Gianni-IN priority=2 queue=DOWNLOAD
+add limit-at=18M max-limit=20M name=Gianni-IN-quic packet-mark=Gianni-IN-quic \
+    parent=Gianni-IN priority=3 queue=DOWNLOAD
+add limit-at=18M max-limit=20M name=Gianni-IN-web packet-mark=Gianni-IN-web \
+    parent=Gianni-IN priority=4 queue=DOWNLOAD
+add limit-at=18M max-limit=20M name=Gianni-IN-resto packet-mark=\
+    Gianni-IN-resto parent=Gianni-IN priority=5 queue=DOWNLOAD
+add max-limit=20M name=Mauri-IN packet-mark=Mauri-IN parent=DOWNLOAD \
+    priority=4 queue=DOWNLOAD
+add limit-at=4M max-limit=4500k name=Mauri-IN-icmp packet-mark=Mauri-IN-icmp \
+    parent=Mauri-IN priority=1 queue=DOWNLOAD
+add limit-at=240k max-limit=480k name=Mauri-IN-dns packet-mark=Mauri-IN-dns \
+    parent=Mauri-IN priority=2 queue=DOWNLOAD
+add limit-at=20M max-limit=20M name=Mauri-IN-quic packet-mark=Mauri-IN-quic \
+    parent=Mauri-IN priority=3 queue=DOWNLOAD
+add limit-at=20M max-limit=20M name=Mauri-IN-web packet-mark=Mauri-IN-web \
+    parent=Mauri-IN priority=4 queue=DOWNLOAD
+add limit-at=20M max-limit=20M name=Mauri-IN-resto packet-mark=Mauri-IN-resto \
+    parent=Mauri-IN priority=5 queue=DOWNLOAD
+add limit-at=1300k max-limit=1500k name=Mauri-OUT packet-mark=Mauri-OUT \
+    parent=UPLOAD priority=4 queue=UPLOAD
+add limit-at=240k max-limit=480k name=Ospiti-IN-dns packet-mark=Ospiti-IN-dns \
+    parent=Ospiti-IN priority=2 queue=DOWNLOAD
+add limit-at=4M max-limit=4500k name=Ospiti-IN-icmp packet-mark=\
+    Ospiti-IN-icmp parent=Ospiti-IN priority=1 queue=DOWNLOAD
+add limit-at=6M max-limit=7M name=Ospiti-IN-quic packet-mark=Ospiti-IN-quic \
+    parent=Ospiti-IN priority=3 queue=DOWNLOAD
+add limit-at=6M max-limit=7M name=Ospiti-IN-resto packet-mark=Mauri-IN-resto \
+    parent=Ospiti-IN priority=5 queue=DOWNLOAD
+add limit-at=6M max-limit=7M name=Ospiti-IN-web packet-mark=Mauri-IN-web \
+    parent=Ospiti-IN priority=4 queue=DOWNLOAD
+/routing bgp template
+set default as=65530 disabled=no name=default output.network=bgp-networks
+/routing ospf instance
+add name=default-v2
+/routing ospf area
+add disabled=yes instance=default-v2 name=backbone-v2
+/snmp community
+set [ find default=yes ] addresses=0.0.0.0/0
+/system logging action
+set 0 memory-lines=100
+add email-to=posta@carpenteriaferrari.com name=email target=email
+/user group
+set full policy="local,telnet,ssh,ftp,reboot,read,write,policy,test,winbox,pas\
+    sword,web,sniff,sensitive,api,romon,dude,tikapp,rest-api"
+/interface bridge port
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    Ant1-VLAN10-Ufficio
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    Switch1-VLAN10-Ufficio
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    Switch2-VLAN10-Ufficio
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    Switch3-VLAN10-Ufficio
+add bridge=Br-VLAN20-Ospiti ingress-filtering=no interface=\
+    Switch1-VLAN20-Ospiti
+add bridge=Br-VLAN20-Ospiti ingress-filtering=no interface=\
+    Switch2-VLAN20-Ospiti
+add bridge=Br-VLAN20-Ospiti ingress-filtering=no interface=\
+    Switch3-VLAN20-Ospiti
+add bridge=Br-VLAN30-Telecamere ingress-filtering=no interface=\
+    Switch1-VLAN30-Telecamere
+add bridge=Br-VLAN30-Telecamere ingress-filtering=no interface=\
+    Switch3-VLAN30-Telecamere
+add bridge=Br-VLAN30-Telecamere ingress-filtering=no interface=\
+    Switch2-VLAN30-Telecamere
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    Ant2-VLAN10-Ufficio
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    AP1-VLAN10-Ufficio
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    AP2-VLAN10-Ufficio
+add bridge=Br-VLAN10-Ufficio ingress-filtering=no interface=\
+    Saletta-VLAN10-Ufficio
+add bridge=Br-VLAN30-Telecamere ingress-filtering=no interface=\
+    AP1-VLAN30-Telecamere
+add bridge=Br-VLAN30-Telecamere ingress-filtering=no interface=\
+    AP2-VLAN30-Telecamere
+add bridge=Br-VLAN20-Ospiti ingress-filtering=no interface=\
+    Saletta-VLAN20-Ospiti
+add bridge=Br-VLAN70-Guest ingress-filtering=no interface=AP1-VLAN70-Guest
+add bridge=Br-VLAN20-Ospiti ingress-filtering=no interface=AP2-VLAN20-Ospiti
+add bridge=Br-VLAN30-Telecamere ingress-filtering=no interface=\
+    Saletta-VLAN30-Telecamere
+add bridge=Br-VLAN60-Game ingress-filtering=no interface=Ant1-VLAN60-Game
+add bridge=Br-VLAN60-Game ingress-filtering=no interface=Ant2-VLAN60-Game
+add bridge=Br-VLAN20-Ospiti ingress-filtering=no interface=AP1-VLAN20-Ospiti
+add bridge=Br-VLAN70-Guest ingress-filtering=no interface=AP2-VLAN70-Guest
+/ip neighbor discovery-settings
+set discover-interface-list=!Internet
+/ip settings
+set max-neighbor-entries=8192
+/ipv6 settings
+set disable-ipv6=yes max-neighbor-entries=8192
+/interface list member
+add interface=ether2-WAN1 list=Internet
+add interface="l2tp - NordVPN" list=Internet
+/ip address
+add address=10.10.10.1/24 interface=Br-VLAN10-Ufficio network=10.10.10.0
+add address=10.10.20.1/24 interface=Br-VLAN20-Ospiti network=10.10.20.0
+add address=10.10.30.1/24 interface=Br-VLAN30-Telecamere network=10.10.30.0
+add address=10.10.40.1/24 interface=Ant1-VLAN40-Stefano network=10.10.40.0
+add address=10.10.50.1/24 interface=Ant2-VLAN50-Generale network=10.10.50.0
+add address=10.10.70.1/24 interface=Br-VLAN70-Guest network=10.10.70.0
+add address=10.10.60.1/24 interface=Br-VLAN60-Game network=10.10.60.0
+add address=192.168.88.1 interface=ether1-Management network=192.168.88.1
+add address=10.10.45.1/24 interface=Ant1-VLAN45-Gianni network=10.10.45.0
+add address=88.32.191.138/30 interface=ether2-WAN1 network=88.32.191.136
+/ip dhcp-client
+add interface=ether2-WAN1
+/ip dhcp-server lease
+add address=10.10.60.10 always-broadcast=yes client-id=1:70:9e:29:88:e6:15 \
+    mac-address=70:9E:29:88:E6:15 server=DHCP-S-VLAN60
+add address=10.10.70.26 client-id=1:88:29:9c:f7:2b:db mac-address=\
+    88:29:9C:F7:2B:DB server=DHCP-S-VLAN70
+add address=10.10.70.28 client-id=1:12:28:76:d:b0:5c mac-address=\
+    12:28:76:0D:B0:5C server=DHCP-S-VLAN70
+add address=10.10.70.31 client-id=1:64:89:f1:bf:c5:7 mac-address=\
+    64:89:F1:BF:C5:07 server=DHCP-S-VLAN70
+add address=10.10.70.29 client-id=1:9c:d3:5b:cf:b9:17 mac-address=\
+    9C:D3:5B:CF:B9:17 server=DHCP-S-VLAN70
+add address=10.10.70.32 client-id=1:b0:e1:7e:ad:a:d4 mac-address=\
+    B0:E1:7E:AD:0A:D4 server=DHCP-S-VLAN70
+add address=10.10.70.14 client-id=1:3e:c:cc:87:61:15 mac-address=\
+    3E:0C:CC:87:61:15 server=DHCP-S-VLAN70
+add address=10.10.70.37 client-id=1:8c:b8:4a:9e:14:f5 mac-address=\
+    8C:B8:4A:9E:14:F5 server=DHCP-S-VLAN70
+add address=10.10.70.13 client-id=1:76:29:6c:aa:13:59 mac-address=\
+    76:29:6C:AA:13:59 server=DHCP-S-VLAN70
+add address=10.10.10.219 client-id=1:54:f1:5f:1b:21:9e mac-address=\
+    54:F1:5F:1B:21:9E server=DHCP-S-VLAN10
+add address=10.10.10.220 client-id=1:54:f1:5f:1b:48:c9 mac-address=\
+    54:F1:5F:1B:48:C9 server=DHCP-S-VLAN10
+add address=10.10.45.226 client-id=1:bc:a8:a6:ac:25:ba mac-address=\
+    BC:A8:A6:AC:25:BA server=DHCP-S-VLAN45
+add address=10.10.70.10 client-id=1:18:f0:e4:9:c3:52 mac-address=\
+    18:F0:E4:09:C3:52 server=DHCP-S-VLAN70
+add address=10.10.70.39 client-id=1:76:93:fd:d:d9:91 mac-address=\
+    76:93:FD:0D:D9:91 server=DHCP-S-VLAN70
+add address=10.10.70.42 client-id=1:b6:d1:76:3c:73:18 mac-address=\
+    B6:D1:76:3C:73:18 server=DHCP-S-VLAN70
+add address=10.10.40.248 client-id=1:b0:45:30:cd:75:a1 mac-address=\
+    B0:45:30:CD:75:A1 server=DHCP-S-VLAN40
+/ip dhcp-server network
+add address=10.10.10.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.10.1 \
+    netmask=24
+add address=10.10.20.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.20.1
+add address=10.10.30.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.30.1
+add address=10.10.40.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.40.1
+add address=10.10.45.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.45.1
+add address=10.10.50.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.50.1
+add address=10.10.60.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.60.8
+add address=10.10.70.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=10.10.70.1
+add address=192.168.0.0/24 dns-server=8.8.8.8,8.8.4.4 gateway=192.168.0.1
+/ip dns
+set servers=8.8.8.8,8.8.4.4
+/ip dns static
+add address=10.255.255.255 comment="addMalwareDomains Urlhaus_Host" name=\
+    1008691.com
+add address=158.247.227.231 comment="addMalwareIPs SSL_IPBL_AGG" list=\
+    addressListMalware
+add address=209.25.140.181 comment="addMalwareIPs SSL_IPBL_AGG" list=\
+    addressListMalware
+/ip firewall filter
+add action=drop chain=forward comment="PC Isolati da Internet OUT" \
+    log-prefix="PC ISOLATI OUT" out-interface=ether2-WAN1 src-address-list=\
+    ISOLA-DA-INTERNET
+add action=drop chain=forward comment="PC Isolati da Internet IN" \
+    dst-address-list=ISOLA-DA-INTERNET log-prefix="PC ISOLATI IN"
+add action=drop chain=forward comment="Isola VLAN10 dalle altre VLAN escluse l\
+    a VLAN30, la VLAN40, la VLAN45 e la VLAN50" disabled=yes \
+    dst-address-list=VLAN20 src-address-list=VLAN10
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN10
+add action=drop chain=forward disabled=yes dst-address-list=VLAN70 \
+    src-address-list=VLAN10
+add action=drop chain=forward comment="Isola VLAN20 dalle altre VLAN" \
+    disabled=yes dst-address-list=VLAN10 src-address-list=VLAN20
+add action=drop chain=forward dst-address-list=VLAN30 src-address-list=VLAN20
+add action=drop chain=forward dst-address-list=VLAN40 src-address-list=VLAN20
+add action=drop chain=forward dst-address-list=VLAN45 src-address-list=VLAN20
+add action=drop chain=forward dst-address-list=VLAN50 src-address-list=VLAN20
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN20
+add action=drop chain=forward dst-address-list=VLAN70 src-address-list=VLAN20
+add action=drop chain=forward comment=\
+    "Isola VLAN30 dalle altre VLAN esclusa la VLAN10, laVLAN40 e la VLAN45" \
+    dst-address-list=VLAN20 src-address-list=VLAN30
+add action=drop chain=forward dst-address-list=VLAN50 src-address-list=VLAN30
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN30
+add action=drop chain=forward dst-address-list=VLAN70 src-address-list=VLAN30
+add action=drop chain=forward comment=\
+    "Isola VLAN40 dalle altre VLAN esclusa la VLAN10 e la VLAN30" \
+    dst-address-list=VLAN20 src-address-list=VLAN40
+add action=drop chain=forward dst-address-list=VLAN45 src-address-list=VLAN40
+add action=drop chain=forward dst-address-list=VLAN50 src-address-list=VLAN40
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN40
+add action=drop chain=forward dst-address-list=VLAN70 src-address-list=VLAN40
+add action=drop chain=forward comment=\
+    "Isola VLAN45 dalle altre VLAN esclusa la VLAN10 e la VLAN30" \
+    dst-address-list=VLAN20 src-address-list=VLAN45
+add action=drop chain=forward dst-address-list=VLAN40 src-address-list=VLAN45
+add action=drop chain=forward dst-address-list=VLAN50 src-address-list=VLAN45
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN45
+add action=drop chain=forward dst-address-list=VLAN70 src-address-list=VLAN45
+add action=drop chain=forward comment=\
+    "Isola VLAN50 dalle altre VLAN esclusa la VLAN10" dst-address-list=VLAN20 \
+    src-address-list=VLAN50
+add action=drop chain=forward dst-address-list=VLAN30 src-address-list=VLAN50
+add action=drop chain=forward dst-address-list=VLAN40 src-address-list=VLAN50
+add action=drop chain=forward dst-address-list=VLAN45 src-address-list=VLAN50
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN50
+add action=drop chain=forward dst-address-list=VLAN70 src-address-list=VLAN50
+add action=drop chain=forward comment="Isola VLAN60 dalle altre VLAN" \
+    dst-address-list=VLAN10 log=yes src-address-list=VLAN60
+add action=drop chain=forward dst-address-list=VLAN20 src-address-list=VLAN60
+add action=drop chain=forward dst-address-list=VLAN30 src-address-list=VLAN60
+add action=drop chain=forward dst-address-list=VLAN45 src-address-list=VLAN60
+add action=drop chain=forward dst-address-list=VLAN50 src-address-list=VLAN60
+add action=drop chain=forward dst-address-list=VLAN70 src-address-list=VLAN60
+add action=drop chain=forward comment=\
+    "Isola VLAN70 dalle altre VLAN esclusa la VLAN10 e la VLAN30" \
+    dst-address-list=VLAN20 src-address-list=VLAN70
+add action=drop chain=forward dst-address-list=VLAN40 src-address-list=VLAN70
+add action=drop chain=forward dst-address-list=VLAN45 src-address-list=VLAN70
+add action=drop chain=forward dst-address-list=VLAN50 src-address-list=VLAN70
+add action=drop chain=forward dst-address-list=VLAN60 src-address-list=VLAN70
+add action=reject chain=forward comment="Block malware network" \
+    dst-address-list=addressListMalware log=yes log-prefix=malwareIP \
+    out-interface=ether2-WAN1 reject-with=icmp-network-unreachable
+add action=reject chain=forward comment="Fake DNS block traffic" dst-address=\
+    10.255.255.255 log=yes log-prefix=malwareDNS out-interface=ether2-WAN1 \
+    reject-with=icmp-network-unreachable
+add action=accept chain=forward comment="Forward delle VLAN" log-prefix=\
+    "Forward VLAN10" out-interface=ether2-WAN1 src-address=10.10.10.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.20.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.30.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.40.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.45.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.50.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.60.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    10.10.70.0/24
+add action=accept chain=forward out-interface=ether2-WAN1 src-address=\
+    192.168.0.0/24
+add action=drop chain=input comment="drop ftp brute forcers" dst-port=67 \
+    protocol=tcp src-address-list=ftp_blacklist
+add action=accept chain=output content="530 Login incorrect" dst-limit=\
+    1/1m,9,dst-address/1m dst-port=67 protocol=tcp
+add action=add-dst-to-address-list address-list=ftp_blacklist \
+    address-list-timeout=3h chain=output content="530 Login incorrect" \
+    dst-port=67 protocol=tcp
+add action=add-src-to-address-list address-list=SSH_BlackList_1 \
+    address-list-timeout=1m chain=input comment=\
+    "drop SSH&TELNET brute forcers" connection-state=new dst-port=65-66 \
+    protocol=tcp src-address-list=!VLAN10
+add action=add-src-to-address-list address-list=SSH_BlackList_2 \
+    address-list-timeout=1m chain=input connection-state=new dst-port=65-66 \
+    protocol=tcp src-address-list=SSH_BlackList_1
+add action=add-src-to-address-list address-list=SSH_BlackList_3 \
+    address-list-timeout=1m chain=input connection-state=new dst-port=65-66 \
+    protocol=tcp src-address-list=SSH_BlackList_2
+add action=add-src-to-address-list address-list=ssh&telnet_blacklist \
+    address-list-timeout=1d chain=input connection-state=new dst-port=65-66 \
+    protocol=tcp src-address-list=SSH_BlackList_3
+add action=drop chain=input dst-port=65-66 protocol=tcp src-address-list=\
+    ssh&telnet_blacklist
+add action=accept chain=input comment="Accept established connections" \
+    connection-state=established
+add action=accept chain=input comment="Accept related connections" \
+    connection-state=related
+add action=drop chain=input comment="Drop invalid connections" \
+    connection-state=invalid
+add action=accept chain=input comment=UDP protocol=udp
+add action=accept chain=input comment="Allow limited pings" limit=\
+    50/5s,2:packet protocol=icmp
+add action=drop chain=input comment="Drop excess pings" protocol=icmp
+add action=accept chain=input comment="SSH for secure shell" dst-port=65 \
+    protocol=tcp
+add action=accept chain=input comment=winbox dst-port=8291 protocol=tcp
+add action=accept chain=input comment="Dalla Rete Management" src-address=\
+    192.168.0.0/24
+add action=accept chain=input comment="Dalla VLAN10-Ufficio" src-address=\
+    10.10.10.0/24
+add action=accept chain=input comment="Dalla VLAN20-Voip" src-address=\
+    10.10.20.0/24
+add action=accept chain=input comment="Dalla VLAN30-Video" src-address=\
+    10.10.30.0/24
+add action=accept chain=input comment="Dalla VLAN40-Stefano" src-address=\
+    10.10.40.0/24
+add action=accept chain=input comment="Dalla VLAN45-Gianni" src-address=\
+    10.10.45.0/24
+add action=accept chain=input comment="Dalla VLAN50-Mauri" src-address=\
+    10.10.50.0/24
+add action=accept chain=input comment="Dalla VLAN60-Game" src-address=\
+    10.10.60.0/24
+add action=accept chain=input comment="Dalla VLAN70-Guest" src-address=\
+    10.10.70.0/24
+add action=accept chain=input comment="Da L2TP" src-address=192.168.91.0/24
+add action=log chain=input comment="Log everything else" disabled=yes log=yes \
+    log-prefix="DROP INPUT"
+add action=drop chain=input comment="Drop everything else"
+add action=add-src-to-address-list address-list=SPAMLIST \
+    address-list-timeout=1d chain=forward comment=\
+    "Detect and add-list SMTP virus or spammers" connection-limit=30,32 \
+    limit=50,5:packet log=yes log-prefix="SPAMMER: " protocol=tcp src-port=\
+    25,465,587,2525,4065,25025
+add action=drop chain=output comment="Se esce dal router" connection-limit=\
+    30,32 limit=50,5:packet protocol=tcp src-port=25,465,587,2525,4065,25025
+add action=drop chain=forward comment="Block Spammer or Infected Users" \
+    protocol=tcp src-address-list=SPAMLIST src-port=\
+    25,465,587,2525,4065,25025
+/ip firewall mangle
+add action=mark-packet chain=postrouting comment=\
+    "Ufficio - Upload & Download" new-packet-mark=Ufficio-OUT \
+    out-interface-list=Internet passthrough=no src-address=10.10.10.0/24
+add action=mark-connection chain=forward dst-address=10.10.10.0/24 \
+    in-interface-list=Internet new-connection-mark="icmp_conn Ufficio" \
+    passthrough=yes protocol=icmp
+add action=mark-packet chain=forward connection-mark="icmp_conn Ufficio" \
+    dst-address=10.10.10.0/24 in-interface-list=Internet new-packet-mark=\
+    Ufficio-IN-icmp passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.10.0/24 \
+    in-interface-list=Internet new-connection-mark="dns_conn Ufficio" \
+    passthrough=yes port=53 protocol=udp
+add action=mark-packet chain=forward connection-mark="dns_conn Ufficio" \
+    dst-address=10.10.10.0/24 in-interface-list=Internet new-packet-mark=\
+    Ufficio-IN-dns passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.10.0/24 \
+    in-interface-list=Internet new-connection-mark="quic_conn Ufficio" \
+    passthrough=yes port=443 protocol=udp
+add action=mark-packet chain=forward connection-mark="quic_conn Ufficio" \
+    dst-address=10.10.10.0/24 in-interface-list=Internet new-packet-mark=\
+    Ufficio-IN-quic passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.10.0/24 \
+    in-interface-list=Internet new-connection-mark="web_conn Ufficio" \
+    passthrough=yes port=80,443 protocol=tcp
+add action=mark-packet chain=forward connection-mark="web_conn Ufficio" \
+    dst-address=10.10.10.0/24 in-interface-list=Internet new-packet-mark=\
+    Ufficio-IN-web passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.10.0/24 \
+    in-interface-list=Internet new-connection-mark="resto_conn Ufficio" \
+    passthrough=yes
+add action=mark-packet chain=forward connection-mark="resto_conn Ufficio" \
+    dst-address=10.10.10.0/24 in-interface-list=Internet new-packet-mark=\
+    Ufficio-IN-resto passthrough=no
+add action=mark-packet chain=forward dst-address=10.10.10.0/24 \
+    in-interface-list=Internet new-packet-mark=Ufficio-IN passthrough=no
+add action=mark-packet chain=postrouting comment="Ospiti - Upload & Download" \
+    new-packet-mark=Ospiti-OUT out-interface-list=Internet passthrough=no \
+    src-address=10.10.20.0/24
+add action=mark-connection chain=forward dst-address=10.10.20.0/24 \
+    in-interface-list=Internet new-connection-mark="icmp_conn Ospiti" \
+    passthrough=yes protocol=icmp
+add action=mark-packet chain=forward connection-mark="icmp_conn Ospiti" \
+    dst-address=10.10.20.0/24 in-interface-list=Internet new-packet-mark=\
+    Ospiti-IN-icmp passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.20.0/24 \
+    in-interface-list=Internet new-connection-mark="dns_conn Ospiti" \
+    passthrough=yes port=53 protocol=udp
+add action=mark-packet chain=forward connection-mark="dns_conn Ospiti" \
+    dst-address=10.10.20.0/24 in-interface-list=Internet new-packet-mark=\
+    Ospiti-IN-dns passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.20.0/24 \
+    in-interface-list=Internet new-connection-mark="quic_conn Ospiti" \
+    passthrough=yes port=443 protocol=udp
+add action=mark-packet chain=forward connection-mark="quic_conn Ospiti" \
+    dst-address=10.10.20.0/24 in-interface-list=Internet new-packet-mark=\
+    Ospiti-IN-quic passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.20.0/24 \
+    in-interface-list=Internet new-connection-mark="web_conn Ospiti" \
+    passthrough=yes port=80,443 protocol=tcp
+add action=mark-packet chain=forward connection-mark="web_conn Ospiti" \
+    dst-address=10.10.20.0/24 in-interface-list=Internet log-prefix=\
+    Ospiti-IN-web new-packet-mark=Ospiti-IN-web passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.20.0/24 \
+    in-interface-list=Internet new-connection-mark="resto_conn Ospiti" \
+    passthrough=yes
+add action=mark-packet chain=forward connection-mark="resto_conn Ospiti" \
+    dst-address=10.10.20.0/24 in-interface-list=Internet new-packet-mark=\
+    Ospiti-IN-resto passthrough=no
+add action=mark-packet chain=forward dst-address=10.10.20.0/24 \
+    in-interface-list=Internet new-packet-mark=Ospiti-IN passthrough=no
+add action=mark-packet chain=postrouting comment=\
+    "Telecamere - Upload & Download" new-packet-mark=Telecamere-OUT \
+    out-interface-list=Internet passthrough=no src-address=10.10.30.0/24
+add action=mark-packet chain=forward dst-address=10.10.30.0/24 \
+    in-interface-list=Internet new-packet-mark=Telecamere-IN passthrough=no
+add action=mark-packet chain=postrouting comment=\
+    "Stefano - Upload & Download" log-prefix=Stefano-OUT new-packet-mark=\
+    Stefano-OUT out-interface-list=Internet passthrough=no src-address=\
+    10.10.40.0/24
+add action=mark-connection chain=forward dst-address=10.10.40.0/24 \
+    in-interface-list=Internet new-connection-mark="icmp_conn Stefano" \
+    passthrough=yes protocol=icmp
+add action=mark-packet chain=forward connection-mark="icmp_conn Stefano" \
+    dst-address=10.10.40.0/24 in-interface-list=Internet new-packet-mark=\
+    Stefano-IN-icmp passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.40.0/24 \
+    in-interface-list=Internet new-connection-mark="dns_conn Stefano" \
+    passthrough=yes port=53 protocol=udp
+add action=mark-packet chain=forward connection-mark="dns_conn Stefano" \
+    dst-address=10.10.40.0/24 in-interface-list=Internet new-packet-mark=\
+    Stefano-IN-dns passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.40.0/24 \
+    in-interface-list=Internet new-connection-mark="quic_conn Stefano" \
+    passthrough=yes port=443 protocol=udp
+add action=mark-packet chain=forward connection-mark="quic_conn Stefano" \
+    dst-address=10.10.40.0/24 in-interface-list=Internet new-packet-mark=\
+    Stefano-IN-quic passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.40.0/24 \
+    in-interface-list=Internet new-connection-mark="web_conn Stefano" \
+    passthrough=yes port=80,443 protocol=tcp
+add action=mark-packet chain=forward connection-mark="web_conn Stefano" \
+    dst-address=10.10.40.0/24 in-interface-list=Internet log-prefix=\
+    Stefano-IN-web new-packet-mark=Stefano-IN-web passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.40.0/24 \
+    in-interface-list=Internet new-connection-mark="resto_conn Stefano" \
+    passthrough=yes
+add action=mark-packet chain=forward connection-mark="resto_conn Stefano" \
+    dst-address=10.10.40.0/24 in-interface-list=Internet new-packet-mark=\
+    Stefano-IN-resto passthrough=no
+add action=mark-packet chain=forward dst-address=10.10.40.0/24 \
+    in-interface-list=Internet log-prefix=Stefano-IN new-packet-mark=\
+    Stefano-IN passthrough=no
+add action=mark-packet chain=postrouting comment="Gianni - Upload & Download" \
+    log-prefix=Gianni-OUT new-packet-mark=Gianni-OUT out-interface-list=\
+    Internet passthrough=no src-address=10.10.45.0/24
+add action=mark-connection chain=forward dst-address=10.10.45.0/24 \
+    in-interface-list=Internet new-connection-mark="icmp_conn Gianni" \
+    passthrough=yes protocol=icmp
+add action=mark-packet chain=forward connection-mark="icmp_conn Gianni" \
+    dst-address=10.10.45.0/24 in-interface-list=Internet new-packet-mark=\
+    Gianni-IN-icmp passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.45.0/24 \
+    in-interface-list=Internet new-connection-mark="dns_conn Gianni" \
+    passthrough=yes port=53 protocol=udp
+add action=mark-packet chain=forward connection-mark="dns_conn Gianni" \
+    dst-address=10.10.45.0/24 in-interface-list=Internet new-packet-mark=\
+    Gianni-IN-dns passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.45.0/24 \
+    in-interface-list=Internet new-connection-mark="quic_conn Gianni" \
+    passthrough=yes port=443 protocol=udp
+add action=mark-packet chain=forward connection-mark="quic_conn Gianni" \
+    dst-address=10.10.45.0/24 in-interface-list=Internet new-packet-mark=\
+    Gianni-IN-quic passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.45.0/24 \
+    in-interface-list=Internet new-connection-mark="web_conn Gianni" \
+    passthrough=yes port=80,443 protocol=tcp
+add action=mark-packet chain=forward connection-mark="web_conn Gianni" \
+    dst-address=10.10.45.0/24 in-interface-list=Internet new-packet-mark=\
+    Gianni-IN-web passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.45.0/24 \
+    in-interface-list=Internet new-connection-mark="resto_conn Gianni" \
+    passthrough=yes
+add action=mark-packet chain=forward connection-mark="resto_conn Gianni" \
+    dst-address=10.10.45.0/24 in-interface-list=Internet new-packet-mark=\
+    Gianni-IN-resto passthrough=no
+add action=mark-packet chain=forward dst-address=10.10.45.0/24 \
+    in-interface-list=Internet log-prefix=Gianni-IN new-packet-mark=Gianni-IN \
+    passthrough=no
+add action=mark-packet chain=postrouting comment="Mauri - Upload & Download" \
+    new-packet-mark=Mauri-OUT out-interface-list=Internet passthrough=no \
+    src-address=10.10.50.0/24
+add action=mark-connection chain=forward dst-address=10.10.50.0/24 \
+    in-interface-list=Internet new-connection-mark="icmp_conn Mauri" \
+    passthrough=yes protocol=icmp
+add action=mark-packet chain=forward connection-mark="icmp_conn Mauri" \
+    dst-address=10.10.50.0/24 in-interface-list=Internet new-packet-mark=\
+    Mauri-IN-icmp passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.50.0/24 \
+    in-interface-list=Internet new-connection-mark="dns_conn Mauri" \
+    passthrough=yes port=53 protocol=udp
+add action=mark-packet chain=forward connection-mark="dns_conn Mauri" \
+    dst-address=10.10.50.0/24 in-interface-list=Internet new-packet-mark=\
+    Mauri-IN-dns passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.50.0/24 \
+    in-interface-list=Internet new-connection-mark="quic_conn Mauri" \
+    passthrough=yes port=443 protocol=udp
+add action=mark-packet chain=forward connection-mark="quic_conn Mauri" \
+    dst-address=10.10.50.0/24 in-interface-list=Internet new-packet-mark=\
+    Mauri-IN-quic passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.50.0/24 \
+    in-interface-list=Internet new-connection-mark="web_conn Mauri" \
+    passthrough=yes port=80,443 protocol=tcp
+add action=mark-packet chain=forward connection-mark="web_conn Mauri" \
+    dst-address=10.10.50.0/24 in-interface-list=Internet new-packet-mark=\
+    Mauri-IN-web passthrough=no
+add action=mark-connection chain=forward dst-address=10.10.50.0/24 \
+    in-interface-list=Internet new-connection-mark="resto_conn Mauri" \
+    passthrough=yes
+add action=mark-packet chain=forward connection-mark="resto_conn Mauri" \
+    dst-address=10.10.50.0/24 in-interface-list=Internet new-packet-mark=\
+    Mauri-IN-resto passthrough=no
+add action=mark-packet chain=forward dst-address=10.10.50.0/24 \
+    in-interface-list=Internet new-packet-mark=Mauri-IN passthrough=no
+add action=mark-packet chain=postrouting comment="Game - Upload & Download" \
+    disabled=yes new-packet-mark=Game-OUT out-interface-list=Internet \
+    passthrough=no src-address=10.10.60.0/24
+add action=mark-packet chain=forward disabled=yes dst-address=10.10.60.0/24 \
+    in-interface-list=Internet new-packet-mark=Game-IN passthrough=no
+add action=mark-packet chain=postrouting comment="Guest - Upload & Download" \
+    new-packet-mark=Guest-OUT out-interface-list=Internet passthrough=no \
+    src-address=10.10.70.0/24
+add action=mark-packet chain=forward dst-address=10.10.70.0/24 \
+    in-interface-list=Internet new-packet-mark=Guest-IN passthrough=no
+add action=mark-packet chain=forward comment="Marcatura Pacchetti SPAM-SMTP" \
+    connection-limit=30,32 limit=50,5:packet new-packet-mark=SPAM-SMTP \
+    passthrough=yes protocol=tcp src-port=25,465,587,2525,4065,25025
+add action=mark-packet chain=postrouting comment="SEC out packets" \
+    dst-address=10.10.10.70 log-prefix="SEC out" new-packet-mark=no-mark \
+    passthrough=no
+/ip firewall nat
+add action=masquerade chain=srcnat comment=Masquerade log-prefix=\
+    "VLAN10 to WAN" out-interface=ether2-WAN1 src-address=10.10.10.0/24
+add action=masquerade chain=srcnat log-prefix="VLAN20 to WAN" out-interface=\
+    ether2-WAN1 src-address=10.10.20.0/24
+add action=masquerade chain=srcnat log-prefix="VLAN30 to WAN" out-interface=\
+    ether2-WAN1 src-address=10.10.30.0/24
+add action=masquerade chain=srcnat disabled=yes log-prefix="VLAN40 to WAN" \
+    out-interface=ether2-WAN1 src-address=10.10.40.0/24
+add action=masquerade chain=srcnat log-prefix="VLAN45 to WAN" out-interface=\
+    ether2-WAN1 src-address=10.10.45.0/24
+add action=masquerade chain=srcnat log-prefix="VLAN50 to WAN" out-interface=\
+    ether2-WAN1 src-address=10.10.50.0/24
+add action=masquerade chain=srcnat disabled=yes log-prefix="VLAN60 to WAN" \
+    out-interface=ether2-WAN1 src-address=10.10.60.0/24
+add action=masquerade chain=srcnat log-prefix="VLAN70 to WAN" out-interface=\
+    ether2-WAN1 src-address=10.10.70.0/24
+add action=masquerade chain=srcnat log-prefix="VLAN1 to WAN" out-interface=\
+    ether2-WAN1 src-address=192.168.0.0/24
+add action=masquerade chain=srcnat comment="Hairpin NAT gestionale" \
+    dst-address=10.10.10.5 out-interface=Br-VLAN10-Ufficio src-address=\
+    10.10.10.0/24
+add action=dst-nat chain=dstnat comment="Gestionale HTTP" dst-address=\
+    88.32.191.138 dst-port=80 protocol=tcp to-addresses=10.10.10.15 to-ports=\
+    80
+add action=dst-nat chain=dstnat comment="Gestionale HTTPS" dst-address=\
+    88.32.191.138 dst-port=443 protocol=tcp to-addresses=10.10.10.15 \
+    to-ports=443
+add action=dst-nat chain=dstnat comment="NAS001 DSM da LAN" disabled=yes \
+    dst-address=88.32.191.136 dst-port=5000 log-prefix="DSM da Esterno" \
+    protocol=tcp src-port="" to-addresses=10.10.10.11 to-ports=5000
+add action=dst-nat chain=dstnat disabled=yes dst-address=88.32.191.136 \
+    dst-port=5001 log-prefix="DSM da Esterno" protocol=tcp src-port="" \
+    to-addresses=10.10.10.11 to-ports=5001
+add action=dst-nat chain=dstnat comment=\
+    "NAS001 DSM (Servono aperte per aggiornamenti NAS)" dst-port=5000 \
+    log-prefix="DSM da LAN" protocol=tcp to-addresses=10.10.10.11 to-ports=\
+    5000
+add action=dst-nat chain=dstnat dst-port=5001 log-prefix="DSM da LAN" \
+    protocol=tcp to-addresses=10.10.10.11 to-ports=5001
+add action=dst-nat chain=dstnat comment="Telecamera - TC01" dst-port=40053 \
+    protocol=tcp to-addresses=10.10.30.53 to-ports=40053
+add action=dst-nat chain=dstnat comment="Telecamera Robot" dst-port=40051 \
+    protocol=tcp to-addresses=10.10.30.51 to-ports=40051
+add action=dst-nat chain=dstnat comment=MariaDB dst-port=3307 protocol=tcp \
+    to-addresses=10.10.10.11 to-ports=3307
+add action=dst-nat chain=dstnat comment="NAS001 FTP da Esterno" dst-port=\
+    40013 log=yes log-prefix="FTP ACCESSO ESTERNO" protocol=tcp to-addresses=\
+    10.10.10.11 to-ports=67
+add action=dst-nat chain=dstnat dst-port=40013 protocol=tcp to-addresses=\
+    10.10.10.11 to-ports=55536-55567
+add action=dst-nat chain=dstnat comment="Impianto Fotovoltaico" dst-port=\
+    40071 protocol=tcp to-addresses=10.10.10.71 to-ports=80
+add action=dst-nat chain=dstnat comment="Robot FANUC 100i-6L" dst-port=40072 \
+    protocol=tcp to-addresses=10.10.10.72 to-ports=80
+add action=dst-nat chain=dstnat comment="LOXONE Stefano" dst-port=40041 \
+    protocol=tcp to-addresses=10.10.40.41 to-ports=40041
+add action=dst-nat chain=dstnat comment="LOXONE Stefano - Loxone to KNX" \
+    disabled=yes dst-port=3671 protocol=udp to-addresses=10.10.40.41 \
+    to-ports=3671
+add action=dst-nat chain=dstnat comment="COMELIT Stefano - Porta 64100" \
+    dst-port=64100 log=yes log-prefix=COMELIT protocol=tcp to-addresses=\
+    10.10.40.42 to-ports=64100
+add action=dst-nat chain=dstnat dst-port=64100 protocol=udp to-addresses=\
+    10.10.40.42 to-ports=64100
+add action=dst-nat chain=dstnat comment=\
+    "Tengo tcp/8291 per winbox sul router" dst-port=8291 protocol=tcp \
+    to-ports=8291
+add action=dst-nat chain=dstnat comment="Tengo tcp/22 per ssh sul router" \
+    dst-port=65 protocol=tcp to-ports=22
+add action=dst-nat chain=dstnat comment="BitTorrent - PC-MAURI" dst-port=\
+    53386 protocol=tcp to-addresses=10.10.10.33 to-ports=53386
+/ip route
+add disabled=no distance=1 dst-address=0.0.0.0/0 gateway=88.32.191.137 \
+    pref-src="" routing-table=main scope=30 suppress-hw-offload=no \
+    target-scope=10
+/ip service
+set telnet disabled=yes port=66
+set ftp address=10.10.10.0/24,192.168.88.0/24 port=67
+set www disabled=yes
+set ssh address=10.10.10.0/24,192.168.88.0/24 port=65
+set api disabled=yes
+set winbox address=10.10.10.0/24,192.168.88.0/24
+set api-ssl disabled=yes
+/ip ssh
+set strong-crypto=yes
+/snmp
+set enabled=yes src-address=10.10.10.1
+/system clock
+set time-zone-name=Europe/Rome
+/system identity
+set name="RB1100AHx2 - Router 1"
+/system logging
+set 0 topics=info,!dhcp
+add disabled=yes topics=dhcp
+add disabled=yes topics=dhcp
+add disabled=yes prefix="L2TP debug" topics=l2tp
+add disabled=yes prefix="IPSec debug" topics=ipsec
+add disabled=yes topics=e-mail,debug
+add action=email disabled=yes prefix="SPAMMER: " topics=critical
+/system ntp client
+set enabled=yes
+/system ntp server
+set enabled=yes manycast=yes
+/system ntp client servers
+add address=193.204.114.232
+add address=193.204.114.233
+/system package update
+set channel=long-term
+/system scheduler
+add interval=1d name=schedulerUpdateMalwareIPs on-event=UpdateMalwareIPs \
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=apr/21/2017 start-time=05:00:00
+add interval=1d name="Firmware Updater" on-event=\
+    "/system script run firmware-updater;" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=sep/12/2019 start-time=03:30:00
+add interval=1d name=permettiPCinternet on-event=\
+    "/system script run permettiPCinternet;" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=sep/12/2019 start-time=01:10:00
+add interval=1d name=isolaPCinternet on-event=\
+    "/system script run isolaPCinternet;" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=aug/12/2024 start-time=01:20:00
+add disabled=yes interval=1d name=BandaNotturna on-event="/system script run G\
+    ianni-IN-20M\r\
+    \n/system script run Mauri-IN-20M\r\
+    \n/system script run Stefano-IN-20M" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=may/11/2020 start-time=19:00:00
+add disabled=yes interval=1d name=BandaDiurna on-event="/system script run Gia\
+    nni-IN-8M\r\
+    \n/system script run Mauri-IN-8M\r\
+    \n/system script run Stefano-IN-8M" policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=may/11/2020 start-time=06:00:00
+add interval=1d name=schedulerUpdateMalwareDomains on-event=\
+    UpdateMalwareDomains policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    start-date=apr/21/2017 start-time=05:05:00
+/system script
+add dont-require-permissions=no name=Export-DSTdaVerificare owner=admin \
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive source="\
+    /ip firewall address-list print file=DSTdaVerificare where list=\"DST-DA-V\
+    ERIFICARE\""
+add dont-require-permissions=no name=firmware-updater owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="#\
+    \_Script name: BackupAndUpdate\r\
+    \n#\r\
+    \n#----------SCRIPT INFORMATION-------------------------------------------\
+    --------\r\
+    \n#\r\
+    \n# Script:  Mikrotik RouterOS automatic backup & update\r\
+    \n# Version: 21.09.27\r\
+    \n# Created: 07/08/2018\r\
+    \n# Updated: 27/09/2021\r\
+    \n# Author:  Alexander Tebiev\r\
+    \n# Website: https://github.com/beeyev\r\
+    \n# You can contact me by e-mail at tebiev@mail.com\r\
+    \n#\r\
+    \n# IMPORTANT!\r\
+    \n# Minimum supported RouterOS version is v6.43.7\r\
+    \n#\r\
+    \n#----------MODIFY THIS SECTION AS NEEDED--------------------------------\
+    --------\r\
+    \n## Notification e-mail\r\
+    \n## (Make sure you have configurated Email settings in Tools -> Email)\r\
+    \n:local emailAddress \"posta@carpenteriaferrari.com\";\r\
+    \n\r\
+    \n## Script mode, possible values: backup, osupdate, osnotify.\r\
+    \n# backup \t- \tOnly backup will be performed. (default value, if none pr\
+    ovided)\r\
+    \n#\r\
+    \n# osupdate \t- \tThe Script will install a new RouterOS if it is availab\
+    le.\r\
+    \n#\t\t\t\tIt will also create backups before and after update process (do\
+    es not matter what value is set to `forceBackup`)\r\
+    \n#\t\t\t\tEmail will be sent only if a new RouterOS version is available.\
+    \r\
+    \n#\t\t\t\tChange parameter `forceBackup` if you need the script to create\
+    \_backups every time when it runs (even when no updates).\r\
+    \n#\r\
+    \n# osnotify \t- \tThe script will send email notification only (without b\
+    ackups) if a new RouterOS is available.\r\
+    \n#\t\t\t\tChange parameter `forceBackup` if you need the script to create\
+    \_backups every time when it runs.\r\
+    \n:local scriptMode \"osupdate\";\r\
+    \n\r\
+    \n## Additional parameter if you set `scriptMode` to `osupdate` or `osnoti\
+    fy`\r\
+    \n# Set `true` if you want the script to perform backup every time it's fi\
+    red, whatever script mode is set.\r\
+    \n:local forceBackup false;\r\
+    \n## Backup encryption password, no encryption if no password.\r\
+    \n:local backupPassword \"\"\r\
+    \n## If true, passwords will be included in exported config.\r\
+    \n:local sensetiveDataInConfig false;\r\
+    \n## Update channel. Possible values: stable, long-term, testing, developm\
+    ent\r\
+    \n:local updateChannel \"long-term\";\r\
+    \n## Install only patch versions of RouterOS updates.\r\
+    \n## Works only if you set scriptMode to \"osupdate\"\r\
+    \n## Means that new update will be installed only if MAJOR and MINOR versi\
+    on numbers remained the same as currently installed RouterOS.\r\
+    \n## Example: v6.43.6 => major.minor.PATCH\r\
+    \n## Script will send information if new version is greater than just patc\
+    h.\r\
+    \n:local installOnlyPatchUpdates\tfalse;\r\
+    \n##----------------------------------------------------------------------\
+    --------------------##\r\
+    \n#  !!!! DO NOT CHANGE ANYTHING BELOW THIS LINE, IF YOU ARE NOT SURE WHAT\
+    \_YOU ARE DOING !!!!  #\r\
+    \n##----------------------------------------------------------------------\
+    --------------------##\r\
+    \n#Script messages prefix\r\
+    \n:local SMP \"Bkp&Upd:\"\r\
+    \n:log info \"\\r\\n\$SMP script \\\"Mikrotik RouterOS automatic backup & \
+    update\\\" started.\";\r\
+    \n:log info \"\$SMP Script Mode: \$scriptMode, forceBackup: \$forceBackup\
+    \";\r\
+    \n#Check proper email config\r\
+    \n:if ([:len \$emailAddress] = 0 or [:len [/tool e-mail get address]] = 0 \
+    or [:len [/tool e-mail get from]] = 0) do={\r\
+    \n\t:log error (\"\$SMP Email configuration is not correct, please check T\
+    ools -> Email. Script stopped.\");   \r\
+    \n\t:error \"\$SMP bye!\";\r\
+    \n}\r\
+    \n#Check if proper identity name is set\r\
+    \nif ([:len [/system identity get name]] = 0 or [/system identity get name\
+    ] = \"MikroTik\") do={\r\
+    \n\t:log warning (\"\$SMP Please set identity name of your device (System \
+    -> Identity), keep it short and informative.\");  \r\
+    \n};\r\
+    \n############### vvvvvvvvv GLOBALS vvvvvvvvv ###############\r\
+    \n# Function converts standard mikrotik build versions to the number.\r\
+    \n# Possible arguments: paramOsVer\r\
+    \n# Example:\r\
+    \n# :put [\$buGlobalFuncGetOsVerNum paramOsVer=[/system routerboard get cu\
+    rrent-RouterOS]];\r\
+    \n# result will be: 64301, because current RouterOS version is: 6.43.1\r\
+    \n:global buGlobalFuncGetOsVerNum do={\r\
+    \n\t:local osVer \$paramOsVer;\r\
+    \n\t:local osVerNum;\r\
+    \n\t:local osVerMicroPart;\r\
+    \n\t:local zro 0;\r\
+    \n\t:local tmp;\r\
+    \n\t\r\
+    \n\t# Replace word `beta` with dot\r\
+    \n\t:local isBetaPos [:tonum [:find \$osVer \"beta\" 0]];\r\
+    \n\t:if (\$isBetaPos > 1) do={\r\
+    \n\t\t:set osVer ([:pick \$osVer 0 \$isBetaPos] . \".\" . [:pick \$osVer (\
+    \$isBetaPos + 4) [:len \$osVer]]);\r\
+    \n\t}\r\
+    \n\t# Replace word `rc` with dot\r\
+    \n\t:local isRcPos [:tonum [:find \$osVer \"rc\" 0]];\r\
+    \n\t:if (\$isRcPos > 1) do={\r\
+    \n\t\t:set osVer ([:pick \$osVer 0 \$isRcPos] . \".\" . [:pick \$osVer (\$\
+    isRcPos + 2) [:len \$osVer]]);\r\
+    \n\t}\r\
+    \n\t\r\
+    \n\t:local dotPos1 [:find \$osVer \".\" 0];\r\
+    \n\t:if (\$dotPos1 > 0) do={ \r\
+    \n\t\t# AA\r\
+    \n\t\t:set osVerNum  [:pick \$osVer 0 \$dotPos1];\r\
+    \n\t\t\r\
+    \n\t\t:local dotPos2 [:find \$osVer \".\" \$dotPos1];\r\
+    \n\t\t\t\t#Taking minor version, everything after first dot\r\
+    \n\t\t:if ([:len \$dotPos2] = 0) \tdo={:set tmp [:pick \$osVer (\$dotPos1+\
+    1) [:len \$osVer]];}\r\
+    \n\t\t#Taking minor version, everything between first and second dots\r\
+    \n\t\t:if (\$dotPos2 > 0) \t\t\tdo={:set tmp [:pick \$osVer (\$dotPos1+1) \
+    \$dotPos2];}\r\
+    \n\t\t\r\
+    \n\t\t# AA 0B\r\
+    \n\t\t:if ([:len \$tmp] = 1) \tdo={:set osVerNum \"\$osVerNum\$zro\$tmp\";\
+    }\r\
+    \n\t\t# AA BB\r\
+    \n\t\t:if ([:len \$tmp] = 2) \tdo={:set osVerNum \"\$osVerNum\$tmp\";}\r\
+    \n\t\t\r\
+    \n\t\t:if (\$dotPos2 > 0) do={ \r\
+    \n\t\t\t:set tmp [:pick \$osVer (\$dotPos2+1) [:len \$osVer]];\r\
+    \n\t\t\t# AA BB 0C\r\
+    \n\t\t\t:if ([:len \$tmp] = 1) do={:set osVerNum \"\$osVerNum\$zro\$tmp\";\
+    }\r\
+    \n\t\t\t# AA BB CC\r\
+    \n\t\t\t:if ([:len \$tmp] = 2) do={:set osVerNum \"\$osVerNum\$tmp\";}\r\
+    \n\t\t} else={\r\
+    \n\t\t\t# AA BB 00\r\
+    \n\t\t\t:set osVerNum \"\$osVerNum\$zro\$zro\";\r\
+    \n\t\t}\r\
+    \n\t} else={\r\
+    \n\t\t# AA 00 00\r\
+    \n\t\t:set osVerNum \"\$osVer\$zro\$zro\$zro\$zro\";\r\
+    \n\t}\r\
+    \n\t:return \$osVerNum;\r\
+    \n}\r\
+    \n# Function creates backups (system and config) and returns array with na\
+    mes\r\
+    \n# Possible arguments: \r\
+    \n#\t`backupName` \t\t\t| string\t| backup file name, without extension!\r\
+    \n#\t`backupPassword`\t\t| string \t|\r\
+    \n#\t`sensetiveDataInConfig`\t| boolean \t|\r\
+    \n# Example:\r\
+    \n# :put [\$buGlobalFuncCreateBackups name=\"daily-backup\"];\r\
+    \n:global buGlobalFuncCreateBackups do={\r\
+    \n\t:log info (\"\$SMP Global function \\\"buGlobalFuncCreateBackups\\\" w\
+    as fired.\");  \r\
+    \n\t\r\
+    \n\t:local backupFileSys \"\$backupName.backup\";\r\
+    \n\t:local backupFileConfig \"\$backupName.rsc\";\r\
+    \n\t:local backupNames {\$backupFileSys;\$backupFileConfig};\r\
+    \n\t## Make system backup\r\
+    \n\t:if ([:len \$backupPassword] = 0) do={\r\
+    \n\t\t/system backup save dont-encrypt=yes name=\$backupName;\r\
+    \n\t} else={\r\
+    \n\t\t/system backup save password=\$backupPassword name=\$backupName;\r\
+    \n\t}\r\
+    \n\t:log info (\"\$SMP System backup created. \$backupFileSys\");   \r\
+    \n\t## Export config file\r\
+    \n\t:if (\$sensetiveDataInConfig = true) do={\r\
+    \n\t\t/export compact file=\$backupName;\r\
+    \n\t} else={\r\
+    \n\t\t/export compact hide-sensitive file=\$backupName;\r\
+    \n\t}\r\
+    \n\t:log info (\"\$SMP Config file was exported. \$backupFileConfig\");   \
+    \r\
+    \n\t#Delay after creating backups\r\
+    \n\t:delay 5s;\t\r\
+    \n\t:return \$backupNames;\r\
+    \n}\r\
+    \n:global buGlobalVarUpdateStep;\r\
+    \n############### ^^^^^^^^^ GLOBALS ^^^^^^^^^ ###############\r\
+    \n#Current date time in format: 2020jan15-221324 \r\
+    \n:local dateTime ([:pick [/system clock get date] 7 11] . [:pick [/system\
+    \_clock get date] 0 3] . [:pick [/system clock get date] 4 6] . \"-\" . [:\
+    pick [/system clock get time] 0 2] . [:pick [/system clock get time] 3 5] \
+    . [:pick [/system clock get time] 6 8]);\r\
+    \n:local deviceOsVerInst \t\t\t[/system package update get installed-versi\
+    on];\r\
+    \n:local deviceOsVerInstNum \t\t[\$buGlobalFuncGetOsVerNum paramOsVer=\$de\
+    viceOsVerInst];\r\
+    \n:local deviceOsVerAvail \t\t\"\";\r\
+    \n:local deviceOsVerAvailNum \t\t0;\r\
+    \n:local deviceRbModel\t\t\t[/system routerboard get model];\r\
+    \n:local deviceRbSerialNumber \t[/system routerboard get serial-number];\r\
+    \n:local deviceRbCurrentFw \t\t[/system routerboard get current-firmware];\
+    \r\
+    \n:local deviceRbUpgradeFw \t\t[/system routerboard get upgrade-firmware];\
+    \r\
+    \n:local deviceIdentityName \t\t[/system identity get name];\r\
+    \n:local deviceIdentityNameShort \t[:pick \$deviceIdentityName 0 18]\r\
+    \n:local deviceUpdateChannel \t\t[/system package update get channel];\r\
+    \n:local isOsUpdateAvailable \tfalse;\r\
+    \n:local isOsNeedsToBeUpdated\tfalse;\r\
+    \n:local isSendEmailRequired\ttrue;\r\
+    \n:local mailSubject   \t\t\"\$SMP Device - \$deviceIdentityNameShort.\";\
+    \r\
+    \n:local mailBody \t \t\t\"\";\r\
+    \n:local mailBodyDeviceInfo\t\"\\r\\n\\r\\nDevice information: \\r\\nIdent\
+    ity: \$deviceIdentityName \\r\\nModel: \$deviceRbModel \\r\\nSerial number\
+    : \$deviceRbSerialNumber \\r\\nCurrent RouterOS: \$deviceOsVerInst (\$[/sy\
+    stem package update get channel]) \$[/system resource get build-time] \\r\
+    \\nCurrent routerboard FW: \$deviceRbCurrentFw \\r\\nDevice uptime: \$[/sy\
+    stem resource get uptime]\";\r\
+    \n:local mailBodyCopyright \t\"\\r\\n\\r\\nMikrotik RouterOS automatic bac\
+    kup & update \\r\\nhttps://github.com/beeyev/Mikrotik-RouterOS-automatic-b\
+    ackup-and-update\";\r\
+    \n:local changelogUrl\t\t\t(\"Check RouterOS changelog: https://mikrotik.c\
+    om/download/changelogs/\" . \$updateChannel . \"-release-tree\");\r\
+    \n:local backupName \t\t\t\"\$deviceIdentityName.\$deviceRbModel.\$deviceR\
+    bSerialNumber.v\$deviceOsVerInst.\$deviceUpdateChannel.\$dateTime\";\r\
+    \n:local backupNameBeforeUpd\t\"backup_before_update_\$backupName\";\r\
+    \n:local backupNameAfterUpd\t\"backup_after_update_\$backupName\";\r\
+    \n:local backupNameFinal\t\t\$backupName;\r\
+    \n:local mailAttachments\t\t[:toarray \"\"];\r\
+    \n:local updateStep \$buGlobalVarUpdateStep;\r\
+    \n:do {/system script environment remove buGlobalVarUpdateStep;} on-error=\
+    {}\r\
+    \n:if ([:len \$updateStep] = 0) do={\r\
+    \n\t:set updateStep 1;\r\
+    \n}\r\
+    \n## \tSTEP ONE: Creating backups, checking for new RouterOs version and s\
+    ending email with backups,\r\
+    \n## \tsteps 2 and 3 are fired only if script is set to automatically upda\
+    te device and if new RouterOs is available.\r\
+    \n:if (\$updateStep = 1) do={\r\
+    \n\t:log info (\"\$SMP Performing the first step.\");   \r\
+    \n\t# Checking for new RouterOS version\r\
+    \n\tif (\$scriptMode = \"osupdate\" or \$scriptMode = \"osnotify\") do={\r\
+    \n\t\tlog info (\"\$SMP Checking for new RouterOS version. Current version\
+    \_is: \$deviceOsVerInst\");\r\
+    \n\t\t/system package update set channel=\$updateChannel;\r\
+    \n\t\t/system package update check-for-updates;\r\
+    \n\t\t:delay 5s;\r\
+    \n\t\t:set deviceOsVerAvail [/system package update get latest-version];\r\
+    \n\t\t# If there is a problem getting information about available RouterOS\
+    \_from server\r\
+    \n\t\t:if ([:len \$deviceOsVerAvail] = 0) do={\r\
+    \n\t\t\t:log warning (\"\$SMP There is a problem getting information about\
+    \_new RouterOS from server.\");\r\
+    \n\t\t\t:set mailSubject\t(\$mailSubject . \" Error: No data about new Rou\
+    terOS!\")\r\
+    \n\t\t\t:set mailBody \t\t(\$mailBody . \"Error occured! \\r\\nMikrotik co\
+    uldn't get any information about new RouterOS from server! \\r\\nWatch add\
+    itional information in device logs.\")\r\
+    \n\t\t} else={\r\
+    \n\t\t\t#Get numeric version of OS\r\
+    \n\t\t\t:set deviceOsVerAvailNum [\$buGlobalFuncGetOsVerNum paramOsVer=\$d\
+    eviceOsVerAvail];\r\
+    \n\t\t\t# Checking if OS on server is greater than installed one.\r\
+    \n\t\t\t:if (\$deviceOsVerAvailNum > \$deviceOsVerInstNum) do={\r\
+    \n\t\t\t\t:set isOsUpdateAvailable true;\r\
+    \n\t\t\t\t:log info (\"\$SMP New RouterOS is available! \$deviceOsVerAvail\
+    \");\r\
+    \n\t\t\t} else={\r\
+    \n\t\t\t\t:set isSendEmailRequired false;\r\
+    \n\t\t\t\t:log info (\"\$SMP System is already up to date.\");\r\
+    \n\t\t\t\t:set mailSubject (\$mailSubject . \" No new OS updates.\");\r\
+    \n\t\t\t\t:set mailBody \t (\$mailBody . \"Your system is up to date.\");\
+    \r\
+    \n\t\t\t}\r\
+    \n\t\t};\r\
+    \n\t} else={\r\
+    \n\t\t:set scriptMode \"backup\";\r\
+    \n\t};\r\
+    \n\tif (\$forceBackup = true) do={\r\
+    \n\t\t# In this case the script will always send email, because it has to \
+    create backups\r\
+    \n\t\t:set isSendEmailRequired true;\r\
+    \n\t}\r\
+    \n\t# if new OS version is available to install\r\
+    \n\tif (\$isOsUpdateAvailable = true and \$isSendEmailRequired = true) do=\
+    {\r\
+    \n\t\t# If we only need to notify about new available version\r\
+    \n\t\tif (\$scriptMode = \"osnotify\") do={\r\
+    \n\t\t\t:set mailSubject \t(\$mailSubject . \" New RouterOS is available! \
+    v.\$deviceOsVerAvail.\")\r\
+    \n\t\t\t:set mailBody \t\t(\$mailBody . \"New RouterOS version is availabl\
+    e to install: v.\$deviceOsVerAvail (\$updateChannel) \\r\\n\$changelogUrl\
+    \")\r\
+    \n\t\t}\r\
+    \n\t\t# if we need to initiate RouterOs update process\r\
+    \n\t\tif (\$scriptMode = \"osupdate\") do={\r\
+    \n\t\t\t:set isOsNeedsToBeUpdated true;\r\
+    \n\t\t\t# if we need to install only patch updates\r\
+    \n\t\t\t:if (\$installOnlyPatchUpdates = true) do={\r\
+    \n\t\t\t\t#Check if Major and Minor builds are the same.\r\
+    \n\t\t\t\t:if ([:pick \$deviceOsVerInstNum 0 ([:len \$deviceOsVerInstNum]-\
+    2)] = [:pick \$deviceOsVerAvailNum 0 ([:len \$deviceOsVerAvailNum]-2)]) do\
+    ={\r\
+    \n\t\t\t\t\t:log info (\"\$SMP New patch version of RouterOS firmware is a\
+    vailable.\");   \r\
+    \n\t\t\t\t} else={\r\
+    \n\t\t\t\t\t:log info (\"\$SMP New major or minor version of RouterOS firm\
+    ware is available. You need to update it manually.\");\r\
+    \n\t\t\t\t\t:set mailSubject \t(\$mailSubject . \" New RouterOS: v.\$devic\
+    eOsVerAvail needs to be installed manually.\");\r\
+    \n\t\t\t\t\t:set mailBody \t\t(\$mailBody . \"New major or minor RouterOS \
+    version is available to install: v.\$deviceOsVerAvail (\$updateChannel). \
+    \\r\\nYou chose to automatically install only patch updates, so this major\
+    \_update you need to install manually. \\r\\n\$changelogUrl\");\r\
+    \n\t\t\t\t\t:set isOsNeedsToBeUpdated false;\r\
+    \n\t\t\t\t}\r\
+    \n\t\t\t}\r\
+    \n\t\t\t#Check again, because this variable could be changed during checki\
+    ng for installing only patch updats\r\
+    \n\t\t\tif (\$isOsNeedsToBeUpdated = true) do={\r\
+    \n\t\t\t\t:log info (\"\$SMP New RouterOS is going to be installed! v.\$de\
+    viceOsVerInst -> v.\$deviceOsVerAvail\");\r\
+    \n\t\t\t\t:set mailSubject\t(\$mailSubject . \" New RouterOS is going to b\
+    e installed! v.\$deviceOsVerInst -> v.\$deviceOsVerAvail.\");\r\
+    \n\t\t\t\t:set mailBody \t\t(\$mailBody . \"Your Mikrotik will be updated \
+    to the new RouterOS version from v.\$deviceOsVerInst to v.\$deviceOsVerAva\
+    il (Update channel: \$updateChannel) \\r\\nFinal report with the detailed \
+    information will be sent when update process is completed. \\r\\nIf you ha\
+    ve not received second email in the next 5 minutes, then probably somethin\
+    g went wrong. (Check your device logs)\");\r\
+    \n\t\t\t\t#!! There is more code connected to this part and first step at \
+    the end of the script.\r\
+    \n\t\t\t}\r\
+    \n\t\t\r\
+    \n\t\t}\r\
+    \n\t}\r\
+    \n\t## Checking If the script needs to create a backup\r\
+    \n\t:log info (\"\$SMP Checking If the script needs to create a backup.\")\
+    ;\r\
+    \n\tif (\$forceBackup = true or \$scriptMode = \"backup\" or \$isOsNeedsTo\
+    BeUpdated = true) do={\r\
+    \n\t\t:log info (\"\$SMP Creating system backups.\");\r\
+    \n\t\tif (\$isOsNeedsToBeUpdated = true) do={\r\
+    \n\t\t\t:set backupNameFinal \$backupNameBeforeUpd;\r\
+    \n\t\t};\r\
+    \n\t\tif (\$scriptMode != \"backup\") do={\r\
+    \n\t\t\t:set mailBody (\$mailBody . \"\\r\\n\\r\\n\");\r\
+    \n\t\t};\r\
+    \n\t\t:set mailSubject\t(\$mailSubject . \" Backup was created.\");\r\
+    \n\t\t:set mailBody\t\t(\$mailBody . \"System backups were created and att\
+    ached to this email.\");\r\
+    \n\t\t:set mailAttachments [\$buGlobalFuncCreateBackups backupName=\$backu\
+    pNameFinal backupPassword=\$backupPassword sensetiveDataInConfig=\$senseti\
+    veDataInConfig];\r\
+    \n\t} else={\r\
+    \n\t\t:log info (\"\$SMP There is no need to create a backup.\");\r\
+    \n\t}\r\
+    \n\t# Combine fisrst step email\r\
+    \n\t:set mailBody (\$mailBody . \$mailBodyDeviceInfo . \$mailBodyCopyright\
+    );\r\
+    \n}\r\
+    \n## \tSTEP TWO: (after first reboot) routerboard firmware upgrade\r\
+    \n## \tsteps 2 and 3 are fired only if script is set to automatically upda\
+    te device and if new RouterOs is available.\r\
+    \n:if (\$updateStep = 2) do={\r\
+    \n\t:log info (\"\$SMP Performing the second step.\");   \r\
+    \n\t## RouterOS is the latest, let's check for upgraded routerboard firmwa\
+    re\r\
+    \n\tif (\$deviceRbCurrentFw != \$deviceRbUpgradeFw) do={\r\
+    \n\t\t:set isSendEmailRequired false;\r\
+    \n\t\t:delay 10s;\r\
+    \n\t\t:log info \"\$SMP Upgrading routerboard firmware from v.\$deviceRbCu\
+    rrentFw to v.\$deviceRbUpgradeFw\";\r\
+    \n\t\t## Start the upgrading process\r\
+    \n\t\t/system routerboard upgrade;\r\
+    \n\t\t## Wait until the upgrade is completed\r\
+    \n\t\t:delay 5s;\r\
+    \n\t\t:log info \"\$SMP routerboard upgrade process was completed, going t\
+    o reboot in a moment!\";\r\
+    \n\t\t## Set scheduled task to send final report on the next boot, task wi\
+    ll be deleted when is is done. (That is why you should keep original scrip\
+    t name)\r\
+    \n\t\t/system schedule add name=BKPUPD-FINAL-REPORT-ON-NEXT-BOOT on-event=\
+    \":delay 5s; /system scheduler remove BKPUPD-FINAL-REPORT-ON-NEXT-BOOT; :g\
+    lobal buGlobalVarUpdateStep 3; :delay 10s; /system script run BackupAndUpd\
+    ate;\" start-time=startup interval=0;\r\
+    \n\t\t## Reboot system to boot with new firmware\r\
+    \n\t\t/system reboot;\r\
+    \n\t} else={\r\
+    \n\t\t:log info \"\$SMP It appers that your routerboard is already up to d\
+    ate, skipping this step.\";\r\
+    \n\t\t:set updateStep 3;\r\
+    \n\t};\r\
+    \n}\r\
+    \n## \tSTEP THREE: Last step (after second reboot) sending final report\r\
+    \n## \tsteps 2 and 3 are fired only if script is set to automatically upda\
+    te device and if new RouterOs is available.\r\
+    \n:if (\$updateStep = 3) do={\r\
+    \n\t:log info (\"\$SMP Performing the third step.\");   \r\
+    \n\t:log info \"Bkp&Upd: RouterOS and routerboard upgrade process was comp\
+    leted. New RouterOS version: v.\$deviceOsVerInst, routerboard firmware: v.\
+    \$deviceRbCurrentFw.\";\r\
+    \n\t## Small delay in case mikrotik needs some time to initialize connecti\
+    ons\r\
+    \n\t:log info \"\$SMP The final email with report and backups of upgraded \
+    system will be sent in a minute.\";\r\
+    \n\t:delay 1m;\r\
+    \n\t:set mailSubject\t(\$mailSubject . \" RouterOS Upgrade is completed, n\
+    ew version: v.\$deviceOsVerInst!\");\r\
+    \n\t:set mailBody \t  \t\"RouterOS and routerboard upgrade process was com\
+    pleted. \\r\\nNew RouterOS version: v.\$deviceOsVerInst, routerboard firmw\
+    are: v.\$deviceRbCurrentFw. \\r\\n\$changelogUrl \\r\\n\\r\\nBackups of th\
+    e upgraded system are in the attachment of this email.  \$mailBodyDeviceIn\
+    fo \$mailBodyCopyright\";\r\
+    \n\t:set mailAttachments [\$buGlobalFuncCreateBackups backupName=\$backupN\
+    ameAfterUpd backupPassword=\$backupPassword sensetiveDataInConfig=\$senset\
+    iveDataInConfig];\r\
+    \n}\r\
+    \n# Remove functions from global environment to keep it fresh and clean.\r\
+    \n:do {/system script environment remove buGlobalFuncGetOsVerNum;} on-erro\
+    r={}\r\
+    \n:do {/system script environment remove buGlobalFuncCreateBackups;} on-er\
+    ror={}\r\
+    \n##\r\
+    \n## SENDING EMAIL\r\
+    \n##\r\
+    \n# Trying to send email with backups in attachment.\r\
+    \n:if (\$isSendEmailRequired = true) do={\r\
+    \n\t:log info \"\$SMP Sending email message, it will take around half a mi\
+    nute...\";\r\
+    \n\t:do {/tool e-mail send to=\$emailAddress subject=\$mailSubject body=\$\
+    mailBody file=\$mailAttachments;} on-error={\r\
+    \n\t\t:delay 5s;\r\
+    \n\t\t:log error \"\$SMP could not send email message (\$[/tool e-mail get\
+    \_last-status]). Going to try it again in a while.\"\r\
+    \n\t\t:delay 5m;\r\
+    \n\t\t:do {/tool e-mail send to=\$emailAddress subject=\$mailSubject body=\
+    \$mailBody file=\$mailAttachments;} on-error={\r\
+    \n\t\t\t:delay 5s;\r\
+    \n\t\t\t:log error \"\$SMP could not send email message (\$[/tool e-mail g\
+    et last-status]) for the second time.\"\r\
+    \n\t\t\tif (\$isOsNeedsToBeUpdated = true) do={\r\
+    \n\t\t\t\t:set isOsNeedsToBeUpdated false;\r\
+    \n\t\t\t\t:log warning \"\$SMP script is not going to initialise update pr\
+    ocess due to inability to send backups to email.\"\r\
+    \n\t\t\t}\r\
+    \n\t\t}\r\
+    \n\t}\r\
+    \n\t:delay 30s;\r\
+    \n\t\r\
+    \n\t:if ([:len \$mailAttachments] > 0 and [/tool e-mail get last-status] =\
+    \_\"succeeded\") do={\r\
+    \n\t\t:log info \"\$SMP File system cleanup.\"\r\
+    \n\t\t/file remove \$mailAttachments; \r\
+    \n\t\t:delay 2s;\r\
+    \n\t}\r\
+    \n\t\r\
+    \n}\r\
+    \n# Fire RouterOs update process\r\
+    \nif (\$isOsNeedsToBeUpdated = true) do={\r\
+    \n\t## Set scheduled task to upgrade routerboard firmware on the next boot\
+    , task will be deleted when upgrade is done. (That is why you should keep \
+    original script name)\r\
+    \n\t/system schedule add name=BKPUPD-UPGRADE-ON-NEXT-BOOT on-event=\":dela\
+    y 5s; /system scheduler remove BKPUPD-UPGRADE-ON-NEXT-BOOT; :global buGlob\
+    alVarUpdateStep 2; :delay 10s; /system script run BackupAndUpdate;\" start\
+    -time=startup interval=0;\r\
+    \n   \r\
+    \n   :log info \"\$SMP everything is ready to install new RouterOS, going \
+    to reboot in a moment!\"\r\
+    \n\t## command is reincarnation of the \"upgrade\" command - doing exactly\
+    \_the same but under a different name\r\
+    \n\t/system package update install;\r\
+    \n}\r\
+    \n:log info \"\$SMP script \\\"Mikrotik RouterOS automatic backup & update\
+    \\\" completed it's job.\\r\\n\";"
+add dont-require-permissions=no name=Riporta-Spam owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="#\
+    \_Script name: firmware-updater\r\
+    \n\
+    \n\r\
+    \n\
+    \n########## Set variables\r\
+    \n\
+    \n## Notification e-mail\r\
+    \n\
+    \n:local emailEnabled true;\
+    \n\r\
+    \n:local emailAddress \"posta@carpenteriaferrari.com\";\
+    \n\r\
+    \n:local sendBackupToEmail true;\
+    \n\
+    \n\
+    \n\r\
+    \n\r\
+    \n#Check proper email config\r\
+    \n\
+    \n:if (\$emailEnabled = true and ([:len \$emailAddress] = 0 or [:len [/too\
+    l e-mail get address]] = 0 or [:len [/tool e-mail get from]] = 0)) do={\
+    \n\t:log warning (\"Email notifications switched off, you need to check yo\
+    ur e-mail configuration. Tools -> Email\");\r\
+    \n   \
+    \n\t:set emailEnabled false;\
+    \n}\t\r\
+    \n\r\
+    \n\
+    \n#Send email\r\
+    \n\
+    \n:if (\$emailEnabled = true) do={\
+    \n\t\t/tool e-mail send to=\"\$emailAddress\" subject=\"Individuato Spamme\
+    r o Dispositivo Infetto!\" body=\"ATTENZIONE: E' stato individuato un disp\
+    ositivo infetto da parte di RB1100AHx2! \\r\\nControlla i dati registrati \
+    sul Router! \\r\\n\\r\\nCiao! \\r\\nMauri\";  \
+    \n}\
+    \n\
+    \n \t;\t"
+add dont-require-permissions=no name=isolaPCinternet owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    ip firewall filter enable [find comment=\"PC Isolati da Internet OUT\"];\r\
+    \n/ip firewall filter enable [find comment=\"PC Isolati da Internet IN\"];\
+    "
+add dont-require-permissions=no name=permettiPCinternet owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    ip firewall filter disable [find comment=\"PC Isolati da Internet OUT\"];\
+    \r\
+    \n/ip firewall filter disable [find comment=\"PC Isolati da Internet IN\"]\
+    ;"
+add dont-require-permissions=no name=backup-configurazione owner=admin \
+    policy=ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon \
+    source="## Backup encryption password, no encryption if no password.\r\
+    \n:local backupPassword \"\"\r\
+    \n## If true, passwords will be included in exported config\r\
+    \n:local sensetiveDataInConfig false;\r\
+    \n\r\
+    \n## Update channel. Possible values: stable, long-term\r\
+    \n:local updateChannel \"stable\";\r\
+    \n\r\
+    \n## date and time in format: 2018aug06-215139\r\
+    \n:local dtame ([:pick [/system clock get date] 7 11] . [:pick [/system cl\
+    ock get date] 0 3] . [:pick [/system clock get date] 4 6] . \"-\" . [:pick\
+    \_[/system clock get time] 0 2] . [:pick [/system clock get time] 3 5] . [\
+    :pick [/system clock get time] 6 8]);\r\
+    \n\r\
+    \n## unified backup file name without extension\r\
+    \n:local bname \"\$[/system identity get name].\$[/system routerboard get \
+    serial-number].v\$[/system package update get installed-version]_\$dtame\"\
+    ;\r\
+    \n:local sysFileBackup \"\$bname.backup\";\r\
+    \n:local configFileBackup \"\$bname.rsc\";\r\
+    \n\r\
+    \n## Make system backup\r\
+    \n/system backup save dont-encrypt=yes name=\$bname;\r\
+    \n\r\
+    \n## Export config file\r\
+    \n:if (\$sensetiveDataInConfig = true) do={/export compact file=\$bname;} \
+    else={/export compact hide-sensitive file=\$bname;}"
+add dont-require-permissions=no name=Gianni-IN-20M owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    queue tree set Gianni-IN max-limit=20M\r\
+    \n/queue tree set Gianni-IN-quic max-limit=20M\r\
+    \n/queue tree set Gianni-IN-quic limit=18M\r\
+    \n/queue tree set Gianni-IN-web max-limit=20M\r\
+    \n/queue tree set Gianni-IN-web limit=18M\r\
+    \n/queue tree set Gianni-IN-resto max-limit=20M\r\
+    \n/queue tree set Gianni-IN-resto limit=18M"
+add dont-require-permissions=no name=Gianni-IN-8M owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    queue tree set Gianni-IN max-limit=8M\r\
+    \n/queue tree set Gianni-IN-quic limit=5M\r\
+    \n/queue tree set Gianni-IN-quic max-limit=8M\r\
+    \n/queue tree set Gianni-IN-web limit=5M\r\
+    \n/queue tree set Gianni-IN-web max-limit=8M\r\
+    \n/queue tree set Gianni-IN-resto limit=5M\r\
+    \n/queue tree set Gianni-IN-resto max-limit=8M"
+add dont-require-permissions=no name=Mauri-IN-20M owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    queue tree set Mauri-IN max-limit=20M\r\
+    \n/queue tree set Mauri-IN-quic max-limit=20M\r\
+    \n/queue tree set Mauri-IN-quic limit=20M\r\
+    \n/queue tree set Mauri-IN-web max-limit=20M\r\
+    \n/queue tree set Mauri-IN-web limit=20M\r\
+    \n/queue tree set Mauri-IN-resto max-limit=20M\r\
+    \n/queue tree set Mauri-IN-resto limit=20M"
+add dont-require-permissions=no name=Mauri-IN-8M owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    queue tree set Mauri-IN max-limit=8M\r\
+    \n/queue tree set Mauri-IN-quic limit=5M\r\
+    \n/queue tree set Mauri-IN-quic max-limit=8M\r\
+    \n/queue tree set Mauri-IN-web limit=5M\r\
+    \n/queue tree set Mauri-IN-web max-limit=8M\r\
+    \n/queue tree set Mauri-IN-resto limit=5M\r\
+    \n/queue tree set Mauri-IN-resto max-limit=8M"
+add dont-require-permissions=no name=Stefano-IN-20 owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    queue tree set Stefano-IN max-limit=20M\r\
+    \n/queue tree set Stefano-IN-quic max-limit=20M\r\
+    \n/queue tree set Stefano-IN-quic limit=20M\r\
+    \n/queue tree set Stefano-IN-web max-limit=20M\r\
+    \n/queue tree set Stefano-IN-web limit=20M\r\
+    \n/queue tree set Stefano-IN-resto max-limit=20M\r\
+    \n/queue tree set Stefano-IN-resto limit=20M"
+add dont-require-permissions=no name=Stefano-IN-8M owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    queue tree set Stefano-IN max-limit=8M\r\
+    \n/queue tree set Stefano-IN-quic limit=5M\r\
+    \n/queue tree set Stefano-IN-quic max-limit=8M\r\
+    \n/queue tree set Stefano-IN-web limit=5M\r\
+    \n/queue tree set Stefano-IN-web max-limit=8M\r\
+    \n/queue tree set Stefano-IN-resto limit=5M\r\
+    \n/queue tree set Stefano-IN-resto max-limit=8M"
+add dont-require-permissions=no name=UpdateMalwareDomains owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive,romon source="/\
+    ip dns static remove [/ip dns static find comment~\"addMalwareDomains\"]\r\
+    \n/tool fetch address=10.10.10.25 port=21 mode=ftp src-path=/list/addMalwa\
+    reDomains.rsc\r\
+    \n/import file-name=addMalwareDomains.rsc"
+add dont-require-permissions=no name=UpdateMalwareIPs owner=admin policy=\
+    ftp,reboot,read,write,policy,test,password,sniff,sensitive source="/tool f\
+    etch address=10.10.10.25 port=21 mode=ftp src-path=/list/addMalwareIPs.rsc\
+    \r\
+    \n/ip firewall address-list remove [/ip firewall address-list find list=ad\
+    dressListMalware]\r\
+    \n/import file-name=addMalwareIPs.rsc"
+/tool bandwidth-server
+set enabled=no
+/tool e-mail
+set address=smtp.gmail.com from=ferraripietrosnc@gmail.com port=587 tls=\
+    starttls user=ferraripietrosnc
+/tool romon
+set enabled=yes
