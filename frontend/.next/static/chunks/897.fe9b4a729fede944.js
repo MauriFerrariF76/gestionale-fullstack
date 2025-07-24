@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[897],{4897:(e,u,r)=>{r.r(u),r.d(u,{StagewiseToolbar:()=>s});var t=r(1687),n=r(2115);function s({config:e,enabled:u=!1}){let r=(0,n.useRef)(!1);return(0,n.useEffect)(()=>{!r.current&&u&&(r.current=!0,(0,t._)(e))},[e,u]),null}}}]);

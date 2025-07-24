@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* AGGIUNGI QUESTE VARIABILI AL TUO app/globals.css DOPO LE ESISTENTI */
+
+/* === SISTEMA DESIGN FERRARI PIETRO === */
+:root {
+  /* Colori del brand (basati sui tuoi colori esistenti) */
+  --brand-primary: #3b82f6; /* Il tuo blu principale */
+  --brand-neutral-900: #171717; /* Sfondo più scuro */
+  --brand-neutral-800: #262626; /* Sfondo principale (tuo esistente) */
+  --brand-neutral-700: #404040; /* Cards e sidebar */
+  --brand-neutral-600: #525252; /* Bordi */
+  --brand-neutral-500: #737373; /* Testo disabilitato */
+  --brand-neutral-400: #a3a3a3; /* Testo secondario */
+  --brand-neutral-300: #d4d4d4; /* Testo principale */
+  --brand-neutral-200: #e5e5e5; /* Testo enfatizzato */
+  --brand-neutral-100: #f5f5f5; /* Testo massimo contrasto */
+
+  /* Feedback colors */
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: var(--brand-primary);
+
+  /* Spaziature standardizzate */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+
+  /* Border radius */
+  --radius-none: 0;
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px - tuo standard */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-full: 9999px;
+
+  /* Shadows per elevazione */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Typography scale */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+
+  /* Z-index scale per evitare conflitti */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-notification: 1080;
+}
+
+/* Utility classes pronte all'uso */
+.elevation-sm {
+  box-shadow: var(--shadow-sm);
+}
+.elevation-md {
+  box-shadow: var(--shadow-md);
+}
+.elevation-lg {
+  box-shadow: var(--shadow-lg);
+}
+.elevation-xl {
+  box-shadow: var(--shadow-xl);
+}
+
+.rounded-brand {
+  border-radius: var(--radius-lg);
+}
+.rounded-brand-sm {
+  border-radius: var(--radius-md);
+}
+.rounded-brand-lg {
+  border-radius: var(--radius-xl);
+}
+
+.text-brand-primary {
+  color: var(--brand-primary);
+}
+.text-success {
+  color: var(--success);
+}
+.text-warning {
+  color: var(--warning);
+}
+.text-error {
+  color: var(--error);
+}
+.text-info {
+  color: var(--info);
+}
+
+/* Focus ring standardizzato */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-offset-2 focus:ring-offset-neutral-800;
+}
+
+/* Smooth transitions per tutto */
+.transition-brand {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glassmorphism per effetti moderni (opzionale) */
+.glass {
+  backdrop-filter: blur(8px);
+  background: rgba(64, 64, 64, 0.6);
+  border: 1px solid rgba(82, 82, 82, 0.3);
+}

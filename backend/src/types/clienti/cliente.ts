@@ -1,0 +1,74 @@
+// File: cliente.ts
+// Scopo: Definisce il tipo TypeScript Cliente per la gestione dei dati cliente nell'applicazione
+// Percorso: src/types/clienti/cliente.ts
+//
+// Questo file contiene la definizione dettagliata del tipo Cliente usato nelle API e nel database.
+export type Cliente = {
+  IdCliente?: string;
+  CodiceMT?: string;
+  RagioneSocialeC?: string;
+  ReferenteC?: string;
+  IndirizzoC?: string;
+  CAPc?: string;
+  CITTAc?: string;
+  PROVc?: string;
+  NAZc?: string;
+  IndirizzoC2?: string;
+  CAPc2?: string;
+  CITTAc2?: string;
+  PROVc2?: string;
+  NAZc2?: string;
+  IndirizzoC3?: string;
+  CAPc3?: string;
+  CITTAc3?: string;
+  PROVc3?: string;
+  NAZc3?: string;
+  IntestazioneSpedFat?: string;
+  IndirizzoC4?: string;
+  CAPc4?: string;
+  CITTAc4?: string;
+  PROVc4?: string;
+  SelezioneSpedFat?: boolean | string;
+  NoteSpedFat?: string;
+  DescrizionePagamentoC?: string;
+  MetodoPagamentoC?: string;
+  CondizioniPagamentoC?: string;
+  ResaC?: string;
+  TrasportoC?: string;
+  EffettivoPotenziale?: string;
+  CategoriaMerceologica?: string;
+  AttivoC?: boolean | string;
+  AttivoDalC?: string;
+  NonAttivoDalC?: string;
+  AnnoUltimoVendita?: string;
+  Telefono?: string;
+  Fax?: string;
+  Modem?: string;
+  CodiceFiscale?: string;
+  PartitaIva?: string;
+  BancaAppoggio?: string;
+  CodicePagamento?: string;
+  SitoInternet?: string;
+  EsenzioneIva?: string;
+  EmailFatturazione?: string;
+  CodiceFornitore?: string;
+  CIN?: string;
+  ABI?: string;
+  CAB?: string;
+  CC?: string;
+  CodiceIBAN?: string;
+  TipoSpedizioneC?: string;
+  Articolo15?: string;
+  NostraBancaAppoggioC?: string;
+  IBANnostraBancaC?: string;
+  PercorsoCliente?: string;
+  PercorsoPDFClienteC?: string;
+  PercorsoDXFClienteC?: string;
+  Privato?: boolean | string;
+  IVA?: string;
+  EmailCertificati?: string;
+  CodiceSDI?: string;
+  PECcliente?: string;
+  SpeseBancarie?: string;
+  RichiesteCliente?: string;
+}; 
