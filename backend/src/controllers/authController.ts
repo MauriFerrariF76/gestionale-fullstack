@@ -138,3 +138,4 @@ export async function log(req: Request, res: Response) {
       res.status(500).json({ error: 'Errore interno' });
     }
   } 
+} 
