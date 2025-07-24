@@ -12,9 +12,9 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 - [x] Firewall MikroTik: solo porte 80/443 aperte verso il server (verificato il 24/07/2025, regole NAT e firewall testate, hairpin NAT attivo)
 - [x] SSH accessibile solo da IP fidati (verificato: accesso solo da reti interne, porta 65, anti-bruteforce attivo)
 - [x] Nessuna porta di backend/database esposta (verificato: nessuna regola di port forwarding attiva, database non accessibile dall'esterno)
-- [ ] Rate limiting attivo su backend (vedi osservazioni)
+- [x] Rate limiting attivo su backend (implementato solo su API sensibili, disattivato su MikroTik per evitare blocchi su dispositivi mobili)
 - [ ] MFA attivo almeno per admin
-- [ ] Audit log funzionante
+- [x] Audit log funzionante (corretto bug su campo ip, ora logga correttamente tutte le azioni)
 - [ ] Backup automatici attivi e testati
 - [ ] Aggiornamento e patch di sicurezza applicati
 
@@ -85,6 +85,10 @@ server {
 - La configurazione HTTPS con Let’s Encrypt e Nginx funziona correttamente sia da LAN che da WAN, con redirect automatico da HTTP a HTTPS e HSTS attivo.
 - La configurazione NAT/firewall MikroTik deve essere aggiornata per girare correttamente la porta 443 verso il server gestionale.
 - Dopo la disabilitazione del sito di default di Nginx, il gestionale è accessibile correttamente dal dominio pubblico.
+- Tutti i PC e dispositivi della rete accedono ora tramite il dominio gestionale.carpenteriaferrari.com, sia da interno che da remoto, grazie a regola DNS statica su MikroTik.
+- **DNS statico MikroTik:** fondamentale per garantire l’accesso al gestionale anche in caso di assenza di Internet. Tutti i PC devono usare il MikroTik come DNS (10.10.10.1) per beneficiare della regola statica.
+- Se in futuro si usano altri DNS interni (es. Synology), assicurarsi che inoltrino le richieste al MikroTik o che abbiano la regola statica.
+- La gestione del dominio in LAN è ora trasparente: nella barra del browser compare sempre il dominio, mai l’IP, come in tutte le soluzioni professionali.
 - Tutte le modifiche e i progressi sono stati documentati e testati sia da interno che da remoto.
 
 ---
