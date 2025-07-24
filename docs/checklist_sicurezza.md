@@ -9,10 +9,10 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 
 - [x] Nginx configurato e testato solo su LAN (verificato il 24/07/2025, pagina di test visualizzata correttamente)
 - [x] HTTPS attivo e funzionante (Let’s Encrypt, verificato il 24/07/2025, test esterno SSL Labs: A)
-- [ ] Firewall MikroTik: solo porte 80/443 aperte verso il server
-- [ ] SSH accessibile solo da IP fidati
-- [ ] Nessuna porta di backend/database esposta
-- [ ] Rate limiting attivo su backend
+- [x] Firewall MikroTik: solo porte 80/443 aperte verso il server (verificato il 24/07/2025, regole NAT e firewall testate, hairpin NAT attivo)
+- [x] SSH accessibile solo da IP fidati (verificato: accesso solo da reti interne, porta 65, anti-bruteforce attivo)
+- [x] Nessuna porta di backend/database esposta (verificato: nessuna regola di port forwarding attiva, database non accessibile dall'esterno)
+- [ ] Rate limiting attivo su backend (vedi osservazioni)
 - [ ] MFA attivo almeno per admin
 - [ ] Audit log funzionante
 - [ ] Backup automatici attivi e testati
@@ -22,10 +22,10 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 
 ## Cosa puoi migliorare (opzionale, per massima sicurezza)
 
-- [ ] **HSTS (Strict Transport Security):**
-  Attivando HSTS, i browser forzeranno sempre l’uso di HTTPS anche in caso di tentativi di downgrade. Consigliato per produzione. Vuoi che ti aiuti ad attivare questa opzione?
-- [ ] **OCSP Stapling:**
-  Non è obbligatorio, ma migliora la velocità di verifica del certificato SSL/TLS. Consigliato per produzione.
+- [x] **HSTS (Strict Transport Security):**
+  Attivato e testato il 24/07/2025, header presente nelle risposte HTTPS.
+- [x] **OCSP Stapling:**
+  Attivato e testato il 24/07/2025, configurazione Nginx aggiornata.
 
 ---
 
@@ -75,6 +75,17 @@ server {
     # ... altre configurazioni ...
 }
 ```
+
+---
+
+## Osservazioni pratiche e note di deploy (luglio 2025)
+
+- Il rate limit a livello di firewall MikroTik, anche con valori molto alti (es. 1000/sec, burst 4000), può bloccare l’accesso e causare problemi soprattutto su dispositivi mobili (iPhone, Android) e browser moderni, che aprono molte connessioni contemporanee.
+- È consigliato **disattivare il rate limit a livello di firewall** per il gestionale e applicarlo solo a livello di backend (Express.js/Nginx) e solo sulle API sensibili (es. login).
+- La configurazione HTTPS con Let’s Encrypt e Nginx funziona correttamente sia da LAN che da WAN, con redirect automatico da HTTP a HTTPS e HSTS attivo.
+- La configurazione NAT/firewall MikroTik deve essere aggiornata per girare correttamente la porta 443 verso il server gestionale.
+- Dopo la disabilitazione del sito di default di Nginx, il gestionale è accessibile correttamente dal dominio pubblico.
+- Tutte le modifiche e i progressi sono stati documentati e testati sia da interno che da remoto.
 
 ---
 

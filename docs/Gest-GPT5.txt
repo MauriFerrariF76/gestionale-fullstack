@@ -1,0 +1,161 @@
+
+# 📘 Documento di Progetto - Architettura Gestionale Web Multipagina
+
+## ✅ Descrizione Generale
+
+Applicazione gestionale web **multi-pagina**, complessa, non SPA, progettata per l'uso aziendale in **LAN (rete locale)** con accesso da **remoto tramite Internet**. Il sistema gestisce:
+- Commesse
+- Produzione
+- Avanzamento lavori
+- Controllo qualità
+- Processi in outsourcing
+- Analisi predittiva AI (preventivi, suggerimenti, automazione)
+
+---
+
+## 🔧 Architettura & Stack Tecnologico
+
+| Componente    | Tecnologie Utilizzate                         |
+|---------------|------------------------------------------------|
+| Frontend      | React + TypeScript (multi-pagina, modulare)   |
+| Backend       | Node.js + TypeScript (REST API modulari)      |
+| Database      | PostgreSQL (40-50 tabelle, relazioni complesse) |
+| AI            | Modelli predittivi, clustering, regressione   |
+| Accesso WAN   | Cloudflare Tunnel (`https://backend.miaazienda.com`) |
+| Accesso LAN   | Subnet 10.10.10.x con fallback intelligente   |
+| Mobile        | App dedicate + PWA (limitata)                 |
+| Cache         | In-memory, Redis, Service Worker (statici)    |
+
+---
+
+## 🛠️ Implementazioni Tecniche Necessarie
+
+### 🔐 Sicurezza
+- JWT RS256 + Refresh Token Rotation
+- MFA (TOTP o WebAuthn)
+- Row-Level Security su tabelle sensibili (PostgreSQL)
+- Validazione IP + Audit Log (azione, utente, IP, timestamp)
+- Rate limiting differenziato LAN/WAN
+- Helmet + CSP + Protezione da XSS
+- Gestione sicura delle variabili `.env` o Vault
+
+### ⚡ Performance e Reattività
+- Ottimizzazione query (CTE, index, no join annidati)
+- API batch per ridurre roundtrip
+- Virtual scroll per grandi dataset
+- Caching multilivello:
+  - L1: In-memory
+  - L2: Redis
+  - L3: Service Worker (lookup)
+- Connection pooling PostgreSQL
+- Pre-caricamento dati critici al login
+
+### 🧠 AI Integrata
+- Feature store su PostgreSQL
+- API AI modulari (`/predict`, `/suggest`)
+- A/B testing modelli AI
+- Tracciamento feedback utente per modelli
+- Modelli leggeri (es. ONNX o chiamate a servizi remoti)
+
+### 🌐 Fallback e Affidabilità
+- Smart API client con circuito LAN/WAN
+- Health check periodico (timeout <3s)
+- Retry con exponential backoff
+- Circuit breaker intelligente
+- Logging di fallback, switch e tempi di risposta
+
+### 🧩 Frontend
+- React multipagina con router modulare
+- Gantt dinamici (frappe-gantt, vis.js)
+- Debounce, paginazione server-side, ricerca ottimizzata
+- PWA **solo per dati statici** (lookup, listini, ecc.)
+
+### 📊 Monitoring & Logging
+- Winston per logging strutturato
+- Prometheus + Grafana per metriche (latenza, uptime, AI)
+- Tracing backend via OpenTelemetry
+- Alert automatici per errori 5xx, fallback, errori AI
+
+### 🚀 CI/CD e Deployment
+- PM2 per gestione servizi backend
+- Git hooks per deploy automatizzato
+- Backup DB: full giornalieri + incrementali orari
+- Rollback via snapshot + restart PM2
+- Blue/Green opzionale solo in ambienti avanzati
+
+---
+
+## 📌 Priorità per il Team
+
+| Livello | Task principale                                             |
+|--------|--------------------------------------------------------------|
+| 🔴 Alta | Sicurezza completa (JWT, MFA, RLS, Audit, Helmet)           |
+| 🔴 Alta | Modularizzazione backend + API client con fallback LAN/WAN |
+| 🟠 Media | Ottimizzazione query + caching + Gantt dinamico             |
+| 🟠 Media | Monitoring strutturato + logging centralizzato              |
+| 🟢 Bassa | Microservizi, Blue/Green deploy, full PWA                   |
+
+---
+
+## ✅ Obiettivo Architettura
+
+- ⚡ **Reattiva** in locale (<10ms)
+- 🌐 **Accessibile** da remoto senza porte aperte (Cloudflare)
+- 🧠 **Intelligente** con AI integrata
+- 🔐 **Sicura** per uso enterprise
+- 📈 **Monitorata** con metriche reali
+- 📦 **Manutenibile** da team anche ridotto
+
+---
+
+## 📝 TODO Frontend - Stato e Prossimi Passi (Architettura Gestionale)
+
+### Stato Attuale (analisi automatica)
+- ❌ Gestione JWT, refresh token, autenticazione centralizzata: **NON presente** (nessun file dedicato, nessun flusso di login/logout/token)
+- ❌ MFA (autenticazione a due fattori): **NON presente**
+- ❌ API client centralizzato con fallback LAN/WAN, retry, logging: **NON presente**
+- ❌ Logging azioni utente strutturato: **NON presente**
+- ❌ Virtual scroll/virtualizzazione tabelle: **NON presente** (le tabelle sono filtrate e paginabili, ma non virtualizzate)
+- ✅ UI multipagina, router modulare, design system: **PRESENTE**
+- ✅ Paginazione e filtri server-side: **PRESENTE** (ma da migliorare per grandi dataset)
+- ❌ Pre-caricamento dati critici al login: **NON presente**
+- ❌ Gestione permessi/ruoli utente lato frontend: **NON presente**
+- ❌ Service Worker/PWA solo per dati statici: **NON presente**
+
+### Cosa va fatto (roadmap)
+1. **Autenticazione e Sicurezza**
+   - [ ] Implementare flusso login/logout con gestione JWT (access/refresh token)
+   - [ ] Gestire scadenza token e refresh automatico
+   - [ ] Bloccare accesso alle pagine protette senza token valido
+   - [ ] UI e flusso MFA (TOTP/WebAuthn)
+   - [ ] Logging azioni critiche (login, logout, errori)
+
+2. **API Client Intelligente**
+   - [ ] Creare un client API centralizzato con fallback LAN/WAN
+   - [ ] Implementare retry con exponential backoff
+   - [ ] Logging errori e fallback
+
+3. **Performance e Tabelle**
+   - [ ] Implementare virtual scroll (es. react-window) per tabelle grandi
+   - [ ] Migliorare paginazione server-side
+   - [ ] Debounce sugli input di ricerca
+
+4. **Gestione Permessi e Pre-caricamento**
+   - [ ] Caricare dati utente/permessi subito dopo login
+   - [ ] Nascondere/mostrare elementi UI in base ai permessi
+
+5. **PWA e Service Worker**
+   - [ ] Implementare caching solo per asset statici e dati di lookup
+   - [ ] Disabilitare offline per dati dinamici
+
+6. **Monitoring & Logging**
+   - [ ] Logging azioni utente lato frontend (strutturato, invio al backend)
+   - [ ] Gestione errori e alert utente
+
+---
+
+**Nota:** Aggiorna questa lista man mano che implementiamo le varie parti. Ogni punto può essere dettagliato con file, componenti e stato di avanzamento.
+
+---
+
+Fine documento.

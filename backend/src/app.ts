@@ -25,10 +25,13 @@ const LOCALNET_REGEX = /^http:\/\/10\.10\.10\.[0-9]{1,3}:3000$/;
 // Configurazione CORS modulare
 const corsOptions: CorsOptions = {
   origin: function (origin, callback) {
-    if (!origin || origin.startsWith(LOCALHOST)) {
-      return callback(null, true);
-    }
-    if (LOCALNET_REGEX.test(origin)) {
+    if (
+      !origin ||
+      origin.startsWith('http://localhost') ||
+      origin.startsWith('http://10.10.10.') ||
+      origin.startsWith('https://10.10.10.') ||
+      origin.startsWith('https://gestionale.carpenteriaferrari.com')
+    ) {
       return callback(null, true);
     }
     return callback(new Error('Not allowed by CORS'));

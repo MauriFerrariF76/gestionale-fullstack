@@ -8,20 +8,26 @@ import { verifyMfaToken } from '../utils/mfa';
 
 export async function login(req: Request, res: Response) {
   try {
+    console.log('Login attempt:', req.body);
     const { email, password, mfaCode } = req.body;
     if (typeof password !== 'string' || !password) {
+      console.error('Password mancante o non valida');
       return res.status(400).json({ error: 'Password mancante o non valida' });
     }
     const user = await findUserByEmail(email);
     if (!user) {
+      console.error('Utente non trovato per email:', email);
       return res.status(401).json({ error: 'Credenziali non valide' });
     }
+    console.log('Utente trovato:', user);
     const valid = await verifyPassword(password, user.passwordHash);
     if (!valid) {
+      console.error('Password non valida per utente:', email);
       return res.status(401).json({ error: 'Credenziali non valide' });
     }
     if (user.mfaEnabled) {
       if (!mfaCode) {
+        console.log('MFA richiesto per utente:', email);
         return res.json({ mfaRequired: true, userId: user.id });
       }
       // Qui dovresti recuperare il secret MFA dell'utente (da aggiungere al modello User e DB)
@@ -32,6 +38,7 @@ export async function login(req: Request, res: Response) {
     const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7); // 7 giorni
     const refreshToken = await createRefreshToken({ userId: user.id, token: signJwt({ id: user.id }, '7d'), expiresAt });
     await createAuditLog({ userId: user.id, action: 'login', ip: req.ip || "", details: 'Login riuscito' });
+    console.log('Login riuscito per utente:', email);
     res.json({ accessToken, refreshToken: refreshToken.token, user: { id: user.id, email: user.email, nome: user.nome, cognome: user.cognome, roles: user.roles, mfaEnabled: user.mfaEnabled } });
   } catch (err: unknown) {
     if (err instanceof Error) {

@@ -4,7 +4,7 @@
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/clienti/nuovo/page": "app/clienti/nuovo/page.js",
   "/clienti/page": "app/clienti/page.js",
-  "/login/page": "app/login/page.js",
   "/fornitori/page": "app/fornitori/page.js",
+  "/login/page": "app/login/page.js",
   "/page": "app/page.js"
 }

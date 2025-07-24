@@ -2,10 +2,11 @@ import pool from '../config/database';
 import { AuditLog } from '../models/AuditLog';
 
 export async function createAuditLog(log: Omit<AuditLog, 'id' | 'timestamp'>): Promise<AuditLog> {
+  const ipValue = log.ip ?? 'unknown';
   const res = await pool.query(
     `INSERT INTO audit_logs (user_id, action, ip, details)
      VALUES ($1, $2, $3, $4) RETURNING *`,
-    [log.userId, log.action, log.ip, log.details]
+    [log.userId, log.action, ipValue, log.details]
   );
   const row = res.rows[0];
   return {

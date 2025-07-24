@@ -150,7 +150,11 @@ DB_PASSWORD=superpasswordsicura
 
 > Consulta anche **docs/checklist_sicurezza.md** per la checklist dettagliata di sicurezza prima di esporre il gestionale su Internet.
 
-- [x] HTTPS attivo e funzionante (Let’s Encrypt, test esterno SSL Labs: A)
+- [x] Nginx configurato e testato solo su LAN (verificato il 24/07/2025)
+- [x] HTTPS attivo e funzionante (Let’s Encrypt, test SSL Labs: A, 24/07/2025)
+- [x] Firewall MikroTik: solo porte 80/443 aperte verso il server (verificato il 24/07/2025, NAT e hairpin NAT attivo)
+- [x] HSTS attivo (header presente, 24/07/2025)
+- [x] OCSP Stapling attivo (configurazione Nginx aggiornata, 24/07/2025)
 - [x] Build frontend (`npm run build`)
 - [x] Build backend (`npm run build`)
 - [x] Deploy file statici in `/home/app/frontend`
@@ -159,7 +163,6 @@ DB_PASSWORD=superpasswordsicura
 - [x] Avvio backend con PM2 o systemd
 - [x] Configurazione Nginx aggiornata e testata
 - [x] Certificato HTTPS attivo
-- [x] Firewall MikroTik: solo porte 80/443 aperte verso il server
 - [x] UFW su Ubuntu: regole attive
 - [x] Accesso frontend da LAN e WAN testato
 - [x] Chiamate API funzionanti da frontend
