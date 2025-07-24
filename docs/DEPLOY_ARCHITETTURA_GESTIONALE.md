@@ -91,6 +91,33 @@ DB_PASSWORD=superpasswordsicura
 - Non usare utenti di test/admin con password deboli.
 - Verificare che il database NON sia accessibile dall’esterno.
 
+### ➡️ Hairpin NAT (NAT Loopback)
+
+> **Cos’è:**
+> L’hairpin NAT permette ai dispositivi interni alla rete (es. 10.10.10.0/24) di accedere ai servizi pubblicati tramite il dominio pubblico o l’IP pubblico del router, come farebbero gli utenti esterni. È fondamentale per usare lo stesso dominio sia dall’esterno che dall’interno, senza problemi di accesso o certificato.
+
+**Perché serve:**
+- Permette di accedere al gestionale (e ad altri servizi) tramite dominio pubblico anche dalla LAN.
+- Risolve problemi di accesso a servizi pubblicati tramite NAT (web, NAS, telecamere, ecc.) dall’interno della rete.
+
+**Configurazione consigliata (per tutta la VLAN10):**
+
+```shell
+/ip firewall nat add chain=srcnat src-address=10.10.10.0/24 dst-address=10.10.10.0/24 action=masquerade comment="Hairpin NAT per tutta la VLAN10"
+```
+
+- Posiziona questa regola subito dopo le regole di masquerade per la WAN.
+- Non serve specificare out-interface: così funziona in tutte le situazioni.
+- Se hai più VLAN, aggiungi una regola simile per ciascuna.
+
+**Nota:**
+- Dopo aver applicato la regola, tutti i servizi pubblicati tramite NAT saranno raggiungibili anche dai client interni usando il dominio pubblico.
+
+---
+
+**Backup configurazione MikroTik:**
+- Il file `backup-router.txt` contiene la configurazione aggiornata e tracciata del router. Consultalo per dettagli e ripristino.
+
 ---
 
 ## 🛡️ Best practice backend
