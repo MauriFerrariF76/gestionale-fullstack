@@ -123,6 +123,7 @@ DB_PASSWORD=superpasswordsicura
 
 > Consulta anche **docs/checklist_sicurezza.md** per la checklist dettagliata di sicurezza prima di esporre il gestionale su Internet.
 
+- [x] HTTPS attivo e funzionante (Let’s Encrypt, test esterno SSL Labs: A)
 - [x] Build frontend (`npm run build`)
 - [x] Build backend (`npm run build`)
 - [x] Deploy file statici in `/home/app/frontend`

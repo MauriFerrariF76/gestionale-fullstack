@@ -8,7 +8,7 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 ## Step da seguire prima di esporre il gestionale
 
 - [x] Nginx configurato e testato solo su LAN (verificato il 24/07/2025, pagina di test visualizzata correttamente)
-- [ ] HTTPS attivo e funzionante (Let’s Encrypt)
+- [x] HTTPS attivo e funzionante (Let’s Encrypt, verificato il 24/07/2025, test esterno SSL Labs: A)
 - [ ] Firewall MikroTik: solo porte 80/443 aperte verso il server
 - [ ] SSH accessibile solo da IP fidati
 - [ ] Nessuna porta di backend/database esposta
