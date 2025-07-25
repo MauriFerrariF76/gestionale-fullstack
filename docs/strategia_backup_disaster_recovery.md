@@ -41,7 +41,7 @@ Il backup e il disaster recovery (DR) sono fondamentali per garantire la sicurez
 ### Esempio backup automatico configurazioni server su NAS
 
 - Cartella di rete montata in `/mnt/backup_gestionale` con permessi corretti (`uid=1000,gid=1000,file_mode=0770,dir_mode=0770`)
-- Script `docs/server/backup_config_server.sh` che esegue backup automatico delle configurazioni server, esclusione `#recycle` e log
+- Script `docs/server/backup_config_server.sh` che esegue backup automatico delle configurazioni server, esclusione `#recycle`, log e notifica email tramite Gmail SMTP autenticato (porta 587, password per app), a più destinatari separati da virgola
 
 ```bash
 rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/server/ /mnt/backup_gestionale/
@@ -117,6 +117,7 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 - [x] Backup automatico configurazioni server attivo su NAS
 - [x] Permessi NAS verificati e corretti
 - [x] Esclusione cartella #recycle dal backup
+- [x] Notifica email errori backup tramite Gmail SMTP autenticato (porta 587, password per app), destinatari multipli separati da virgola
 
 ---
 

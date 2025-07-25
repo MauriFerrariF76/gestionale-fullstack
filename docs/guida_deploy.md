@@ -54,6 +54,8 @@ pm start
 
 ## 8. Backup
 - Esegui backup del database prima e dopo il deploy
+- Il backup automatico delle configurazioni server è gestito tramite lo script `docs/server/backup_config_server.sh`.
+- In caso di errore nel backup automatico, viene inviata una notifica email agli amministratori tramite Gmail SMTP autenticato (porta 587, password per app) a più destinatari separati da virgola.
 
 ---
 
