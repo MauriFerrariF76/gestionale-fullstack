@@ -18,6 +18,13 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 - [ ] Backup automatici attivi e testati
 - [ ] Aggiornamento e patch di sicurezza applicati
 - [ ] Impostare il TTL del record DNS di gestionale.carpenteriaferrari.com a 1 ora (3600 secondi) prima del deploy definitivo in produzione, per maggiore resilienza e performance
+- [ ] Bloccare il metodo HTTP TRACE in Nginx (protezione da attacchi di tipo TRACE/Cross Site Tracing)
+- [ ] Impostare intestazioni di sicurezza in Nginx (X-Frame-Options, X-Content-Type-Options, CSP se possibile)
+- [ ] Verificare che Nginx accetti solo TLS 1.2 e superiori (disabilitare SSLv3/TLS 1.0/1.1)
+- [ ] Logging backend: nessun dato sensibile o stack trace nei log di produzione
+- [ ] Utenza PostgreSQL dell’app con permessi minimi (no superuser)
+- [ ] Password forti e login PostgreSQL via md5 o scram-sha-256
+- [ ] Certificato Let's Encrypt: rinnovo automatico attivo
 
 ---
 
