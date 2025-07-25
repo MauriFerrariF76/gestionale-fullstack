@@ -13,18 +13,24 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 - [x] SSH accessibile solo da IP fidati (verificato: accesso solo da reti interne, porta 65, anti-bruteforce attivo)
 - [x] Nessuna porta di backend/database esposta (verificato: nessuna regola di port forwarding attiva, database non accessibile dall'esterno)
 - [x] Rate limiting attivo su backend (implementato solo su API sensibili, disattivato su MikroTik per evitare blocchi su dispositivi mobili)
+  > **Nota:** Non applicare rate limit globale a tutte le API. Escludi la LAN e imposta limiti solo su login/reset password. Testa sempre da mobile e con più utenti.
 - [ ] MFA attivo almeno per admin
+  > **Nota:** Implementa MFA solo per ruoli critici. Prevedi una procedura di recovery semplice e sicura per gli admin.
 - [x] Audit log funzionante (corretto bug su campo ip, ora logga correttamente tutte le azioni)
 - [ ] Backup automatici attivi e testati
 - [ ] Aggiornamento e patch di sicurezza applicati
 - [ ] Impostare il TTL del record DNS di gestionale.carpenteriaferrari.com a 1 ora (3600 secondi) prima del deploy definitivo in produzione, per maggiore resilienza e performance
 - [ ] Bloccare il metodo HTTP TRACE in Nginx (protezione da attacchi di tipo TRACE/Cross Site Tracing)
 - [ ] Impostare intestazioni di sicurezza in Nginx (X-Frame-Options, X-Content-Type-Options, CSP se possibile)
+  > **Nota:** Testa bene la CSP in ambiente di sviluppo prima di applicarla in produzione. Una CSP troppo restrittiva può bloccare JS o plugin.
 - [ ] Verificare che Nginx accetti solo TLS 1.2 e superiori (disabilitare SSLv3/TLS 1.0/1.1)
 - [ ] Logging backend: nessun dato sensibile o stack trace nei log di produzione
+  > **Nota:** In produzione logga solo errori critici. In sviluppo mantieni log dettagliati. Prevedi livelli di log e alert per errori gravi.
 - [ ] Utenza PostgreSQL dell’app con permessi minimi (no superuser)
+  > **Nota:** Dai solo i permessi necessari all’app. Usa un utente separato per operazioni amministrative (migrazioni, backup, ecc.).
 - [ ] Password forti e login PostgreSQL via md5 o scram-sha-256
 - [ ] Certificato Let's Encrypt: rinnovo automatico attivo
+  > **Nota:** Prevedi alert/email in caso di errore di rinnovo. Testa periodicamente il rinnovo automatico.
 
 ---
 
