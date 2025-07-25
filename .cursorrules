@@ -1,0 +1,69 @@
+# Contesto applicativo - gestionale-fullstack
+
+## Descrizione generale
+Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipendenti e documenti, accessibile sia da LAN che da remoto tramite dominio pubblico e HTTPS.
+
+## Struttura del progetto
+- **backend/**: API RESTful sviluppate in Node.js/Express, con autenticazione JWT, rate limiting, audit log, MFA (in sviluppo), collegamento a database PostgreSQL.
+- **frontend/**: Interfaccia utente sviluppata in Next.js/React, con gestione sessione, ruoli, permessi e manuale utente integrato.
+- **docs/**: Tutta la documentazione tecnica, checklist operative, manuale utente e guide pratiche.
+
+## Tecnologie utilizzate
+- **Node.js/Express** per il backend
+- **Next.js/React** per il frontend
+- **PostgreSQL** come database relazionale
+- **Nginx** come reverse proxy e terminazione HTTPS
+- **MikroTik** per firewall, NAT, DNS statico e resilienza di rete
+- **Let’s Encrypt** per i certificati SSL
+- **Git** per il versionamento del codice e della documentazione
+
+## Obiettivi
+- Sicurezza, resilienza e accessibilità sia da LAN che da WAN
+- Documentazione sempre aggiornata e checklist operative integrate nel ciclo di sviluppo
+- Facilità di manutenzione e collaborazione
+
+---
+
+# Regole di Progetto - gestionale-fullstack
+
+## 1. Documentazione e checklist
+
+- Tutta la documentazione del progetto si trova nella cartella `/docs`.
+- In `/docs` sono presenti:
+  - **Checklist specifiche** (es. sicurezza, backup, deploy, ecc.) da seguire e aggiornare per ogni modifica o rilascio.
+  - **Documentazione generale** sulla struttura del progetto, le tecnologie utilizzate, le implementazioni e gli strumenti adottati.
+  - **Manuale utente**: guida pratica per l’utilizzo del gestionale, da mantenere aggiornata ad ogni nuova funzionalità o modifica rilevante.
+
+## 2. Regola generale per i commit
+
+- **Prima di ogni commit**:
+  - Aggiorna la checklist e la documentazione relativa nella cartella `/docs`.
+  - Assicurati che tutte le modifiche, le osservazioni e le decisioni tecniche siano riportate nei file appropriati.
+  - Se hai risolto un punto di una checklist, spuntalo e aggiungi eventuali note operative.
+- **Dopo ogni commit**:
+  - Esegui sempre il push delle modifiche documentali insieme al codice.
+
+## 3. Gestione delle checklist
+
+- Le checklist sono strumenti operativi fondamentali: vanno seguite, aggiornate e mantenute come parte integrante del ciclo di sviluppo.
+- Ogni checklist deve essere chiara, aggiornata e facilmente consultabile.
+- In caso di nuove procedure (es. sicurezza, backup, deploy, recovery, ecc.), crea una nuova checklist dedicata in `/docs`.
+
+## 4. Manuale utente
+
+- Il manuale utente deve essere aggiornato ogni volta che viene aggiunta o modificata una funzionalità rilevante.
+- Il manuale deve essere scritto in modo chiaro, accessibile anche a chi non è esperto di informatica.
+
+## 5. Regola di resilienza e sicurezza
+
+- Tutte le configurazioni critiche (DNS, firewall, backup, ecc.) devono essere documentate e verificate tramite checklist.
+- In caso di modifiche infrastrutturali, aggiorna subito la documentazione e segnala eventuali azioni da completare.
+
+## 6. Collaborazione
+
+- Chiunque lavori sul progetto deve leggere e rispettare queste regole.
+- Ogni modifica importante deve essere documentata e discussa, se necessario, tramite note operative o commenti nei file di documentazione.
+
+---
+
+**Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**
