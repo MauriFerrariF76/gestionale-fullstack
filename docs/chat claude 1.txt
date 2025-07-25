@@ -1,0 +1,59 @@
+questo è il punto in cui siamo arrivati con il frontend. Nel frattempo ho preso il mio sony vaio i5 con SSD, l'ho messo in rete, ho installato ubuntu server con nome pc-mauri-vaio e IP statico 10.10.10.15, ho installato node.js, postgresql. progrediamo passo dopo passo, una cosa alla volta.
+Ora abbiamo:
+Frontend: Next.js con Tailwind CSS, sistema di configurazione tabelle, pagine clienti e fornitori Backend: Ubuntu Server su Sony Vaio (pc-mauri-vaio, IP 10.10.10.15) con Node.js e PostgreSQL
+Procediamo passo dopo passo. Qual è la prossima priorità che vorresti affrontare?
+Opzioni logiche per il prossimo step:
+1. Setup Database PostgreSQL
+* Creare il database gestionale_ferrari (FATTO)
+* Definire le tabelle principali (clienti, fornitori, commesse, dipendenti)
+* Configurare utenti e permessi
+2. API Backend con Express.js
+* Setup server Express.js sul Vaio
+* Configurazione connessione al database
+* Prime API per clienti/fornitori
+* Sistema di autenticazione
+3. Connessione Frontend-Backend
+* Configurare il frontend per chiamare le API su 10.10.10.15
+* Sostituire i dati mock con chiamate reali
+* Testing della connessione
+4. Sistema di Autenticazione
+* Login/logout
+* Gestione sessioni
+* Protezione delle route
+
+Step 3: Creazione database e utente (ESEGUITO!)
+CREATE USER gestionale_user WITH PASSWORD 'gestionale2025';
+CREATE DATABASE gestionale_ferrari OWNER gestionale_user;
+GRANT ALL PRIVILEGES ON DATABASE gestionale_ferrari TO gestionale_user;
+
+prima di procedere aspetta, procederemo passo passo ed io ti darò indicazioni. Dove hai domande prima di eseguire chiedi.
+Ordine di priorità consigliato:
+STEP 1: Sicurezza di base del server
+Prima di esporre qualsiasi servizio, dobbiamo mettere in sicurezza il server:
+* Configurare firewall UFW
+* Configurare accesso SSH sicuro
+* Aggiornamenti sistema
+STEP 2: Struttura del progetto backend
+* Creare directory del progetto
+* Inizializzare npm
+* Setup Express.js base
+* Configurazione ambiente (.env)
+STEP 3: Database schema
+* Creare le tabelle principali con relazioni
+* Seed data iniziali
+* Test connessione
+STEP 4: API graduale
+* Un'entità alla volta (es. clienti)
+* Test di ogni endpoint
+* Validazione dati
+
+Iniziamo con STEP 1: Sicurezza
+Domande prima di procedere:
+1. SSH: Stai accedendo al server via SSH o direttamente? Se SSH, su quale porta?
+2. Porte necessarie: Oltre a SSH, avremo bisogno di: 
+o Porta 3001 per l'API backend
+o Porta 5432 per PostgreSQL (solo locale)
+o Altre porte specifiche?
+3. Accesso esterno: Il server deve essere accessibile solo dalla rete locale (10.10.10.x) o anche da internet?
+Dimmi come è configurato attualmente l'accesso SSH e procedo con la configurazione del firewall UFW!
+
