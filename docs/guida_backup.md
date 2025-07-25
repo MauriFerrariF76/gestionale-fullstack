@@ -57,6 +57,10 @@ rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/se
 - Controlla regolarmente i log e lo spazio disponibile sul NAS
 - Aggiorna questa guida se cambi la procedura o i permessi NAS
 
+**Notifica email in caso di errore:**
+- Se il mount del NAS o il backup con rsync falliscono, lo script invia una mail automatica a ferraripietrosnc.mauri@outlook.it (in copia a mauriferrari@hotmail.com) con il log dettagliato dell'errore.
+- Per funzionare, è necessario che sia installato mailutils e Postfix configurato come "Internet Site".
+
 ---
 
 **Aggiorna questa guida se cambi la strategia di backup o il nome del database!** 
