@@ -64,6 +64,11 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - Chiunque lavori sul progetto deve leggere e rispettare queste regole.
 - Ogni modifica importante deve essere documentata e discussa, se necessario, tramite note operative o commenti nei file di documentazione.
 
+## 7. Regola sui commit documentali
+
+- Per modifiche puramente documentali (es. correzioni di refusi, formattazione, aggiornamento di esempi non sostanziali), valuta se è davvero necessario fare un commit.
+- Evita commit inutili e preferisci commit solo per modifiche sostanziali o che impattano la sicurezza, la procedura o la struttura.
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**
