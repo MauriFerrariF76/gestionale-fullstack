@@ -17,6 +17,7 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 - [x] Audit log funzionante (corretto bug su campo ip, ora logga correttamente tutte le azioni)
 - [ ] Backup automatici attivi e testati
 - [ ] Aggiornamento e patch di sicurezza applicati
+- [ ] Impostare il TTL del record DNS di gestionale.carpenteriaferrari.com a 1 ora (3600 secondi) prima del deploy definitivo in produzione, per maggiore resilienza e performance
 
 ---
 
