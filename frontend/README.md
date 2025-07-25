@@ -34,3 +34,12 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Struttura del progetto
+
+- **backend/** – API RESTful Node.js/Express
+- **frontend/** – Interfaccia Next.js/React (questa cartella)
+- **docs/** – Documentazione tecnica, checklist, manuali
+  - **server/** – Checklist, guida e snapshot di configurazione del server Ubuntu
+
+Consulta la documentazione in /docs per tutte le procedure operative, sicurezza, backup e deploy.
