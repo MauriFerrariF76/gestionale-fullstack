@@ -69,6 +69,12 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - Per modifiche puramente documentali (es. correzioni di refusi, formattazione, aggiornamento di esempi non sostanziali), valuta se è davvero necessario fare un commit.
 - Evita commit inutili e preferisci commit solo per modifiche sostanziali o che impattano la sicurezza, la procedura o la struttura.
 
+## 8. Best practice: commit e push solo di versioni funzionanti
+
+- Prima di ogni commit e push, è obbligatorio testare manualmente che la versione sia funzionante e stabile (almeno nelle funzionalità principali).
+- Non committare né pushare versioni che presentano errori bloccanti, bug critici o che non permettono l’uso normale dell’applicazione.
+- Solo dopo aver verificato il corretto funzionamento, procedere con commit e push.
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**
