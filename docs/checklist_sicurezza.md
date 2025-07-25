@@ -90,6 +90,7 @@ server {
 - Se in futuro si usano altri DNS interni (es. Synology), assicurarsi che inoltrino le richieste al MikroTik o che abbiano la regola statica.
 - La gestione del dominio in LAN è ora trasparente: nella barra del browser compare sempre il dominio, mai l’IP, come in tutte le soluzioni professionali.
 - Tutte le modifiche e i progressi sono stati documentati e testati sia da interno che da remoto.
+- [x] DNS statico MikroTik attivo e MikroTik impostato come DNS principale su tutti i PC della rete (per resilienza anche senza Internet)
 
 ---
 
