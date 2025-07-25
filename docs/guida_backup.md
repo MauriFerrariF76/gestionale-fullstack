@@ -59,7 +59,7 @@ rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/se
 
 **Notifica email in caso di errore:**
 - Se il mount del NAS o il backup con rsync falliscono, lo script invia una mail automatica a ferraripietrosnc.mauri@outlook.it (in copia a mauriferrari@hotmail.com) con il log dettagliato dell'errore.
-- Per funzionare, è necessario che sia installato mailutils e Postfix configurato come "Internet Site".
+- Per funzionare, è necessario che sia installato mailutils e che Postfix sia configurato per inviare tramite il NAS Synology (SMTP SSL porta 465, autenticazione utente_gestionale). Questa soluzione garantisce notifiche affidabili anche verso provider esterni (Outlook, Hotmail, ecc.).
 
 ---
 

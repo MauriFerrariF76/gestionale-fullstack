@@ -40,5 +40,6 @@ Aggiorna e consulta questi file per tutte le procedure e le best practice!
 - Usa lo script `docs/server/backup_config_server.sh` per backup automatici delle configurazioni server.
 - Escludi sempre la cartella `#recycle` del NAS dal backup (già incluso nello script).
 - Aggiorna la documentazione e le checklist ogni volta che cambi la procedura di backup o i permessi NAS.
+- **Le notifiche email automatiche (backup, errori, ecc.) sono ora inviate tramite NAS Synology come relay SMTP SSL (porta 465, autenticazione utente_gestionale), garantendo maggiore affidabilità verso provider esterni.**
 
 
