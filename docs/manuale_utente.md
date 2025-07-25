@@ -49,4 +49,8 @@
 
 ---
 
-**Aggiorna questo manuale se vengono aggiunte nuove funzionalità!** 
+**Aggiorna questo manuale se vengono aggiunte nuove funzionalità!**
+
+---
+
+*Manuale aggiornato alle funzionalità principali testate e documentate a luglio 2025.* 

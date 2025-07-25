@@ -24,12 +24,12 @@ Garantire che il gestionale sia esposto su Internet in modo sicuro, riducendo al
 - [x] Impostare intestazioni di sicurezza in Nginx (X-Frame-Options, X-Content-Type-Options, CSP soft testata)
 - [x] Verificare che Nginx accetti solo TLS 1.2 e superiori (disabilitare SSLv3/TLS 1.0/1.1)
   > **Nota:** Hardening Nginx applicato e testato in produzione il 25/07/2025. Nessun impatto negativo su performance o funzionalità rilevato.
-- [ ] Logging backend: nessun dato sensibile o stack trace nei log di produzione
+- [x] Logging backend: nessun dato sensibile o stack trace nei log di produzione
   > **Nota:** In produzione logga solo errori critici. In sviluppo mantieni log dettagliati. Prevedi livelli di log e alert per errori gravi.
 - [ ] Utenza PostgreSQL dell’app con permessi minimi (no superuser)
   > **Nota:** Dai solo i permessi necessari all’app. Usa un utente separato per operazioni amministrative (migrazioni, backup, ecc.).
 - [ ] Password forti e login PostgreSQL via md5 o scram-sha-256
-- [ ] Certificato Let's Encrypt: rinnovo automatico attivo
+- [x] Certificato Let's Encrypt: rinnovo automatico attivo
   > **Nota:** Prevedi alert/email in caso di errore di rinnovo. Testa periodicamente il rinnovo automatico.
 
 ---

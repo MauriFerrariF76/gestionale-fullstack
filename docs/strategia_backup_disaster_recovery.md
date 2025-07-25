@@ -92,6 +92,8 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 - [ ] Backup salvati anche su server remoto/cloud
 - [ ] Test periodico del restore
 
+> **Nota:** La strategia è aggiornata, ma l'automazione e il test restore sono ancora da implementare. Vedi checklist sicurezza e roadmap.
+
 ### Replica
 - [ ] Replica PostgreSQL attiva e monitorata
 - [ ] Standby aggiornato e pronto al failover
