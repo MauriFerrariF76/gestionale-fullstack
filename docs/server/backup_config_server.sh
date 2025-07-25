@@ -19,16 +19,17 @@ if ! mountpoint -q "$MOUNTPOINT"; then
   sudo mount -t cifs "$NAS_SHARE" "$MOUNTPOINT" -o credentials="$CREDENTIALS",iocharset=utf8,vers=2.0
   if [ $? -ne 0 ]; then
     echo "[$(date)] ERRORE: mount NAS fallito!" | tee -a "$LOG"
-    mail -s "[ERRORE] Backup Gestionale: mount NAS fallito" -c "$MAILCC" "$MAILTO" < "$LOG"
+    mail -s "[ERRORE] Backup Gestionale: mount NAS fallito" "ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com" < "$LOG"
     exit 1
   fi
 fi
 
 # Sincronizza le configurazioni
 rsync -av --delete --exclude='#recycle' "$SRC" "$DEST" | tee -a "$LOG"
-if [ $? -ne 0 ]; then
-  echo "[$(date)] ERRORE: rsync fallito!" | tee -a "$LOG"
-  mail -s "[ERRORE] Backup Gestionale: rsync fallito" -c "$MAILCC" "$MAILTO" < "$LOG"
+RSYNC_EXIT_CODE=${PIPESTATUS[0]}
+if [ $RSYNC_EXIT_CODE -ne 0 ]; then
+  echo "[$(date)] ERRORE: rsync fallito! Codice: $RSYNC_EXIT_CODE" | tee -a "$LOG"
+  mail -s "[ERRORE] Backup Gestionale: rsync fallito (codice $RSYNC_EXIT_CODE)" "ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com" < "$LOG"
   exit 2
 fi
 
