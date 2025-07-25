@@ -97,4 +97,5 @@ server {
 - Aggiorna questa checklist ad ogni modifica della configurazione.
 - Segnala eventuali problemi o eccezioni.
 - Consulta anche docs/DEPLOY_ARCHITETTURA_GESTIONALE.md per la checklist generale di deploy.
-- **Per attivare HSTS e OCSP Stapling, copia la configurazione sopra nel blocco server HTTPS di Nginx. Riavvia Nginx dopo le modifiche.** 
+- **Per attivare HSTS e OCSP Stapling, copia la configurazione sopra nel blocco server HTTPS di Nginx. Riavvia Nginx dopo le modifiche.**
+- **IMPORTANTE: Mantieni sempre la regola DNS statica sul MikroTik per il dominio gestionale.carpenteriaferrari.com e assicurati che tutti i PC della rete usino il MikroTik (10.10.10.1) come DNS principale. Solo così il gestionale resterà accessibile anche in caso di assenza di Internet!** 
