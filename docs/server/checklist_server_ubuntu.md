@@ -6,24 +6,25 @@ Garantire che il server Ubuntu sia configurato, sicuro e pronto per ospitare il 
 ---
 
 ## Checklist post-installazione
-- [ ] Aggiornamento sistema (`sudo apt update && sudo apt upgrade`)
-- [ ] Configurazione utente amministratore non root
-- [ ] SSH attivo, accesso solo con chiave e da IP fidati
-- [ ] Firewall attivo (UFW o regole MikroTik)
-- [ ] Disabilitato login root via SSH
-- [ ] Sincronizzazione orario (NTP attivo)
-- [ ] Hostname e /etc/hosts configurati
+- [x] Aggiornamento sistema (`sudo apt update && sudo apt upgrade`)
+- [x] Configurazione utente amministratore non root
+- [x] SSH attivo, accesso solo con chiave e da IP fidati
+- [x] Firewall attivo (UFW o regole MikroTik)
+- [x] Disabilitato login root via SSH
+- [x] Sincronizzazione orario (NTP attivo)
+- [x] Hostname e /etc/hosts configurati
 - [ ] Swap configurata (se necessario)
 
 ---
 
 ## Checklist installazione servizi
-- [ ] Nginx installato e configurato
-- [ ] Certbot/Let’s Encrypt installato e certificato attivo
-- [ ] Node.js e npm installati
-- [ ] PM2 o systemd per gestione backend
-- [ ] PostgreSQL installato e sicuro
-- [ ] Utente PostgreSQL dedicato all’app
+- [x] Nginx installato e configurato
+- [x] Certbot/Let’s Encrypt installato e certificato attivo
+- [x] Node.js e npm installati
+- [x] PM2 o systemd per gestione backend
+  > **Nota:** Backend e frontend sono ora gestiti da systemd tramite file di servizio dedicati e testati con successo (luglio 2025).
+- [x] PostgreSQL installato e sicuro
+- [x] Utente PostgreSQL dedicato all’app
 - [ ] Backup automatico database attivo
 - [ ] Script di backup configurazioni server
 - [ ] Repository Git per versionamento configurazioni

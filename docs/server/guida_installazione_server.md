@@ -142,4 +142,150 @@ Consulta `/docs/checklist_server_ubuntu.md` per una lista operativa da spuntare 
 
 ---
 
+## 9. Gestione backend con systemd (servizio automatico)
+
+Per garantire l'avvio automatico e la resilienza del backend gestionale, crea un servizio systemd dedicato.
+
+### Esempio di file di servizio: `/etc/systemd/system/gestionale-backend.service`
+
+```ini
+[Unit]
+Description=Gestionale Backend Node.js
+After=network.target
+
+[Service]
+Type=simple
+User=mauri
+WorkingDirectory=/home/mauri/gestionale-fullstack/backend
+ExecStart=/usr/bin/node dist/app.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Comandi utili
+- **Ricarica systemd dopo aver creato/modificato il file:**
+  ```bash
+  sudo systemctl daemon-reload
+  ```
+- **Abilita avvio automatico all'accensione:**
+  ```bash
+  sudo systemctl enable gestionale-backend
+  ```
+- **Avvia il servizio:**
+  ```bash
+  sudo systemctl start gestionale-backend
+  ```
+- **Controlla lo stato:**
+  ```bash
+  sudo systemctl status gestionale-backend
+  ```
+- **Visualizza i log:**
+  ```bash
+  journalctl -u gestionale-backend
+  ```
+
+> **Nota:** Modifica il percorso e l'utente se la tua installazione differisce.
+
+---
+
+## 10. Gestione frontend Next.js server-side con systemd
+
+Se il frontend è in modalità server-side (Next.js), crea un servizio systemd dedicato per garantirne l’avvio automatico e la resilienza.
+
+### Esempio di file di servizio: `/etc/systemd/system/gestionale-frontend.service`
+
+```ini
+[Unit]
+Description=Gestionale Frontend Next.js
+After=network.target
+
+[Service]
+Type=simple
+User=mauri
+WorkingDirectory=/home/mauri/gestionale-fullstack/frontend
+ExecStart=/usr/bin/node node_modules/next/dist/bin/next start
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Comandi utili
+- **Ricarica systemd dopo aver creato/modificato il file:**
+  ```bash
+  sudo systemctl daemon-reload
+  ```
+- **Abilita avvio automatico all'accensione:**
+  ```bash
+  sudo systemctl enable gestionale-frontend
+  ```
+- **Avvia il servizio:**
+  ```bash
+  sudo systemctl start gestionale-frontend
+  ```
+- **Controlla lo stato:**
+  ```bash
+  sudo systemctl status gestionale-frontend
+  ```
+- **Visualizza i log:**
+  ```bash
+  journalctl -u gestionale-frontend
+  ```
+
+> **Nota:** Modifica il percorso e l'utente se la tua installazione differisce.
+
+---
+
+## 11. Gestione Nginx come servizio di sistema
+
+Nginx viene installato come servizio systemd e si avvia automaticamente all’accensione del server. Non serve creare file di servizio personalizzati.
+
+### Comandi principali
+- **Stato del servizio:**
+  ```bash
+  sudo systemctl status nginx
+  ```
+- **Riavviare Nginx:**
+  ```bash
+  sudo systemctl restart nginx
+  ```
+- **Ricaricare la configurazione (senza interrompere il servizio):**
+  ```bash
+  sudo systemctl reload nginx
+  ```
+- **Abilitare/disabilitare avvio automatico:**
+  ```bash
+  sudo systemctl enable nginx
+  sudo systemctl disable nginx
+  ```
+- **Fermare Nginx:**
+  ```bash
+  sudo systemctl stop nginx
+  ```
+
+### Best practice
+- Dopo ogni modifica ai file di configurazione in `/etc/nginx/`, esegui sempre:
+  ```bash
+  sudo nginx -t   # Test della configurazione
+  sudo systemctl reload nginx
+  ```
+- Tieni traccia delle modifiche ai file di configurazione (versionamento manuale o repo dedicata).
+- Consulta i log in caso di problemi:
+  ```bash
+  journalctl -u nginx
+  tail -f /var/log/nginx/error.log
+  ```
+
+---
+
 *Ultimo aggiornamento: luglio 2025* 
+
+---
+
+**Procedura testata e validata: backend e frontend gestiti da systemd, funzionanti e resilienti (luglio 2025).** 
