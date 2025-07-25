@@ -114,3 +114,10 @@ server {
 - Consulta anche docs/DEPLOY_ARCHITETTURA_GESTIONALE.md per la checklist generale di deploy.
 - **Per attivare HSTS e OCSP Stapling, copia la configurazione sopra nel blocco server HTTPS di Nginx. Riavvia Nginx dopo le modifiche.**
 - **IMPORTANTE: Mantieni sempre la regola DNS statica sul MikroTik per il dominio gestionale.carpenteriaferrari.com e assicurati che tutti i PC della rete usino il MikroTik (10.10.10.1) come DNS principale. Solo così il gestionale resterà accessibile anche in caso di assenza di Internet!** 
+
+## Gestione sicura di password e segreti
+- [ ] Tutte le password, token e chiavi di accesso sono salvate in file separati e protetti (es: chmod 600, accesso solo a root o utente autorizzato)
+- [ ] Nessuna password o segreto è committata su Git o in file pubblici
+- [ ] È in uso un password manager aziendale (es: Bitwarden, KeePassXC, 1Password) oppure Vault/Ansible Vault per server
+- [ ] I backup delle credenziali sono cifrati e conservati in luogo sicuro
+- [ ] Esiste una documentazione interna (NON pubblica) che spiega dove sono salvati i segreti e chi può accedervi 

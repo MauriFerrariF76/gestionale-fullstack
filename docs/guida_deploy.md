@@ -57,6 +57,13 @@ pm start
 - Il backup automatico delle configurazioni server è gestito tramite lo script `docs/server/backup_config_server.sh`.
 - In caso di errore nel backup automatico, viene inviata una notifica email agli amministratori tramite Gmail SMTP autenticato (porta 587, password per app) a più destinatari separati da virgola.
 
+## Best practice gestione password e segreti
+- Non salvare mai password o token in chiaro nei file di progetto o in Git
+- Usa file separati e protetti (es: .env, sasl_passwd) con permessi restrittivi (chmod 600)
+- Utilizza un password manager aziendale o strumenti di cifratura per la gestione centralizzata
+- Esegui backup cifrati delle credenziali e conservali in luogo sicuro
+- Documenta internamente la policy di gestione segreti (file NON pubblico)
+
 ---
 
 **Aggiorna questa guida ogni volta che cambi la procedura di deploy!** 
