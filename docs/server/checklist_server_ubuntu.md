@@ -25,9 +25,10 @@ Garantire che il server Ubuntu sia configurato, sicuro e pronto per ospitare il 
   > **Nota:** Backend e frontend sono ora gestiti da systemd tramite file di servizio dedicati e testati con successo (luglio 2025).
 - [x] PostgreSQL installato e sicuro
 - [x] Utente PostgreSQL dedicato all’app
-- [ ] Backup automatico database attivo
-- [ ] Script di backup configurazioni server
-- [ ] Repository Git per versionamento configurazioni
+- [x] Backup automatico database attivo
+- [x] Script di backup configurazioni server su NAS (permessi corretti, esclusione #recycle, log)
+- [x] Repository Git per versionamento configurazioni
+  > **Nota:** Le configurazioni server (systemd, Nginx, script, checklist) sono versionate in `/docs/server/` all’interno del progetto gestionale-fullstack. Ogni modifica va riportata qui e committata seguendo le best practice: mai versionare dati sensibili (password, chiavi private), aggiornare sempre la documentazione e mantenere la cronologia delle modifiche.
 
 ---
 

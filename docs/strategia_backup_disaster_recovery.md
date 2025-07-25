@@ -38,6 +38,15 @@ Il backup e il disaster recovery (DR) sono fondamentali per garantire la sicurez
   0 2 * * * pg_dump -U gestionale -h localhost -F c -b -v -f /percorso/backup/gestionale_db_$(date +\%F).backup gestionale_db
   ```
 
+### Esempio backup automatico configurazioni server su NAS
+
+- Cartella di rete montata in `/mnt/backup_gestionale` con permessi corretti (`uid=1000,gid=1000,file_mode=0770,dir_mode=0770`)
+- Script `docs/server/backup_config_server.sh` che esegue backup automatico delle configurazioni server, esclusione `#recycle` e log
+
+```bash
+rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/server/ /mnt/backup_gestionale/
+```
+
 ---
 
 ## 3. Replica e alta disponibilità
@@ -103,6 +112,11 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 - [ ] Procedura di ripristino aggiornata e accessibile
 - [ ] Responsabili e ruoli definiti
 - [ ] Test DR documentato
+
+### Backup
+- [x] Backup automatico configurazioni server attivo su NAS
+- [x] Permessi NAS verificati e corretti
+- [x] Esclusione cartella #recycle dal backup
 
 ---
 

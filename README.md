@@ -6,7 +6,8 @@ Tutta la documentazione tecnica, operativa e di progetto è centralizzata nella 
 
 - **docs/DEPLOY_ARCHITETTURA_GESTIONALE.md** – Checklist deploy, sicurezza, architettura, roadmap
 - **docs/guida_deploy.md** – Guida operativa deploy
-- **docs/guida_backup.md** – Backup e restore database
+- **docs/guida_backup.md** – Backup e restore database **e backup automatico configurazioni server su NAS**
+- **docs/strategia_backup_disaster_recovery.md** – Strategia aggiornata di backup, permessi NAS, disaster recovery
 - **docs/guida_monitoring.md** – Monitoring e logging
 - **docs/manuale_utente.md** – Manuale utente gestionale
 - **docs/Gest-GPT5.txt** – Documento di progetto e visione architetturale
@@ -19,6 +20,7 @@ Tutta la documentazione tecnica, operativa e di progetto è centralizzata nella 
   - **lista_pacchetti_ubuntu.txt** – Elenco pacchetti installati (snapshot)
   - **servizi_attivi_ubuntu.txt** – Elenco servizi attivi (snapshot)
   - **versione_nginx.txt**, **versione_node.txt**, **versione_npm.txt**, **versione_postgresql.txt**, **versione_certbot.txt** – Versioni software principali
+  - **backup_config_server.sh** – Script di backup automatico configurazioni server su NAS (con esclusione #recycle, permessi corretti, log e mount automatico)
 
 ### Gestione servizi backend e frontend
 - Il backend (Node.js/Express) e il frontend (Next.js server-side) sono ora gestiti da systemd tramite i file di servizio dedicati in `docs/server/`.
@@ -32,5 +34,11 @@ Tutta la documentazione tecnica, operativa e di progetto è centralizzata nella 
 **Procedura validata e funzionante (luglio 2025).**
 
 Aggiorna e consulta questi file per tutte le procedure e le best practice!
+
+**Best practice backup:**
+- Verifica che la cartella di backup NAS sia montata con le opzioni `uid=1000,gid=1000,file_mode=0770,dir_mode=0770` in `/etc/fstab`.
+- Usa lo script `docs/server/backup_config_server.sh` per backup automatici delle configurazioni server.
+- Escludi sempre la cartella `#recycle` del NAS dal backup (già incluso nello script).
+- Aggiorna la documentazione e le checklist ogni volta che cambi la procedura di backup o i permessi NAS.
 
 

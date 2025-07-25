@@ -36,6 +36,27 @@ Aggiungi una riga a `crontab -e` per backup giornaliero:
 - Testa periodicamente il restore!
 - Non committare mai i backup su git.
 
+## 5. Backup automatico configurazioni server su NAS
+
+Per salvare automaticamente le configurazioni del server gestionale su NAS:
+
+- Assicurati che la cartella di rete sia montata in `/mnt/backup_gestionale` con le opzioni:
+  `uid=1000,gid=1000,file_mode=0770,dir_mode=0770` in `/etc/fstab`.
+- Usa lo script `docs/server/backup_config_server.sh` che:
+  - Monta automaticamente il NAS se non è già montato
+  - Esegue il backup con `rsync` escludendo la cartella `#recycle`
+  - Scrive un log dettagliato
+
+Esempio di comando usato nello script:
+```bash
+rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/server/ /mnt/backup_gestionale/
+```
+
+**Consigli:**
+- Aggiungi lo script a `cron` per backup periodici
+- Controlla regolarmente i log e lo spazio disponibile sul NAS
+- Aggiorna questa guida se cambi la procedura o i permessi NAS
+
 ---
 
 **Aggiorna questa guida se cambi la strategia di backup o il nome del database!** 
