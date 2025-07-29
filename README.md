@@ -50,37 +50,37 @@ Il sistema utilizza **Docker secrets** per la gestione sicura delle credenziali:
 ## 📚 Documentazione
 
 ### 🚀 Guide Operative Principali
-- **[Deploy e Architettura](docs/DEPLOY_ARCHITETTURA_GESTIONALE.md)** - Guida completa deploy, architettura e checklist operative
-- **[Guida Backup](docs/guida_backup.md)** - Procedure backup database e configurazioni
-- **[Guida Gestione Log](docs/guida_gestione_log.md)** - Gestione log, rotazione e monitoraggio
-- **[Strategia Backup e Disaster Recovery](docs/strategia_backup_disaster_recovery.md)** - Strategia completa di protezione dati con Active-Passive
+- **[Deploy e Architettura](docs/deploy-architettura-gestionale.md)** - Guida completa deploy, architettura e checklist operative
+- **[Guida Backup](docs/guida-backup.md)** - Procedure backup database e configurazioni
+- **[Guida Gestione Log](docs/guida-gestione-log.md)** - Gestione log, rotazione e monitoraggio
+- **[Strategia Backup e Disaster Recovery](docs/strategia-backup-disaster-recovery.md)** - Strategia completa di protezione dati con Active-Passive
 
 ### 🔐 Sicurezza e Resilienza
-- **[Checklist Sicurezza](docs/checklist_sicurezza.md)** - Checklist sicurezza deploy e configurazione firewall/Nginx
-- **[Strategia Docker e Active-Passive](docs/strategia_docker_active_passive.md)** - Strategia completa di containerizzazione e resilienza con gestione sicura password
-- **[Guida Monitoring](docs/guida_monitoring.md)** - Monitoring e logging per container
+- **[Checklist Sicurezza](docs/checklist-sicurezza.md)** - Checklist sicurezza deploy e configurazione firewall/Nginx
+- **[Strategia Docker e Active-Passive](docs/strategia-docker-active-passive.md)** - Strategia completa di containerizzazione e resilienza con gestione sicura password
+- **[Guida Monitoring](docs/guida-monitoring.md)** - Monitoring e logging per container
 
 ### 👥 Manuale Utente
-- **[Manuale Utente](docs/manuale_utente.md)** - Guida pratica per l'utilizzo del gestionale
+- **[Manuale Utente](docs/manuale-utente.md)** - Guida pratica per l'utilizzo del gestionale
 
 ### 🖥️ Configurazione Server
 - **[docs/server/](docs/server/)** - Configurazioni server Ubuntu
-  - `checklist_server_ubuntu.md` - Checklist post-installazione
-  - `guida_installazione_server.md` - Guida installazione server
+  - `checklist-server-ubuntu.md` - Checklist post-installazione
+  - `guida-installazione-server.md` - Guida installazione server
   - `backup_config_server.sh` - Script backup configurazioni
   - `backup_database_adaptive.sh` - Script backup database adattivo
   - File di configurazione Nginx, systemd, ecc.
 
 ### 📋 Panoramica Documentazione
-- **[docs/README.md](docs/README.md)** - Guida completa alla documentazione e organizzazione
+- **[docs/guida-documentazione.md](docs/guida-documentazione.md)** - Guida completa alla documentazione e organizzazione
 
 ---
 
 ## 🖥️ Documentazione Server Ubuntu
 
 ### Configurazione e Gestione
-- **[docs/server/checklist_server_ubuntu.md](docs/server/checklist_server_ubuntu.md)** - Checklist operativa post-installazione, sicurezza e manutenzione server
-- **[docs/server/guida_installazione_server.md](docs/server/guida_installazione_server.md)** - Guida dettagliata installazione/configurazione server
+- **[docs/server/checklist-server-ubuntu.md](docs/server/checklist-server-ubuntu.md)** - Checklist operativa post-installazione, sicurezza e manutenzione server
+- **[docs/server/guida-installazione-server.md](docs/server/guida-installazione-server.md)** - Guida dettagliata installazione/configurazione server
 
 ### Gestione Servizi
 - **Servizi Systemd**: Backend e frontend gestiti tramite systemd

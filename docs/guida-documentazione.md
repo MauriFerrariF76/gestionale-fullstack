@@ -11,31 +11,30 @@ Questa cartella contiene tutta la documentazione del progetto gestionale, organi
 ### **🚀 Guide Operative**
 Guide pratiche per le operazioni quotidiane:
 
-- **[Deploy e Architettura](DEPLOY_ARCHITETTURA_GESTIONALE.md)** - Guida completa deploy, architettura e checklist operative
-- **[Guida Deploy](guida_deploy.md)** - Procedure specifiche per deploy Docker e tradizionale
-- **[Guida Backup](guida_backup.md)** - Procedure backup database e configurazioni
-- **[Guida Gestione Log](guida_gestione_log.md)** - Gestione log, rotazione e monitoraggio
-- **[Guida Monitoring](guida_monitoring.md)** - Monitoring e alerting per container
+- **[Deploy e Architettura](deploy-architettura-gestionale.md)** - Guida completa deploy, architettura e checklist operative
+- **[Guida Backup](guida-backup.md)** - Procedure backup database e configurazioni
+- **[Guida Gestione Log](guida-gestione-log.md)** - Gestione log, rotazione e monitoraggio
+- **[Guida Monitoring](guida-monitoring.md)** - Monitoring e alerting per container
 
 ### **🔐 Sicurezza e Resilienza**
 Documentazione dedicata alla sicurezza e continuità operativa:
 
-- **[Checklist Sicurezza](checklist_sicurezza.md)** - Checklist completa sicurezza deploy e configurazione
-- **[Strategia Docker e Active-Passive](strategia_docker_active_passive.md)** - Containerizzazione e architettura resiliente
-- **[Strategia Backup e Disaster Recovery](strategia_backup_disaster_recovery.md)** - Strategia completa protezione dati
+- **[Checklist Sicurezza](checklist-sicurezza.md)** - Checklist completa sicurezza deploy e configurazione
+- **[Strategia Docker e Active-Passive](strategia-docker-active-passive.md)** - Containerizzazione e architettura resiliente
+- **[Strategia Backup e Disaster Recovery](strategia-backup-disaster-recovery.md)** - Strategia completa protezione dati
 - **[EMERGENZA_PASSWORDS.md](EMERGENZA_PASSWORDS.md)** - Documento di emergenza con credenziali critiche
 
 ### **👥 Manuale Utente**
 Documentazione per gli utenti finali:
 
-- **[Manuale Utente](manuale_utente.md)** - Guida pratica per l'utilizzo del gestionale
+- **[Manuale Utente](manuale-utente.md)** - Guida pratica per l'utilizzo del gestionale
 
 ### **🖥️ Configurazione Server**
 File di configurazione e script per il server Ubuntu:
 
 - **[server/](server/)** - Configurazioni server Ubuntu
-  - `checklist_server_ubuntu.md` - Checklist post-installazione
-  - `guida_installazione_server.md` - Guida installazione server
+  - `checklist-server-ubuntu.md` - Checklist post-installazione
+  - `guida-installazione-server.md` - Guida installazione server
   - `backup_config_server.sh` - Script backup configurazioni
   - `backup_database_adaptive.sh` - Script backup database adattivo
   - File di configurazione Nginx, systemd, ecc.
@@ -54,28 +53,28 @@ Documenti storici e di progetto (non più attivi):
 ## 🎯 Come Usare Questa Documentazione
 
 ### **Per Operazioni Quotidiane**
-1. **Deploy**: Consulta `DEPLOY_ARCHITETTURA_GESTIONALE.md` per la checklist completa
-2. **Backup**: Usa `guida_backup.md` per procedure backup
-3. **Sicurezza**: Verifica `checklist_sicurezza.md` prima di ogni modifica
+1. **Deploy**: Consulta `deploy-architettura-gestionale.md` per la checklist completa
+2. **Backup**: Usa `guida-backup.md` per procedure backup
+3. **Sicurezza**: Verifica `checklist-sicurezza.md` prima di ogni modifica
 4. **Emergenza**: Consulta `EMERGENZA_PASSWORDS.md` per ripristino
 
 ### **Per Sviluppo e Manutenzione**
-1. **Architettura**: `strategia_docker_active_passive.md` per Docker e resilienza
+1. **Architettura**: `strategia-docker-active-passive.md` per Docker e resilienza
 2. **Server**: `server/` per configurazioni Ubuntu
-3. **Monitoring**: `guida_monitoring.md` per log e alerting
+3. **Monitoring**: `guida-monitoring.md` per log e alerting
 
 ### **Per Utenti Finali**
-1. **Manuale**: `manuale_utente.md` per guide operative
+1. **Manuale**: `manuale-utente.md` per guide operative
 
 ---
 
 ## 📝 Convenzioni di Documentazione
 
 ### **Struttura File**
-- **Guide operative**: Nome descrittivo + `.md`
-- **Checklist**: `checklist_*` + `.md`
-- **Strategie**: `strategia_*` + `.md`
-- **Configurazioni**: Nome servizio + `.conf` o `.sh`
+- **Guide operative**: Nome descrittivo + `.md` (kebab-case)
+- **Checklist**: `checklist-*` + `.md` (kebab-case)
+- **Strategie**: `strategia-*` + `.md` (kebab-case)
+- **Configurazioni**: Nome servizio + `.conf` o `.sh` (snake_case per script)
 
 ### **Contenuto File**
 - **Indice** all'inizio per navigazione rapida
