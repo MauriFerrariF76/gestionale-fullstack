@@ -1,56 +1,56 @@
-# ✅ Checklist Server Ubuntu per Gestionale
+# Checklist Server Ubuntu - Gestionale Fullstack
 
-## Obiettivo
-Garantire che il server Ubuntu sia configurato, sicuro e pronto per ospitare il gestionale web.
+## ✅ Configurazione iniziale
+- [x] Installazione Ubuntu Server
+- [x] Configurazione rete e firewall
+- [x] Installazione Node.js e npm
+- [x] Installazione PostgreSQL
+- [x] Configurazione Nginx
+- [x] Installazione Certbot per SSL
+- [x] Configurazione servizi systemd
 
----
+## ✅ Sicurezza
+- [x] Configurazione UFW firewall
+- [x] Configurazione fail2ban
+- [x] Configurazione SSH con chiavi
+- [x] Configurazione certificati SSL
+- [x] Configurazione rate limiting
 
-## Checklist post-installazione
-- [x] Aggiornamento sistema (`sudo apt update && sudo apt upgrade`)
-- [x] Configurazione utente amministratore non root
-- [x] SSH attivo, accesso solo con chiave e da IP fidati
-- [x] Firewall attivo (UFW o regole MikroTik)
-- [x] Disabilitato login root via SSH
-- [x] Sincronizzazione orario (NTP attivo)
-- [x] Hostname e /etc/hosts configurati
-- [ ] Swap configurata (se necessario)
+## ✅ Backup e Disaster Recovery
+- [x] Backup automatico configurazioni server su NAS
+  - Script: `docs/server/backup_config_server.sh`
+  - Cron: `0 2 * * *` (ogni notte alle 02:00)
+  - Destinazione: `/mnt/backup_gestionale/` (NAS002)
+  - Permessi: `uid=1000,gid=1000,file_mode=0770,dir_mode=0770`
+  - Esclusione: cartella `#recycle`
+- [x] Report settimanale backup
+  - Script: `docs/server/backup_weekly_report.sh`
+  - Cron: `0 8 * * 0` (ogni domenica alle 08:00)
+  - Email: `ferraripietrosnc.mauri@outlook.it`, `mauriferrari76@gmail.com`
+  - Contenuto: statistiche, log ultimi 7 giorni, verifiche sistema
 
----
+## ✅ Monitoring e Notifiche
+- [x] Configurazione Postfix per email
+- [x] Notifiche email errori backup
+- [x] Configurazione Gmail SMTP autenticato
+- [x] Report settimanale automatico
 
-## Checklist installazione servizi
-- [x] Nginx installato e configurato
-- [x] Certbot/Let’s Encrypt installato e certificato attivo
-- [x] Node.js e npm installati
-- [x] PM2 o systemd per gestione backend
-  > **Nota:** Backend e frontend sono ora gestiti da systemd tramite file di servizio dedicati e testati con successo (luglio 2025).
-- [x] PostgreSQL installato e sicuro
-- [x] Utente PostgreSQL dedicato all’app
-- [x] Backup automatico database attivo
-- [x] Script di backup configurazioni server su NAS (permessi corretti, esclusione #recycle, log)
-- [x] Repository Git per versionamento configurazioni
-  > **Nota:** Le configurazioni server (systemd, Nginx, script, checklist) sono versionate in `/docs/server/` all’interno del progetto gestionale-fullstack. Ogni modifica va riportata qui e committata seguendo le best practice: mai versionare dati sensibili (password, chiavi private), aggiornare sempre la documentazione e mantenere la cronologia delle modifiche.
+## ✅ Deploy e Manutenzione
+- [x] Script di deploy automatizzato
+- [x] Configurazione servizi systemd
+- [x] Configurazione Nginx reverse proxy
+- [x] Configurazione SSL con Let's Encrypt
 
----
+## 🔄 Manutenzione periodica
+- [ ] Aggiornamento pacchetti sistema (mensile)
+- [ ] Verifica spazio disco (settimanale)
+- [ ] Controllo log errori (giornaliero)
+- [ ] Backup database (giornaliero)
+- [ ] Test restore (mensile)
 
-## Checklist sicurezza
-- [ ] Aggiornamenti automatici di sicurezza attivi
-- [ ] Solo porte necessarie aperte (80, 443, SSH da IP fidati)
-- [ ] Nessun servizio inutile in ascolto
-- [ ] Permessi minimi ai file di configurazione
-- [ ] Log di sistema e applicativi monitorati
-- [ ] Test restore backup periodico
-
----
-
-## Checklist manutenzione periodica
-- [ ] Verifica spazio disco
-- [ ] Verifica stato servizi (Nginx, backend, PostgreSQL)
-- [ ] Aggiornamento sistema e pacchetti
-- [ ] Test backup e restore
-- [ ] Review log di sicurezza
-
----
-
-## Note operative
-- Aggiorna questa checklist ad ogni modifica della configurazione server.
-- Consulta anche la guida dettagliata `/docs/guida_installazione_server.md` per istruzioni passo-passo. 
+## 📋 Note operative
+- Server: Ubuntu Server 22.04 LTS
+- IP: 10.10.10.15
+- NAS: 10.10.10.11 (Synology)
+- Utente: mauri
+- Documentazione: `/home/mauri/gestionale-fullstack/docs/` 

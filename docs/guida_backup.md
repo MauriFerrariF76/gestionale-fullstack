@@ -38,18 +38,56 @@ Aggiungi una riga a `crontab -e` per backup giornaliero:
 
 ## 5. Backup automatico configurazioni server su NAS
 
-Per salvare automaticamente le configurazioni del server gestionale su NAS:
+### Descrizione
+Il sistema esegue automaticamente il backup delle configurazioni del server su NAS002 (Synology) ogni notte alle 02:00.
 
-- Assicurati che la cartella di rete sia montata in `/mnt/backup_gestionale` con le opzioni:
-  `uid=1000,gid=1000,file_mode=0770,dir_mode=0770` in `/etc/fstab`.
-- Usa lo script `docs/server/backup_config_server.sh` che:
-  - Monta automaticamente il NAS se non è già montato
-  - Esegue il backup con `rsync` escludendo la cartella `#recycle`
-  - Scrive un log dettagliato
+### Script utilizzato
+- **File:** `docs/server/backup_config_server.sh`
+- **Cron job:** `0 2 * * *` (ogni notte alle 02:00)
+- **Destinazione:** `/mnt/backup_gestionale/` (NAS002)
 
-Esempio di comando usato nello script:
+### Configurazione NAS
+Il NAS è montato con i seguenti parametri in `/etc/fstab`:
+```
+//10.10.10.11/cartella_backup /mnt/backup_gestionale cifs credentials=/percorso/credenziali,uid=1000,gid=1000,file_mode=0770,dir_mode=0770 0 0
+```
+
+### Notifiche email
+In caso di errore, viene inviata una email a:
+- `ferraripietrosnc.mauri@outlook.it`
+- `mauriferrari76@gmail.com`
+
+### Report settimanale
+Ogni domenica alle 08:00 viene generato e inviato un report settimanale dei backup.
+
+#### Script utilizzato
+- **File:** `docs/server/backup_weekly_report.sh`
+- **Cron job:** `0 8 * * 0` (ogni domenica alle 08:00)
+
+#### Contenuto del report
+- 📊 Statistiche generali (backup riusciti, errori, tentativi mount)
+- 📅 Log degli ultimi 7 giorni
+- 📋 Riepilogo file backupati
+- 🔍 Verifiche aggiuntive (spazio, permessi, cron attivo)
+
+#### Destinatari email
+- `ferraripietrosnc.mauri@outlook.it`
+- `mauriferrari76@gmail.com`
+
+### Verifica manuale
+Per verificare lo stato dei backup:
 ```bash
-rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/server/ /mnt/backup_gestionale/
+# Controllo file backupati
+ls -la /mnt/backup_gestionale/
+
+# Controllo log
+cat /mnt/backup_gestionale/backup_config_server.log
+
+# Test manuale backup
+sudo /home/mauri/gestionale-fullstack/docs/server/backup_config_server.sh
+
+# Test manuale report
+/home/mauri/gestionale-fullstack/docs/server/backup_weekly_report.sh
 ```
 
 **Consigli:**
