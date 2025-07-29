@@ -51,7 +51,7 @@ rsync -av --delete --exclude='#recycle' /home/mauri/gestionale-fullstack/docs/se
 
 ## 3. Replica e alta disponibilità
 
-### Cos’è la replica
+### Cos'è la replica
 La replica permette di avere una copia aggiornata del database su un secondo server. Se il server principale si guasta, il secondo può subentrare (failover), riducendo i tempi di fermo.
 
 ### Tipi di replica PostgreSQL
@@ -76,7 +76,92 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 
 ---
 
-## 4. Disaster recovery
+## 4. 🐳 Containerizzazione con Docker
+
+### Vantaggi di Docker per il backup
+- **Isolamento**: Ogni servizio in container separato facilita il backup
+- **Volumi Docker**: Backup dedicati per ogni tipo di dato
+- **Portabilità**: Stessa applicazione su qualsiasi server
+- **Versioning**: Rollback semplice a versioni precedenti
+
+### Backup dei volumi Docker
+```bash
+# Backup volume PostgreSQL
+docker run --rm -v gestionale_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres_backup_$(date +%F).tar.gz -C /data .
+
+# Backup volume configurazioni
+docker run --rm -v gestionale_config_data:/data -v $(pwd):/backup alpine tar czf /backup/config_backup_$(date +%F).tar.gz -C /data .
+
+# Restore volume PostgreSQL
+docker run --rm -v gestionale_postgres_data:/data -v $(pwd):/backup alpine tar xzf /backup/postgres_backup_YYYY-MM-DD.tar.gz -C /data
+```
+
+### Backup automatico con Docker
+```bash
+#!/bin/bash
+# backup_docker_volumes.sh
+
+DATE=$(date +%F)
+BACKUP_DIR="/mnt/backup_gestionale/docker"
+
+# Crea directory backup
+mkdir -p $BACKUP_DIR
+
+# Backup volumi Docker
+docker run --rm -v gestionale_postgres_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/postgres_$DATE.tar.gz -C /data .
+docker run --rm -v gestionale_config_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/config_$DATE.tar.gz -C /data .
+
+# Mantieni solo gli ultimi 7 giorni
+find $BACKUP_DIR -name "*.tar.gz" -mtime +7 -delete
+```
+
+---
+
+## 5. 🔄 Architettura Active-Passive
+
+### Strategia di Resilienza
+- **Server Primario**: Gestisce tutto il traffico normalmente
+- **Server Secondario**: In standby, pronto a subentrare in caso di guasto
+- **Failover Manuale**: Intervento manuale per attivare il server di riserva
+- **Sincronizzazione**: Database replicato in tempo reale tra i due server
+
+### Scenario di Failover
+1. **Monitoraggio**: Controllo automatico o manuale dello stato del server primario
+2. **Rilevamento guasto**: Identificazione del problema (hardware, software, rete)
+3. **Intervento manuale**: 
+   - Spegnimento del server primario
+   - Accensione del server secondario
+   - Verifica che tutti i servizi siano attivi
+4. **Ripristino**: Quando possibile, ripristino del server principale
+
+### Backup in Architettura Active-Passive
+- **Backup automatici**: Su entrambi i server
+- **Backup volumi Docker**: Backup dei volumi Docker per container
+- **Verifica integrità**: Test periodici di restore
+- **Documentazione**: Procedure di failover sempre aggiornate
+
+### Procedure di Failover
+```bash
+# 1. Verifica stato server primario
+docker-compose ps
+
+# 2. Se necessario, spegni server primario
+docker-compose down
+
+# 3. Sul server secondario, avvia i servizi
+docker-compose up -d
+
+# 4. Verifica che tutto funzioni
+docker-compose logs -f
+curl https://gestionale.miaazienda.com/api/health
+
+# 5. Promuovi slave a master (se necessario)
+# (vedi documentazione PostgreSQL per replica)
+```
+
+---
+
+## 6. Disaster recovery
 
 ### Cos’è il disaster recovery
 È l’insieme delle procedure per ripristinare il servizio dopo un guasto grave (es. rottura server, perdita dati, attacco ransomware).
@@ -94,7 +179,7 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 
 ---
 
-## 5. Checklist operativa
+## 7. Checklist operativa
 
 ### Backup
 - [ ] Backup automatico giornaliero attivo
@@ -121,7 +206,7 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 
 ---
 
-## 6. Osservazioni e consigli
+## 8. Osservazioni e consigli
 - Non affidarti mai a un solo backup!
 - Conserva le password e le chiavi di accesso in un luogo sicuro
 - Aggiorna la strategia ogni volta che cambia l’infrastruttura
@@ -129,7 +214,7 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 
 ---
 
-## 7. Risorse utili
+## 9. Risorse utili
 - [Documentazione ufficiale PostgreSQL](https://www.postgresql.org/docs/)
 - [Guida backup PostgreSQL](https://www.postgresql.org/docs/current/backup.html)
 - [Guida replica PostgreSQL](https://www.postgresql.org/docs/current/warm-standby.html)

@@ -1,0 +1,11 @@
+# Backup configurazioni server (ogni notte alle 02:00)
+0 2 * * * /home/mauri/gestionale-fullstack/docs/server/backup_config_server.sh
+
+# Backup database adattivo (ogni notte alle 02:30)
+30 2 * * * /home/mauri/gestionale-fullstack/docs/server/backup_database_adaptive.sh
+
+# Test restore settimanale dinamico (ogni domenica alle 03:00)
+0 3 * * 0 /home/mauri/gestionale-fullstack/docs/server/test_restore_backup_dynamic.sh
+
+# Report settimanale backup (ogni domenica alle 08:00)
+0 8 * * 0 /home/mauri/gestionale-fullstack/docs/server/backup_weekly_report.sh

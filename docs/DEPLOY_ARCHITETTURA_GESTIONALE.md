@@ -3,9 +3,11 @@
 ## Indice
 
 - [Obiettivo](#obiettivo)
+- [🐳 Containerizzazione con Docker](#-containerizzazione-con-docker)
+- [🔄 Architettura Active-Passive](#-architettura-active-passive)
 - [Struttura delle cartelle](#struttura-delle-cartelle)
 - [Configurazione Nginx (esempio)](#configurazione-nginx-esempio)
-- [Variabili d’ambiente](#️-variabili-dambiente)
+- [Variabili d'ambiente](#️-variabili-dambiente)
 - [Sicurezza WAN (Mikrotik + Nginx)](#-sicurezza-wan-mikrotik--nginx)
 - [Best practice backend](#️-best-practice-backend)
 - [Best practice frontend](#️-best-practice-frontend)
@@ -19,6 +21,105 @@
 
 Deploy di frontend (Next.js/React) e backend (Node.js/Express) su Ubuntu Server (es. 10.10.10.15), con accesso LAN e WAN tramite Nginx reverse proxy e sicurezza MikroTik.
 
+**Strategia evoluta**: Containerizzazione con Docker per facilità di deploy e resilienza Active-Passive per alta disponibilità.
+
+---
+
+## 🐳 Containerizzazione con Docker
+
+### Vantaggi della Containerizzazione
+- **Portabilità**: Stessa applicazione su qualsiasi server (sviluppo, test, produzione)
+- **Isolamento**: Ogni servizio in container separato (backend, frontend, database, nginx)
+- **Deploy semplificato**: `docker-compose up -d` per avviare tutto
+- **Versioning**: Rollback semplice a versioni precedenti
+- **Backup facilitato**: Backup dei volumi Docker
+
+### Struttura Docker
+```
+gestionale-fullstack/
+├── docker-compose.yml          # Orchestrazione completa
+├── backend/
+│   ├── Dockerfile             # Container per API
+│   └── .env                   # Variabili backend
+├── frontend/
+│   ├── Dockerfile             # Container per Next.js
+│   └── .env.production        # Variabili frontend
+├── nginx/
+│   ├── Dockerfile             # Container per reverse proxy
+│   └── nginx.conf             # Configurazione Nginx
+├── postgres/
+│   ├── Dockerfile             # Container per database
+│   └── init.sql               # Script inizializzazione
+└── .env                       # Variabili globali
+```
+
+### Comandi Docker Principali
+```bash
+# Avvia l'intera applicazione
+docker-compose up -d
+
+# Visualizza i log
+docker-compose logs -f
+
+# Ferma l'applicazione
+docker-compose down
+
+# Ricostruisci i container (dopo modifiche)
+docker-compose up -d --build
+
+# Backup volumi Docker
+docker run --rm -v gestionale_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres_backup.tar.gz -C /data .
+```
+
+### Variabili d'Ambiente Docker
+```bash
+# .env
+POSTGRES_DB=gestionale_db
+POSTGRES_USER=gestionale
+POSTGRES_PASSWORD=superpasswordsicura
+NEXT_PUBLIC_API_BASE_URL=https://gestionale.miaazienda.com/api
+JWT_SECRET=una-chiave-segreta-molto-lunga-e-sicura
+```
+
+---
+
+## 🔄 Architettura Active-Passive
+
+### Strategia di Resilienza
+- **Server Primario**: Gestisce tutto il traffico normalmente
+- **Server Secondario**: In standby, pronto a subentrare in caso di guasto
+- **Failover Manuale**: Intervento manuale per attivare il server di riserva
+- **Sincronizzazione**: Database replicato in tempo reale tra i due server
+
+### Scenario di Failover
+1. **Monitoraggio**: Controllo automatico o manuale dello stato del server primario
+2. **Rilevamento guasto**: Identificazione del problema (hardware, software, rete)
+3. **Intervento manuale**: 
+   - Spegnimento del server primario
+   - Accensione del server secondario
+   - Verifica che tutti i servizi siano attivi
+4. **Ripristino**: Quando possibile, ripristino del server principale
+
+### Sincronizzazione Database
+- **Replica PostgreSQL**: Streaming replication tra master e slave
+- **Configurazione replica**:
+  ```sql
+  -- Sul master (postgresql.conf)
+  wal_level = replica
+  max_wal_senders = 3
+  wal_keep_segments = 64
+  
+  -- Sul slave (recovery.conf)
+  standby_mode = 'on'
+  primary_conninfo = 'host=master_ip port=5432 user=replica_user password=replica_password'
+  ```
+
+### Backup in Architettura Active-Passive
+- **Backup automatici**: Su entrambi i server
+- **Backup volumi Docker**: Backup dei volumi Docker per container
+- **Verifica integrità**: Test periodici di restore
+- **Documentazione**: Procedure di failover sempre aggiornate
+
 ---
 
 ## 📁 Struttura delle cartelle
@@ -28,6 +129,8 @@ Deploy di frontend (Next.js/React) e backend (Node.js/Express) su Ubuntu Server 
   ├── frontend/   # Build Next.js/React
   └── backend/    # Node.js/Express
 ```
+
+**Nota**: Con Docker, questa struttura è gestita all'interno dei container.
 
 ---
 
@@ -234,6 +337,15 @@ openssl rsa -pubout -in jwtRS256.key -out jwtRS256.key.pub
 ## 🚀 Prossimi step e feature avanzate (roadmap)
 
 > Per la sicurezza, segui la checklist aggiornata in **docs/checklist_sicurezza.md**.
+
+### 🐳 Containerizzazione e Resilienza (PRIORITÀ ALTA)
+- [ ] **Dockerizzazione completa**: Container per backend, frontend, nginx, postgres
+- [ ] **Docker Compose**: Orchestrazione completa dell'applicazione
+- [ ] **Active-Passive setup**: Configurazione server primario e secondario
+- [ ] **Replica PostgreSQL**: Streaming replication tra master e slave
+- [ ] **Backup volumi Docker**: Backup automatico dei volumi Docker
+- [ ] **Failover manuale**: Procedure documentate per switch tra server
+- [ ] **Health checks**: Monitoraggio automatico dei container
 
 ### Sicurezza e resilienza
 - [ ] Row-Level Security su PostgreSQL per dati sensibili

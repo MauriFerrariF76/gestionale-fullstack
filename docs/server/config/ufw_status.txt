@@ -1,0 +1,17 @@
+Status: active
+
+     To                         Action      From
+     --                         ------      ----
+[ 1] 27/tcp                     ALLOW IN    Anywhere                  
+[ 2] 27                         ALLOW IN    10.10.10.0/24             
+[ 3] 3001                       ALLOW IN    10.10.10.0/24             
+[ 4] 80                         ALLOW IN    10.10.10.0/24             
+[ 5] 3000                       ALLOW IN    Anywhere                  
+[ 6] 80/tcp                     ALLOW IN    Anywhere                  
+[ 7] 443/tcp                    ALLOW IN    Anywhere                  
+[ 8] 5432                       ALLOW IN    10.10.10.33               
+[ 9] 27/tcp (v6)                ALLOW IN    Anywhere (v6)             
+[10] 3000 (v6)                  ALLOW IN    Anywhere (v6)             
+[11] 80/tcp (v6)                ALLOW IN    Anywhere (v6)             
+[12] 443/tcp (v6)               ALLOW IN    Anywhere (v6)             
+
