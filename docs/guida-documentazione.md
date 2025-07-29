@@ -12,6 +12,7 @@ Questa cartella contiene tutta la documentazione del progetto gestionale, organi
 Guide pratiche per le operazioni quotidiane:
 
 - **[Deploy e Architettura](deploy-architettura-gestionale.md)** - Guida completa deploy, architettura e checklist operative
+- **[Guida Ripristino Completo](guida-ripristino-completo.md)** - Ripristino completo da zero su nuova macchina
 - **[Guida Backup](guida-backup.md)** - Procedure backup database e configurazioni
 - **[Guida Gestione Log](guida-gestione-log.md)** - Gestione log, rotazione e monitoraggio
 - **[Guida Monitoring](guida-monitoring.md)** - Monitoring e alerting per container

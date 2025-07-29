@@ -51,6 +51,7 @@ Il sistema utilizza **Docker secrets** per la gestione sicura delle credenziali:
 
 ### 🚀 Guide Operative Principali
 - **[Deploy e Architettura](docs/deploy-architettura-gestionale.md)** - Guida completa deploy, architettura e checklist operative
+- **[Guida Ripristino Completo](docs/guida-ripristino-completo.md)** - Ripristino completo da zero su nuova macchina
 - **[Guida Backup](docs/guida-backup.md)** - Procedure backup database e configurazioni
 - **[Guida Gestione Log](docs/guida-gestione-log.md)** - Gestione log, rotazione e monitoraggio
 - **[Strategia Backup e Disaster Recovery](docs/strategia-backup-disaster-recovery.md)** - Strategia completa di protezione dati con Active-Passive
