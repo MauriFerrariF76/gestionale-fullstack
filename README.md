@@ -49,44 +49,29 @@ Il sistema utilizza **Docker secrets** per la gestione sicura delle credenziali:
 
 ## 📚 Documentazione
 
-### 📁 Organizzazione della Documentazione
+### Organizzazione Documenti
+La documentazione è organizzata secondo le convenzioni del progetto:
 
-La documentazione è organizzata in tre sezioni principali per facilitare la navigazione:
+#### **📁 `/docs/SVILUPPO/` - Materiale di Sviluppo**
+- **`configurazione-nas.md`** - Configurazione NAS e integrazione backup
+- **`strategia-docker-active-passive.md`** - Architettura Docker e Active-Passive
+- **`checklist-sicurezza.md`** - Checklist sicurezza e best practice
+- **`strategia-backup-disaster-recovery.md`** - Strategia backup e disaster recovery
 
-#### 📖 [MANUALE/](docs/MANUALE/) - Guide Operative e Manuale Utente
-**Per operatori, utenti finali e amministratori di sistema**
+#### **📁 `/docs/MANUALE/` - Guide e Manuali**
+- **`guida-ripristino-rapido.md`** - Guida rapida ripristino automatico
+- **`guida-backup.md`** - Guida operativa backup e restore
+- **`manuale-utente.md`** - Manuale utente gestionale
+- **`guida-gestione-log.md`** - Gestione log e monitoraggio
 
-- **[📖 Manuale Utente](docs/MANUALE/manuale-utente.md)** - Guida pratica per l'utilizzo del gestionale
-- **[💾 Guida Backup](docs/MANUALE/guida-backup.md)** - Procedure backup database e configurazioni
-- **[🔄 Guida Ripristino Completo](docs/MANUALE/guida-ripristino-completo.md)** - Ripristino completo da zero su nuova macchina
-- **[📊 Guida Gestione Log](docs/MANUALE/guida-gestione-log.md)** - Gestione log, rotazione e monitoraggio
-- **[📈 Guida Monitoring](docs/MANUALE/guida-monitoring.md)** - Monitoring e logging per container
-- **[📝 Guida Documentazione](docs/MANUALE/guida-documentazione.md)** - Come organizzare la documentazione
+#### **📁 `/docs/server/` - Configurazione Server**
+- **`guida-installazione-server.md`** - Installazione e configurazione server
+- **`checklist-server-ubuntu.md`** - Checklist post-installazione
+- **Script di backup**: Backup automatici configurazioni e database
 
-#### 🛠️ [SVILUPPO/](docs/SVILUPPO/) - Documentazione Tecnica e Checklist
-**Per sviluppatori, DevOps e amministratori tecnici**
-
-- **[🔒 Checklist Sicurezza](docs/SVILUPPO/checklist-sicurezza.md)** - Checklist sicurezza deploy e configurazione firewall/Nginx
-- **[🚀 Deploy e Architettura](docs/SVILUPPO/deploy-architettura-gestionale.md)** - Guida completa deploy, architettura e checklist operative
-- **[🐳 Strategia Docker e Active-Passive](docs/SVILUPPO/strategia-docker-active-passive.md)** - Strategia completa di containerizzazione e resilienza
-- **[💾 Strategia Backup e Disaster Recovery](docs/SVILUPPO/strategia-backup-disaster-recovery.md)** - Strategia completa di protezione dati con Active-Passive
-- **[📝 Convenzioni Nomenclatura](docs/SVILUPPO/convenzioni-nomenclatura.md)** - Standard di nomenclatura per file, cartelle e codice
-- **[🚨 EMERGENZA_PASSWORDS.md](docs/SVILUPPO/EMERGENZA_PASSWORDS.md)** - **CRITICO** - Credenziali di emergenza per accesso al sistema
-- **[📋 Checklist Server](docs/SVILUPPO/checklist-server-ubuntu.md)** - Checklist post-installazione server
-- **[🛠️ Guida Installazione](docs/SVILUPPO/guida-installazione-server.md)** - Guida installazione/configurazione server
-
-#### 🖥️ [server/](docs/server/) - Script e Configurazioni Operative
-**Script attivi, configurazioni e log per il server Ubuntu**
-
-- **[💾 backup_database_adaptive.sh](docs/server/backup_database_adaptive.sh)** - Script backup database adattivo
-- **[⚙️ backup_config_server.sh](docs/server/backup_config_server.sh)** - Script backup configurazioni server
-- **[📊 backup_weekly_report.sh](docs/server/backup_weekly_report.sh)** - Script report settimanali
-- **[🌐 nginx_gestionale.conf](docs/server/nginx_gestionale.conf)** - Configurazione Nginx per il gestionale
-- **[🔧 gestionale-backend.service](docs/server/gestionale-backend.service)** - Servizio systemd per il backend
-- **[🔧 gestionale-frontend.service](docs/server/gestionale-frontend.service)** - Servizio systemd per il frontend
-
-### 📋 Panoramica Documentazione
-- **[docs/README.md](docs/README.md)** - Guida completa alla documentazione e organizzazione
+### Documentazione Principale
+- **`README.md`** (root) - Panoramica generale e quick start
+- **`docs/guida-documentazione.md`** - Indice completo documentazione
 
 ---
 

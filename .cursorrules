@@ -33,6 +33,9 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
   - **Checklist specifiche** (es. sicurezza, backup, deploy, ecc.) da seguire e aggiornare per ogni modifica o rilascio.
   - **Documentazione generale** sulla struttura del progetto, le tecnologie utilizzate, le implementazioni e gli strumenti adottati.
   - **Manuale utente**: guida pratica per l’utilizzo del gestionale, da mantenere aggiornata ad ogni nuova funzionalità o modifica rilevante.
+  - Il materiale di sviluppo deve essere inserito nella cartella  `/docs/SVILUPPO/`
+  - Le guide e i manuali devono essere inseriti nella cartella  `/docs/MANUALE/`
+
 
 ## 2. Regola generale per i commit
 
