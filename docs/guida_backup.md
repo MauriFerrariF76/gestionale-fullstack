@@ -43,7 +43,7 @@ Il sistema esegue automaticamente il backup delle configurazioni del server su N
 
 ### Script utilizzato
 - **File:** `docs/server/backup_config_server.sh`
-- **Cron job:** `0 2 * * *` (ogni notte alle 02:00)
+- **Cron job:** `0 2 * * *` (ogni notte alle 02:00 CEST)
 - **Destinazione:** `/mnt/backup_gestionale/` (NAS002)
 
 ### Configurazione NAS
@@ -62,7 +62,7 @@ Ogni domenica alle 08:00 viene generato e inviato un report settimanale dei back
 
 #### Script utilizzato
 - **File:** `docs/server/backup_weekly_report.sh`
-- **Cron job:** `0 8 * * 0` (ogni domenica alle 08:00)
+- **Cron job:** `0 8 * * 0` (ogni domenica alle 08:00 CEST)
 
 #### Contenuto del report
 - 📊 Statistiche generali (backup riusciti, errori, tentativi mount)

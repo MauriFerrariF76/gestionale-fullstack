@@ -3,6 +3,7 @@
 ## ✅ Configurazione iniziale
 - [x] Installazione Ubuntu Server
 - [x] Configurazione rete e firewall
+- [x] Configurazione fuso orario (Europe/Rome - CEST/CET)
 - [x] Installazione Node.js e npm
 - [x] Installazione PostgreSQL
 - [x] Configurazione Nginx
@@ -19,13 +20,13 @@
 ## ✅ Backup e Disaster Recovery
 - [x] Backup automatico configurazioni server su NAS
   - Script: `docs/server/backup_config_server.sh`
-  - Cron: `0 2 * * *` (ogni notte alle 02:00)
+  - Cron: `0 2 * * *` (ogni notte alle 02:00 CEST)
   - Destinazione: `/mnt/backup_gestionale/` (NAS002)
   - Permessi: `uid=1000,gid=1000,file_mode=0770,dir_mode=0770`
   - Esclusione: cartella `#recycle`
 - [x] Report settimanale backup
   - Script: `docs/server/backup_weekly_report.sh`
-  - Cron: `0 8 * * 0` (ogni domenica alle 08:00)
+  - Cron: `0 8 * * 0` (ogni domenica alle 08:00 CEST)
   - Email: `ferraripietrosnc.mauri@outlook.it`, `mauriferrari76@gmail.com`
   - Contenuto: statistiche, log ultimi 7 giorni, verifiche sistema
 
@@ -53,4 +54,5 @@
 - IP: 10.10.10.15
 - NAS: 10.10.10.11 (Synology)
 - Utente: mauri
+- Fuso orario: Europe/Rome (CEST/CET)
 - Documentazione: `/home/mauri/gestionale-fullstack/docs/` 
