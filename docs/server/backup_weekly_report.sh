@@ -4,7 +4,7 @@
 # Esegue un'analisi dei log degli ultimi 7 giorni e invia un riassunto via email
 
 # Configurazione
-LOG_FILE="/mnt/backup_gestionale/backup_config_server.log"
+LOG_FILE="/home/mauri/gestionale-fullstack/docs/server/backup_config_server.log"
 REPORT_FILE="/tmp/backup_weekly_report.txt"
 MAILTO="ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com"
 SUBJECT="[REPORT SETTIMANALE] Backup Gestionale - $(date +%d/%m/%Y)"
