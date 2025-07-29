@@ -35,6 +35,18 @@
 - [x] Notifiche email errori backup
 - [x] Configurazione Gmail SMTP autenticato
 - [x] Report settimanale automatico
+- [x] Configurazione logrotate per backup
+  - File: `/etc/logrotate.d/backup_gestionale`
+  - Rotazione: giornaliera
+  - Retention: 30 giorni
+  - Compressione: automatica
+
+## ✅ Gestione Log
+- [x] Configurazione logrotate per backup
+- [x] Rotazione automatica log di sistema
+- [x] Compressione log vecchi
+- [x] Retention policy (30 giorni)
+- [x] Permessi appropriati (770 per mauri)
 
 ## ✅ Deploy e Manutenzione
 - [x] Script di deploy automatizzato

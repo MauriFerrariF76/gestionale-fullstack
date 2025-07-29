@@ -1,6 +1,12 @@
 # Gestionale Fullstack
 
-## Documentazione
+## 📚 Documentazione
+
+### Guide Operative
+- **[Guida Backup e Restore](docs/guida_backup.md)** - Procedure di backup automatico su NAS e restore
+- **[Guida Deploy](docs/guida_deploy.md)** - Deploy e aggiornamenti del gestionale
+- **[Guida Gestione Log](docs/guida_gestione_log.md)** - Gestione log, rotazione e monitoraggio
+- **[Strategia Backup e Disaster Recovery](docs/strategia_backup_disaster_recovery.md)** - Strategia completa di protezione dati
 
 Tutta la documentazione tecnica, operativa e di progetto è centralizzata nella cartella `docs/`.
 
