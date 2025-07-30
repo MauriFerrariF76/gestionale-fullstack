@@ -33,6 +33,23 @@ if [ $RSYNC_EXIT_CODE -ne 0 ]; then
   exit 2
 fi
 
+# Backup chiavi JWT (aggiunto per sicurezza)
+echo "[$(date)] Backup chiavi JWT..." | tee -a "$LOG"
+JWT_BACKUP="jwt_keys_backup_$(date +%F_%H%M%S).tar.gz"
+if tar czf "$JWT_BACKUP" backend/config/keys/ 2>/dev/null; then
+  if gpg --encrypt --recipient admin@carpenteriaferrari.com "$JWT_BACKUP" 2>/dev/null; then
+    rm "$JWT_BACKUP"
+    cp "$JWT_BACKUP.gpg" "$DEST"/
+    rm "$JWT_BACKUP.gpg"
+    echo "[$(date)] Backup chiavi JWT completato" | tee -a "$LOG"
+  else
+    echo "[$(date)] ERRORE: cifratura chiavi JWT fallita" | tee -a "$LOG"
+    rm -f "$JWT_BACKUP"
+  fi
+else
+  echo "[$(date)] ERRORE: backup chiavi JWT fallito" | tee -a "$LOG"
+fi
+
 # (Opzionale) Smonta dopo il backup
 # sudo umount "$MOUNTPOINT"
 

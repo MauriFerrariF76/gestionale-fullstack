@@ -273,6 +273,41 @@ restore_database() {
     return 0
 }
 
+# Ripristina chiavi JWT
+restore_jwt_keys() {
+    log_info "Ripristino chiavi JWT..."
+    
+    # Trova backup chiavi JWT
+    local jwt_backup=$(find /mnt/backup_gestionale/ -name "jwt_keys_backup_*.tar.gz.gpg" | head -1)
+    if [ -n "$jwt_backup" ]; then
+        log_info "Trovato backup chiavi JWT: $jwt_backup"
+        
+        # Chiedi Master Password
+        echo -n "Inserisci Master Password per decifrare chiavi JWT: "
+        read -s MASTER_PASSWORD
+        echo
+        
+        # Decifra e ripristina
+        if gpg --decrypt "$jwt_backup" > jwt_keys_restored.tar.gz; then
+            if tar xzf jwt_keys_restored.tar.gz; then
+                chmod 600 backend/config/keys/jwtRS256.key
+                chmod 644 backend/config/keys/jwtRS256.key.pub
+                rm jwt_keys_restored.tar.gz
+                log_success "Chiavi JWT ripristinate"
+                return 0
+            else
+                log_warning "Errore nell'estrazione chiavi JWT"
+            fi
+        else
+            log_warning "Errore nella decifratura chiavi JWT"
+        fi
+    else
+        log_warning "Backup chiavi JWT non trovato"
+    fi
+    
+    return 0
+}
+
 # Avvia servizi
 start_services() {
     log_info "Avvio servizi Docker..."
@@ -433,6 +468,9 @@ main() {
     
     # Ripristina database
     restore_database
+    
+    # Ripristina chiavi JWT
+    restore_jwt_keys
     
     # Avvia servizi
     start_services

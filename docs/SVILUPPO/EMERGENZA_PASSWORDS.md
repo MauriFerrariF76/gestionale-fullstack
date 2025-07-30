@@ -30,6 +30,32 @@
 | **Database** | `gestionale2025` | Password PostgreSQL |
 | **JWT** | `GestionaleFerrari2025JWT_UltraSecure_v1!` | Chiave JWT Backend |
 
+## 🔐 CHIAVI JWT (CRITICHE)
+
+**Chiavi per autenticazione JWT del backend:**
+
+| File | Posizione | Permessi | Backup |
+|------|-----------|----------|--------|
+| **Chiave Privata** | `backend/config/keys/jwtRS256.key` | `600` (solo proprietario) | Cifrato in NAS |
+| **Chiave Pubblica** | `backend/config/keys/jwtRS256.key.pub` | `644` (lettura) | Cifrato in NAS |
+
+**Backup automatico:** Ogni notte alle 02:00 con `backup_config_server.sh`
+**Formato backup:** `jwt_keys_backup_YYYY-MM-DD_HHMMSS.tar.gz.gpg`
+**Posizione NAS:** `/mnt/backup_gestionale/jwt_keys_backup_*.tar.gz.gpg`
+
+**Ripristino chiavi JWT:**
+```bash
+# Decifra backup
+gpg --decrypt jwt_keys_backup_*.tar.gz.gpg > jwt_restored.tar.gz
+
+# Estrai chiavi
+tar xzf jwt_restored.tar.gz
+
+# Imposta permessi sicuri
+chmod 600 backend/config/keys/jwtRS256.key
+chmod 644 backend/config/keys/jwtRS256.key.pub
+```
+
 ---
 
 ## 🚀 COMANDI EMERGENZA
