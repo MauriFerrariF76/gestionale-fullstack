@@ -14,8 +14,8 @@ NAS_SHARE="//10.10.10.21/backup_gestionale"
 CREDENTIALS="/root/.nas_gestionale_creds"
 MAILTO="ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com"
 
-# Imposta variabile per password file
-export PGPASSFILE=/root/.pgpass
+# Imposta variabile per password file (sicuro)
+export PGPASSFILE=~/.pgpass
 
 echo "[$(date)] Inizio backup adattivo database $DB_NAME" | tee -a "$LOG"
 

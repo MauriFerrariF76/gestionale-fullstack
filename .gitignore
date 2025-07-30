@@ -4,3 +4,9 @@ build/
 .env
 .env.*
 /backup/
+
+# Configurazione ripristino (sicurezza)
+restore_config.conf
+secrets/
+backup/
+logs/

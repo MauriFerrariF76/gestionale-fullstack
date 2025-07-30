@@ -13,8 +13,8 @@ LOG="/home/mauri/gestionale-fullstack/docs/server/test_restore_backup_dynamic.lo
 TEST_DB_NAME="gestionale_test_restore"
 MAILTO="ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com"
 
-# Imposta variabile per password file
-export PGPASSFILE=/root/.pgpass
+# Imposta variabile per password file (sicuro)
+export PGPASSFILE=~/.pgpass
 
 echo "[$(date)] Inizio test restore dinamico backup database" | tee -a "$LOG"
 
@@ -31,6 +31,11 @@ echo "[$(date)] Backup da testare: $LATEST_BACKUP" | tee -a "$LOG"
 
 # Crea database temporaneo per il test usando postgres
 echo "[$(date)] Creazione database temporaneo $TEST_DB_NAME..." | tee -a "$LOG"
+
+# Elimina il database temporaneo se esiste già
+sudo -u postgres dropdb "$TEST_DB_NAME" 2>/dev/null || true
+
+# Crea il nuovo database temporaneo
 sudo -u postgres createdb "$TEST_DB_NAME" 2>&1 | tee -a "$LOG"
 
 if [ $? -ne 0 ]; then
