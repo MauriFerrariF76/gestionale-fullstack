@@ -15,7 +15,7 @@
 
 ## 2. Logging backend
 
-- I log vengono scritti su stdout (console) o su file se usi PM2/systemd.
+- I log vengono scritti su stdout (console) o su file se usi PM2/Docker.
 - Per logging avanzato, integra [Winston](https://github.com/winstonjs/winston) o [Sentry](https://sentry.io/).
 - Controlla i log per errori 5xx, tentativi di login falliti, accessi sospetti.
 

@@ -21,7 +21,7 @@ Contiene:
 Contiene:
 - **Checklist e Sicurezza** - Procedure di sicurezza e deploy
 - **Strategie e Architettura** - Containerizzazione, Active-Passive, Disaster Recovery
-- **Configurazioni Server** - Setup, script, servizi systemd
+- **Configurazioni Server** - Setup, script, servizi Docker
 - **Convenzioni** - Standard di nomenclatura e sviluppo
 - **Credenziali di Emergenza** - Accesso critico ai sistemi
 
@@ -33,7 +33,7 @@ Contiene:
 Contiene:
 - **Script di Backup** - Script automatici per backup database e configurazioni
 - **Configurazioni Nginx** - Configurazioni operative del web server
-- **Servizi Systemd** - File di configurazione per i servizi backend e frontend
+- **Servizi Docker** - File di configurazione per i container backend e frontend
 - **Log e Configurazioni** - Log operativi e configurazioni del sistema
 
 **👥 Destinatari**: Amministratori di sistema, operatori tecnici
@@ -110,8 +110,8 @@ Contiene:
 - **[⚙️ backup_config_server.sh](server/backup_config_server.sh)** - Script backup configurazioni
 - **[📊 backup_weekly_report.sh](server/backup_weekly_report.sh)** - Script report settimanali
 - **[🌐 nginx_gestionale.conf](server/nginx_gestionale.conf)** - Configurazione Nginx
-- **[🔧 gestionale-backend.service](server/gestionale-backend.service)** - Servizio backend
-- **[🔧 gestionale-frontend.service](server/gestionale-frontend.service)** - Servizio frontend
+- **[🐳 docker-compose.yml](docker-compose.yml)** - Orchestrazione Docker
+- **[🔧 backend/Dockerfile](backend/Dockerfile)** - Container backend
 
 ---
 

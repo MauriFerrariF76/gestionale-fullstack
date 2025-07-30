@@ -227,7 +227,7 @@ docker-compose logs -f
 ### **5.3 Verifica Funzionamento**
 ```bash
 # Testa backend
-curl http://localhost:3001/api/health
+curl http://localhost:3001/health
 
 # Testa frontend
 curl http://localhost:3000
@@ -321,7 +321,7 @@ docker-compose ps
 docker-compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT COUNT(*) FROM users;"
 
 # ✅ Backend risponde
-curl -s http://localhost:3001/api/health | jq .
+curl -s http://localhost:3001/health | jq .
 
 # ✅ Frontend accessibile
 curl -s http://localhost:3000 | head -10

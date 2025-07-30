@@ -2,6 +2,38 @@
 
 ## 🐳 Containerizzazione e Docker
 
+### 🚀 Avvio Rapido
+```bash
+# Primo setup (installazione completa)
+./scripts/setup_docker.sh
+
+# Avvio veloce (dopo il primo setup)
+./scripts/docker_quick_start.sh
+
+# Avvio manuale
+docker-compose up -d
+```
+
+### 🌐 Accesso Applicazione
+- **Frontend**: http://localhost
+- **API Backend**: http://localhost/api
+- **Health Check**: http://localhost/health
+
+### 🔧 Comandi Utili
+```bash
+# Stato servizi
+docker-compose ps
+
+# Log in tempo reale
+docker-compose logs -f
+
+# Ferma servizi
+docker-compose down
+
+# Ricostruisci (dopo modifiche)
+docker-compose up -d --build
+```
+
 ### Strategia di Deploy
 Il gestionale è progettato per essere **containerizzato con Docker**, garantendo:
 - **Portabilità**: Funziona identicamente su qualsiasi server (sviluppo, test, produzione)
@@ -24,10 +56,17 @@ Il sistema utilizza **Docker secrets** per la gestione sicura delle credenziali:
 ./scripts/restore_secrets.sh backup_file.tar.gz.gpg
 ```
 
-**Password "Intelligenti" e Memorabili:**
-- Database: `gestionale2025`
-- JWT: `GestionaleFerrari2025JWT_UltraSecure_v1!`
-- Master Password: `"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"`
+**⚠️ IMPORTANTE**: Le password sono ora gestite tramite variabili d'ambiente per maggiore sicurezza.
+
+### Configurazione Sicura:
+1. **Setup variabili d'ambiente**: `./scripts/setup_env.sh`
+2. **Completa il file .env** con le tue credenziali
+3. **Testa la configurazione**: `./scripts/test_env_config.sh`
+
+### Credenziali di Default (solo per sviluppo):
+- **Database**: Configurato tramite variabili d'ambiente
+- **JWT**: Configurato tramite variabili d'ambiente  
+- **Master Password**: Configurato tramite variabili d'ambiente
 
 ### Architettura Active-Passive (Resilienza)
 - **Server Primario**: Gestisce tutto il traffico normalmente
@@ -54,9 +93,11 @@ La documentazione è organizzata secondo le convenzioni del progetto:
 - **`configurazione-nas.md`** - Configurazione NAS e integrazione backup
 - **`strategia-docker-active-passive.md`** - Architettura Docker e Active-Passive
 - **`checklist-sicurezza.md`** - Checklist sicurezza e best practice
+- **`checklist-docker.md`** - Checklist operativa Docker
 - **`strategia-backup-disaster-recovery.md`** - Strategia backup e disaster recovery
 
 #### **📁 `/docs/MANUALE/` - Guide e Manuali**
+- **`guida-docker.md`** - Guida completa per uso Docker
 - **`guida-ripristino-rapido.md`** - Guida rapida ripristino automatico
 - **`guida-backup.md`** - Guida operativa backup e restore
 - **`manuale-utente.md`** - Manuale utente gestionale
@@ -80,12 +121,11 @@ La documentazione è organizzata secondo le convenzioni del progetto:
 - **[docs/SVILUPPO/guida-installazione-server.md](docs/SVILUPPO/guida-installazione-server.md)** - Guida dettagliata installazione/configurazione server
 
 ### Gestione Servizi
-- **Servizi Systemd**: Backend e frontend gestiti tramite systemd
+- **Servizi Docker**: Backend, frontend, database e nginx gestiti tramite Docker Compose
   ```bash
-  sudo systemctl start|stop|restart|status gestionale-backend
-  sudo systemctl start|stop|restart|status gestionale-frontend
+  docker-compose start|stop|restart|status
+  docker-compose logs -f
   ```
-- **Nginx**: Gestito come servizio di sistema standard (`sudo systemctl ... nginx`)
 
 ### Backup e Configurazioni
 - **[docs/server/backup_config_server.sh](docs/server/backup_config_server.sh)** - Script di backup automatico configurazioni server su NAS
@@ -101,4 +141,121 @@ La documentazione è organizzata secondo le convenzioni del progetto:
 - Configurazione Nginx per reverse proxy
 
 ### Setup Iniziale
+```bash
+# 1. Installa Docker (se necessario)
+./scripts/install_docker.sh
+
+# 2. Setup completo automatico
+./scripts/setup_docker.sh
+
+# 3. Verifica funzionamento
+curl http://localhost/health
 ```
+
+### Comandi Principali
+```bash
+# Avvio rapido
+./scripts/docker_quick_start.sh
+
+# Gestione servizi
+docker-compose up -d          # Avvia
+docker-compose down           # Ferma
+docker-compose restart        # Riavvia
+docker-compose logs -f        # Log
+
+# Backup e ripristino
+./scripts/backup_secrets.sh   # Backup segreti
+./scripts/restore_secrets.sh  # Ripristino segreti
+```
+
+### Monitoraggio
+```bash
+# Stato servizi
+docker-compose ps
+
+# Health checks
+curl http://localhost/health
+
+# Log specifici
+docker-compose logs -f backend
+docker-compose logs -f frontend
+docker-compose logs -f postgres
+```
+
+---
+
+## 🔧 Sviluppo Locale
+
+### Prerequisiti
+- Node.js 18+
+- PostgreSQL 15+
+- Docker (opzionale, per test)
+
+### Setup Sviluppo
+```bash
+# Backend
+cd backend
+npm install
+npm run dev
+
+# Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+### Test
+```bash
+# Test backend
+curl http://localhost:3001/health
+
+# Test frontend
+curl http://localhost:3000
+```
+
+---
+
+## 🚨 Emergenze
+
+### Ripristino Rapido
+```bash
+# 1. Ferma tutto
+docker-compose down
+
+# 2. Ripristina segreti
+./scripts/restore_secrets.sh backup_file.tar.gz.gpg
+
+# 3. Riavvia
+docker-compose up -d
+
+# 4. Verifica
+curl http://localhost/health
+```
+
+### Reset Completo
+```bash
+# 1. Ferma e rimuovi tutto
+docker-compose down -v
+
+# 2. Setup da zero
+./scripts/setup_docker.sh
+```
+
+---
+
+## 📞 Supporto
+
+### Documentazione
+- **Guida Docker**: `docs/MANUALE/guida-docker.md`
+- **Checklist Operativa**: `docs/SVILUPPO/checklist-docker.md`
+- **Strategia Docker**: `docs/SVILUPPO/strategia-docker-active-passive.md`
+
+### Script Utili
+- **Setup**: `./scripts/setup_docker.sh`
+- **Avvio rapido**: `./scripts/docker_quick_start.sh`
+- **Backup**: `./scripts/backup_secrets.sh`
+- **Ripristino**: `./scripts/restore_secrets.sh`
+
+---
+
+**🎯 Obiettivo: Ambiente Docker stabile, sicuro e facilmente riproducibile per il gestionale aziendale.**

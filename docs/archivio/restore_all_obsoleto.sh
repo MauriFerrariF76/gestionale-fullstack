@@ -62,8 +62,6 @@ find_backup_secrets() {
         "./secrets_backup_*.tar.gz.gpg"
         "/mnt/backup_gestionale/secrets_backup_*.tar.gz.gpg"
         "./backup/secrets_backup_*.tar.gz.gpg"
-    )
-    
     for pattern in "${locations[@]}"; do
         local files=($pattern 2>/dev/null)
         if [ ${#files[@]} -gt 0 ]; then
@@ -427,7 +425,7 @@ verify_restore() {
     fi
     
     # Verifica backend
-    if curl -s http://localhost:3001/api/health &>/dev/null; then
+            if curl -s http://localhost:3001/health &>/dev/null; then
         log_success "✅ Backend risponde"
     else
         log_warning "⚠️ Backend non risponde"

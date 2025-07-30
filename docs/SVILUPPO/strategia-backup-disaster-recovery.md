@@ -153,9 +153,15 @@ docker-compose up -d
 
 # 4. Verifica che tutto funzioni
 docker-compose logs -f
-curl https://gestionale.miaazienda.com/api/health
+curl https://gestionale.miaazienda.com/health
 
-# 5. Promuovi slave a master (se necessario)
+# 5. Ripristino completo se necessario
+./scripts/restore_unified.sh --docker
+
+# 6. Test restore sicuro
+./scripts/restore_unified.sh --test
+
+# 7. Promuovi slave a master (se necessario)
 # (vedi documentazione PostgreSQL per replica)
 ```
 

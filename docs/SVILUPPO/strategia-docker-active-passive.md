@@ -219,7 +219,13 @@ docker run --rm -v gestionale_postgres_data:/data -v $(pwd):/backup alpine tar c
 ./scripts/backup_secrets.sh
 
 # Ripristino segreti
-./scripts/restore_secrets.sh backup_file.tar.gz.gpg
+./scripts/restore_unified.sh --secrets-only
+
+# Restore completo Docker
+./scripts/restore_unified.sh --docker
+
+# Test restore sicuro
+./scripts/restore_unified.sh --test
 ```
 
 ### Lettura Segreti nel Backend
@@ -477,7 +483,7 @@ docker-compose up -d
 
 # 4. Verifica che tutto funzioni
 docker-compose logs -f
-curl https://gestionale.miaazienda.com/api/health
+curl https://gestionale.miaazienda.com/health
 
 # 5. Promuovi slave a master (se necessario)
 # (vedi documentazione PostgreSQL per replica)

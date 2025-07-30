@@ -18,10 +18,18 @@ fi
 echo "📁 Creazione cartella secrets..."
 mkdir -p secrets
 
-# Genera password sicure ma memorabili
+# Carica variabili d'ambiente se disponibili
+if [ -f ".env" ]; then
+    export $(grep -v '^#' .env | xargs)
+fi
+
+# Genera password sicure ma memorabili usando variabili d'ambiente o valori di default
 echo "🔑 Generazione password sicure..."
-echo "gestionale2025" > secrets/db_password.txt
-echo "GestionaleFerrari2025JWT_UltraSecure_v1!" > secrets/jwt_secret.txt
+DB_PASSWORD=${DB_PASSWORD:-"gestionale2025"}
+JWT_SECRET=${JWT_SECRET:-"GestionaleFerrari2025JWT_UltraSecure_v1!"}
+
+echo "$DB_PASSWORD" > secrets/db_password.txt
+echo "$JWT_SECRET" > secrets/jwt_secret.txt
 
 # Imposta permessi sicuri (solo root può leggere)
 echo "🔒 Impostazione permessi sicuri..."
@@ -43,8 +51,8 @@ echo "🔑 MASTER PASSWORD (da ricordare):"
 echo "   'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
 echo ""
 echo "📋 PASSWORD GENERATE:"
-echo "   Database: gestionale2025"
-echo "   JWT: GestionaleFerrari2025JWT_UltraSecure_v1!"
+echo "   Database: $DB_PASSWORD"
+echo "   JWT: $JWT_SECRET"
 echo ""
 echo "🚀 Prossimi passi:"
 echo "   1. docker-compose up -d"

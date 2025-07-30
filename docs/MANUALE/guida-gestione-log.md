@@ -54,16 +54,16 @@ Ubuntu include già configurazioni per:
 ### 3. Log Applicazioni
 
 #### Backend Node.js
-**Gestione:** PM2 o systemd
+**Gestione:** Docker o PM2
 ```bash
 # Log PM2
 pm2 logs
 
-# Log systemd backend
-sudo journalctl -u gestionale-backend -f
+# Log Docker backend
+docker-compose logs -f backend
 
-# Log systemd frontend
-sudo journalctl -u gestionale-frontend -f
+# Log Docker frontend
+docker-compose logs -f frontend
 ```
 
 #### Database PostgreSQL

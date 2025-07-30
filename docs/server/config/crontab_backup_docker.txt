@@ -1,0 +1,18 @@
+# Backup automatico Docker gestionale (ogni notte alle 02:15)
+15 2 * * * /home/mauri/gestionale-fullstack/docs/server/backup_docker_automatic.sh
+
+# Backup configurazioni server (ogni notte alle 02:00) - MANTIENI
+0 2 * * * /home/mauri/gestionale-fullstack/docs/server/backup_config_server.sh
+
+# Test restore settimanale Docker (ogni domenica alle 03:30)
+30 3 * * 0 /home/mauri/gestionale-fullstack/docs/server/test_restore_docker_backup.sh
+
+# Report settimanale backup Docker (ogni domenica alle 08:30)
+30 8 * * 0 /home/mauri/gestionale-fullstack/docs/server/backup_weekly_report_docker.sh
+
+# Mantieni anche i backup esistenti per compatibilità
+# Test restore settimanale dinamico (ogni domenica alle 03:00)
+0 3 * * 0 /home/mauri/gestionale-fullstack/docs/server/test_restore_backup_dynamic.sh
+
+# Report settimanale backup (ogni domenica alle 08:00)
+0 8 * * 0 /home/mauri/gestionale-fullstack/docs/server/backup_weekly_report.sh 
