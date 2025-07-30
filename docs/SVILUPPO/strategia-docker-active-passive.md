@@ -50,10 +50,6 @@ secrets:
     file: ./secrets/db_password.txt
   jwt_secret:
     file: ./secrets/jwt_secret.txt
-  admin_password:
-    file: ./secrets/admin_password.txt
-  api_key:
-    file: ./secrets/api_key.txt
 
 volumes:
   postgres_data:
@@ -65,9 +61,7 @@ gestionale-fullstack/
 ├── docker-compose.yml
 ├── secrets/                    # 🔐 Cartella protetta
 │   ├── db_password.txt
-│   ├── jwt_secret.txt
-│   ├── admin_password.txt
-│   └── api_key.txt
+│   └── jwt_secret.txt
 ├── scripts/
 │   ├── setup_secrets.sh       # Script per creare segreti
 │   ├── backup_secrets.sh      # Backup cifrato
@@ -79,13 +73,11 @@ gestionale-fullstack/
 ### Password "Intelligenti" e Memorabili
 ```bash
 # Pattern: [AZIENDA][ANNO][SERVIZIO]_v1
-Database: Carpenteria2024DB_v1
-JWT: Carpenteria2024JWT_v1
-Admin: Carpenteria2024Admin_v1
-API: Carpenteria2024API_v1
+Database: gestionale2025
+JWT: GestionaleFerrari2025JWT_UltraSecure_v1!
 
 # Master Password per Bitwarden (se usato)
-"La mia officina 2024 ha 3 torni e 2 frese!"
+"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"
 ```
 
 ### Script di Setup Segreti
@@ -100,16 +92,14 @@ echo "=================================="
 mkdir -p secrets
 
 # Genera password sicure ma memorabili
-echo "Carpenteria2024DB_v1" > secrets/db_password.txt
-echo "Carpenteria2024JWT_v1" > secrets/jwt_secret.txt
-echo "Carpenteria2024Admin_v1" > secrets/admin_password.txt
-echo "Carpenteria2024API_v1" > secrets/api_key.txt
+echo "gestionale2025" > secrets/db_password.txt
+echo "GestionaleFerrari2025JWT_UltraSecure_v1!" > secrets/jwt_secret.txt
 
 # Imposta permessi sicuri (solo root può leggere)
 chmod 600 secrets/*.txt
 
 echo "✅ Segreti creati e protetti!"
-echo "🔑 Master Password: 'La mia officina 2024 ha 3 torni e 2 frese!'"
+echo "🔑 Master Password: 'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
 ```
 
 ### Backup Cifrato dei Segreti
@@ -130,7 +120,7 @@ gpg --encrypt --recipient admin@carpenteriaferrari.com secrets_backup_$(date +%F
 rm secrets_backup_$(date +%F).tar.gz
 
 echo "✅ Backup cifrato creato: secrets_backup_$(date +%F).tar.gz.gpg"
-echo "🔑 Master Password: 'La mia officina 2024 ha 3 torni e 2 frese!'"
+echo "🔑 Master Password: 'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
 ```
 
 ### Ripristino Segreti

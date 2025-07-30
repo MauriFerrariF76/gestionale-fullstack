@@ -64,11 +64,11 @@ create_config() {
 # ⚠️ IMPORTANTE: NON committare questo file nel repository!
 
 # Credenziali critiche
-MASTER_PASSWORD="La mia officina 2024 ha 3 torni e 2 frese!"
-DB_PASSWORD="Carpenteria2024DB_v1"
-JWT_SECRET="Carpenteria2024JWT_v1"
-ADMIN_PASSWORD="Carpenteria2024Admin_v1"
-API_KEY="Carpenteria2024API_v1"
+# Master password per decifratura backup
+MASTER_PASSWORD="La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"
+DB_PASSWORD="gestionale2025"
+JWT_SECRET="GestionaleFerrari2025JWT_UltraSecure_v1!"
+
 
 # Configurazioni server
 SERVER_IP="10.10.10.15"
@@ -196,7 +196,7 @@ create_nas_config() {
 - `gestionale_db_*.backup` - Backup database PostgreSQL
 
 ## Credenziali
-- Master Password: "La mia officina 2024 ha 3 torni e 2 frese!"
+- Master Password: "La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"
 - Vedi EMERGENZA_PASSWORDS.md per dettagli
 
 ## Contatti Emergenza

@@ -1,0 +1,8 @@
+[Wed Jul 30 02:30:01 AM CEST 2025] Inizio backup adattivo database gestionale_ferrari
+[Wed Jul 30 02:30:01 AM CEST 2025] Calcolo dimensione database...
+[Wed Jul 30 02:30:01 AM CEST 2025] Dimensione database:  ( bytes)
+[Wed Jul 30 02:30:01 AM CEST 2025] Database piccolo (<100MB): backup standard
+[Wed Jul 30 02:30:01 AM CEST 2025] Esecuzione backup con opzioni: -F c -b -v
+Password: 
+pg_dump: error: connection to server at "localhost" (127.0.0.1), port 5432 failed: fe_sendauth: no password supplied
+[Wed Jul 30 02:30:01 AM CEST 2025] ERRORE: pg_dump fallito! Codice: 1

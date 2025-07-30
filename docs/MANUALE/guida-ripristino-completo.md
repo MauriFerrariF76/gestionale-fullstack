@@ -20,7 +20,7 @@
 - **Codice Sorgente**: Repository Git o backup codice
 
 ### **Credenziali Critiche**
-- **Master Password**: `"La mia officina 2024 ha 3 torni e 2 frese!"`
+- **Master Password**: `"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"`
 - **Docker Secrets**: Vedi `EMERGENZA_PASSWORDS.md`
 - **SSH Access**: Credenziali server
 
@@ -148,8 +148,6 @@ ls -la secrets/
 # Dovrebbe contenere:
 # - db_password.txt
 # - jwt_secret.txt
-# - admin_password.txt
-# - api_key.txt
 ```
 
 ### **3.3 Verifica Permessi**
@@ -409,7 +407,7 @@ sudo nginx -t
 ## 📞 Contatti Emergenza
 
 ### **Credenziali Critiche**
-- **Master Password**: `"La mia officina 2024 ha 3 torni e 2 frese!"`
+- **Master Password**: `"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"`
 - **Docker Secrets**: Vedi `EMERGENZA_PASSWORDS.md`
 - **SSH Server**: [CREDENZIALI_SSH]
 

@@ -234,20 +234,10 @@ restore_secrets() {
     read -s JWT_SECRET
     echo
     
-    echo -n "Inserisci password admin: "
-    read -s ADMIN_PASSWORD
-    echo
-    
-    echo -n "Inserisci API key: "
-    read -s API_KEY
-    echo
-    
     # Crea segreti manualmente
     mkdir -p secrets
     echo "$DB_PASSWORD" > secrets/db_password.txt
     echo "$JWT_SECRET" > secrets/jwt_secret.txt
-    echo "$ADMIN_PASSWORD" > secrets/admin_password.txt
-    echo "$API_KEY" > secrets/api_key.txt
     chmod 600 secrets/*.txt
     
     log_success "Segreti creati manualmente"

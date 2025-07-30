@@ -10,7 +10,7 @@
 - Server Ubuntu 22.04 LTS (nuovo o esistente)
 - Accesso root al server
 - Backup segreti e database (sul NAS)
-- Master Password: `"La mia officina 2024 ha 3 torni e 2 frese!"`
+- Master Password: `"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"`
 
 ### **Cosa NON ti serve:**
 - Conoscenze tecniche avanzate
@@ -108,7 +108,7 @@ docker-compose restart
 - **Supporto Tecnico**: [NOME] - [TELEFONO]
 
 ### **Credenziali Critiche:**
-- **Master Password**: `"La mia officina 2024 ha 3 torni e 2 frese!"`
+- **Master Password**: `"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"`
 - **Accesso SSH**: [CREDENZIALI]
 - **Documento Emergenza**: `EMERGENZA_PASSWORDS.md`
 

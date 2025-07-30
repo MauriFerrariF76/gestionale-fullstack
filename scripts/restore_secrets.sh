@@ -79,7 +79,7 @@ fi
 # Verifica che tutti i file segreti siano presenti
 echo "🔍 Verifica file segreti..."
 MISSING_FILES=0
-for file in db_password.txt jwt_secret.txt admin_password.txt api_key.txt; do
+for file in db_password.txt jwt_secret.txt; do
     if [ ! -f "secrets/$file" ]; then
         echo "❌ File mancante: secrets/$file"
         MISSING_FILES=1
@@ -110,7 +110,7 @@ echo "   1. docker-compose down (se attivo)"
 echo "   2. docker-compose up -d"
 echo "   3. Verifica che l'applicazione funzioni correttamente"
 echo ""
-echo "🔑 Master Password: 'La mia officina 2024 ha 3 torni e 2 frese!'"
+echo "🔑 Master Password: 'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
 echo ""
 echo "⚠️  IMPORTANTE:"
 echo "   - Verifica che l'applicazione funzioni dopo il ripristino"

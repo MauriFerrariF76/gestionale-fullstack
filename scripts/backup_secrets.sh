@@ -24,7 +24,7 @@ fi
 # Verifica che tutti i file segreti esistano
 echo "🔍 Verifica file segreti..."
 MISSING_FILES=0
-for file in db_password.txt jwt_secret.txt admin_password.txt api_key.txt; do
+for file in db_password.txt jwt_secret.txt; do
     if [ ! -f "secrets/$file" ]; then
         echo "❌ File mancante: secrets/$file"
         MISSING_FILES=1
@@ -82,7 +82,7 @@ else
     echo "   ${BACKUP_NAME}.tar.gz (non cifrato)"
 fi
 echo ""
-echo "🔑 Master Password: 'La mia officina 2024 ha 3 torni e 2 frese!'"
+echo "🔑 Master Password: 'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
 echo ""
 echo "💡 Suggerimenti:"
 echo "   - Conserva il backup in luogo sicuro"

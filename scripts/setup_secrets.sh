@@ -20,10 +20,8 @@ mkdir -p secrets
 
 # Genera password sicure ma memorabili
 echo "🔑 Generazione password sicure..."
-echo "Carpenteria2024DB_v1" > secrets/db_password.txt
-echo "Carpenteria2024JWT_v1" > secrets/jwt_secret.txt
-echo "Carpenteria2024Admin_v1" > secrets/admin_password.txt
-echo "Carpenteria2024API_v1" > secrets/api_key.txt
+echo "gestionale2025" > secrets/db_password.txt
+echo "GestionaleFerrari2025JWT_UltraSecure_v1!" > secrets/jwt_secret.txt
 
 # Imposta permessi sicuri (solo root può leggere)
 echo "🔒 Impostazione permessi sicuri..."
@@ -31,7 +29,7 @@ chmod 600 secrets/*.txt
 
 # Verifica che i file siano stati creati
 echo "✅ Verifica creazione file..."
-if [ -f "secrets/db_password.txt" ] && [ -f "secrets/jwt_secret.txt" ] && [ -f "secrets/admin_password.txt" ] && [ -f "secrets/api_key.txt" ]; then
+if [ -f "secrets/db_password.txt" ] && [ -f "secrets/jwt_secret.txt" ]; then
     echo "✅ Tutti i segreti sono stati creati correttamente!"
 else
     echo "❌ Errore nella creazione dei segreti!"
@@ -42,13 +40,11 @@ echo ""
 echo "🎉 Setup completato con successo!"
 echo ""
 echo "🔑 MASTER PASSWORD (da ricordare):"
-echo "   'La mia officina 2024 ha 3 torni e 2 frese!'"
+echo "   'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
 echo ""
 echo "📋 PASSWORD GENERATE:"
-echo "   Database: Carpenteria2024DB_v1"
-echo "   JWT: Carpenteria2024JWT_v1"
-echo "   Admin: Carpenteria2024Admin_v1"
-echo "   API: Carpenteria2024API_v1"
+echo "   Database: gestionale2025"
+echo "   JWT: GestionaleFerrari2025JWT_UltraSecure_v1!"
 echo ""
 echo "🚀 Prossimi passi:"
 echo "   1. docker-compose up -d"

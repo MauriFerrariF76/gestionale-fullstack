@@ -11,7 +11,7 @@
 **Password principale per accesso a tutti i sistemi:**
 
 ```
-"La mia officina 2024 ha 3 torni e 2 frese!"
+"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"
 ```
 
 **Usa questa password per:**
@@ -27,10 +27,8 @@
 
 | Servizio | Password | Descrizione |
 |----------|----------|-------------|
-| **Database** | `Carpenteria2024DB_v1` | Password PostgreSQL |
-| **JWT** | `Carpenteria2024JWT_v1` | Chiave JWT Backend |
-| **Admin** | `Carpenteria2024Admin_v1` | Password Admin Gestionale |
-| **API** | `Carpenteria2024API_v1` | Chiave API Frontend |
+| **Database** | `gestionale2025` | Password PostgreSQL |
+| **JWT** | `GestionaleFerrari2025JWT_UltraSecure_v1!` | Chiave JWT Backend |
 
 ---
 
