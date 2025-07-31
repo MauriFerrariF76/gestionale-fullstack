@@ -52,18 +52,18 @@ Contiene:
 2. Vai in **[SVILUPPO/](SVILUPPO/)** per le configurazioni tecniche
 3. Vai in **[server/](server/)** per script e configurazioni operative
 4. Segui sempre le checklist di sicurezza
-5. **CRITICO**: Consulta **[SVILUPPO/EMERGENZA_PASSWORDS.md](SVILUPPO/EMERGENZA_PASSWORDS.md)** per credenziali di emergenza
+5. **CRITICO**: Consulta **[SVILUPPO/emergenza-passwords.md](SVILUPPO/emergenza-passwords.md)** per credenziali di emergenza
 
 ### Se sei un **Sviluppatore/DevOps**:
 1. Vai in **[SVILUPPO/](SVILUPPO/)**
 2. Inizia dalle **[Convenzioni Nomenclatura](SVILUPPO/convenzioni-nomenclatura.md)**
-3. Consulta **[Deploy e Architettura](SVILUPPO/deploy-architettura-gestionale.md)**
+3. Consulta **[Architettura e Docker](SVILUPPO/architettura-e-docker.md)**
 
 ---
 
 ## 📋 File Speciali
 
-### 🔐 [SVILUPPO/EMERGENZA_PASSWORDS.md](SVILUPPO/EMERGENZA_PASSWORDS.md)
+### 🔐 [SVILUPPO/emergenza-passwords.md](SVILUPPO/emergenza-passwords.md)
 **CRITICO** - Credenziali di emergenza per accesso al sistema
 - Mantieni sempre aggiornato
 - Conserva una copia cartacea sicura
@@ -92,18 +92,18 @@ Contiene:
 
 ### 📖 MANUALE (Operativo)
 - **[📖 Manuale Utente](MANUALE/manuale-utente.md)** - Come usare il gestionale
-- **[💾 Guida Backup](MANUALE/guida-backup.md)** - Come fare backup
-- **[🔄 Guida Ripristino](MANUALE/guida-ripristino-completo.md)** - Come ripristinare tutto
+- **[💾 Guida Backup e Ripristino](MANUALE/guida-backup-e-ripristino.md)** - Backup, ripristino e disaster recovery
 - **[📊 Guida Monitoring](MANUALE/guida-monitoring.md)** - Come monitorare il sistema
 - **[📝 Guida Documentazione](MANUALE/guida-documentazione.md)** - Come organizzare la documentazione
 
 ### 🛠️ SVILUPPO (Tecnico)
+- **[🐳 Architettura e Docker](SVILUPPO/architettura-e-docker.md)** - Architettura, containerizzazione e resilienza
+- **[💾 Backup e Disaster Recovery](SVILUPPO/backup-e-disaster-recovery.md)** - Strategie backup e ripristino
+- **[📈 Scalabilità e Ottimizzazioni](SVILUPPO/scalabilita-e-ottimizzazioni.md)** - Performance e strategie future
 - **[🔒 Checklist Sicurezza](SVILUPPO/checklist-sicurezza.md)** - Checklist sicurezza completa
-- **[🚀 Deploy e Architettura](SVILUPPO/deploy-architettura-gestionale.md)** - Guida deploy completa
-- **[🐳 Strategia Docker](SVILUPPO/strategia-docker-active-passive.md)** - Containerizzazione
 - **[📋 Checklist Server](SVILUPPO/checklist-server-ubuntu.md)** - Setup server
 - **[🛠️ Guida Installazione](SVILUPPO/guida-installazione-server.md)** - Installazione server
-- **[🚨 EMERGENZA_PASSWORDS](SVILUPPO/EMERGENZA_PASSWORDS.md)** - **CRITICO** - Credenziali di emergenza
+- **[🚨 Emergenza Passwords](SVILUPPO/emergenza-passwords.md)** - **CRITICO** - Credenziali di emergenza
 
 ### 🖥️ SERVER (Operativo)
 - **[💾 backup_database_adaptive.sh](server/backup_database_adaptive.sh)** - Script backup database

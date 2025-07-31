@@ -36,6 +36,12 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
   - Il materiale di sviluppo deve essere inserito nella cartella  `/docs/SVILUPPO/`
   - Le guide e i manuali devono essere inseriti nella cartella  `/docs/MANUALE/`
 
+### 1.1. Gestione dei file di documentazione
+
+- **Evitare la proliferazione di documenti**: lavorare sui file esistenti quando possibile, creare nuovi file solo se l'argomento è completamente diverso e necessita di un documento dedicato.
+- **Mantenere la struttura pulita**: evitare di creare confusione con troppi file, concentrarsi sui file principali e creare nuovi file solo quando strettamente necessario secondo le best practice del progetto.
+- **Consolidare informazioni correlate**: quando possibile, aggiungere nuove informazioni ai documenti esistenti piuttosto che creare file separati per argomenti simili o correlati.
+
 
 ## 2. Regola generale per i commit
 

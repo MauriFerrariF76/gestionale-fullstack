@@ -1,8 +1,19 @@
-# 📄 EMERGENZA PASSWORDS - GESTIONALE CARPENTERIA FERRARI
+# 🔐 Emergenza Passwords - Gestionale Fullstack
 
-**Data creazione:** $(date +%F)  
+**Data creazione:** 31 Luglio 2025  
 **Versione:** 1.0  
-**Ultimo aggiornamento:** $(date +%F)  
+**Ultimo aggiornamento:** 31 Luglio 2025  
+
+## 📋 Indice
+- [🔑 Master Password](#-master-password)
+- [🐳 Docker Secrets](#-docker-secrets)
+- [🔐 Chiavi JWT](#-chiavi-jwt)
+- [🚀 Comandi Emergenza](#-comandi-emergenza)
+- [📞 Contatti Emergenza](#-contatti-emergenza)
+- [🔧 Procedure Emergenza](#-procedure-emergenza)
+- [📍 Posizione Backup](#-posizione-backup)
+- [⚠️ Avvertimenti Importanti](#️-avvertimenti-importanti)
+- [📝 Note Operative](#-note-operative)
 
 ---
 

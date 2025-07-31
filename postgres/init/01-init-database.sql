@@ -9,13 +9,15 @@ SET standard_conforming_strings = on;
 -- Crea schema se non esiste
 CREATE SCHEMA IF NOT EXISTS public;
 
--- Tabella utenti
+-- Tabella utenti (aggiornata per allinearsi con lo schema documentato)
 CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    cognome VARCHAR(100) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL DEFAULT 'user',
+    roles TEXT[] NOT NULL DEFAULT ARRAY['user'],
+    mfa_enabled BOOLEAN NOT NULL DEFAULT FALSE,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

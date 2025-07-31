@@ -167,7 +167,7 @@ function normalizeClienteForUpdate(data: Partial<Cliente>): (string | boolean | 
 // Lista clienti (GET)
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const result = await pool.query('SELECT * FROM clients ORDER BY "IdCliente"');
+    const result = await pool.query('SELECT * FROM clienti ORDER BY "IdCliente"');
     res.json(result.rows as Cliente[]);
   } catch (error: unknown) {
     if (error instanceof Error) {
