@@ -1,6 +1,6 @@
 # 📋 TODO - Prossimi Interventi - Gestionale Fullstack
 
-## 🚨 Problemi da Risolvere
+## ✅ Problemi Risolti
 
 ### 🔐 **Problema Login Utente di Prova** ✅
 - **Problema**: Utente di prova attuale probabilmente non funziona
@@ -8,6 +8,13 @@
 - **Soluzione**: Re-hashare la password dell'utente di prova
 - **Priorità**: ALTA - Blocca l'accesso al sistema
 - **Stato**: ✅ RISOLTO - Login funzionante con credenziali aggiornate
+
+### 🌐 **Problema API Clienti** ✅
+- **Problema**: API `/api/clienti` restituiva errore 500
+- **Causa**: Tabella database con nome e struttura non corretti
+- **Soluzione**: Rinominato tabelle in italiano e aggiornato struttura
+- **Priorità**: ALTA - Blocca funzionalità frontend
+- **Stato**: ✅ RISOLTO - API clienti funzionante
 
 ### 🔧 **Azioni Completate**:
 1. ✅ **Verificare utente di prova** nel database
