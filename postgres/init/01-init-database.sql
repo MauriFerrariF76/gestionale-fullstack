@@ -88,6 +88,16 @@ CREATE TABLE IF NOT EXISTS audit_log (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabella refresh tokens per autenticazione JWT
+CREATE TABLE IF NOT EXISTS refresh_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_revoked BOOLEAN DEFAULT false
+);
+
 -- Indici per performance
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_clients_name ON clients(name);
@@ -96,6 +106,9 @@ CREATE INDEX IF NOT EXISTS idx_projects_client_id ON projects(client_id);
 CREATE INDEX IF NOT EXISTS idx_projects_status ON projects(status);
 CREATE INDEX IF NOT EXISTS idx_audit_log_user_id ON audit_log(user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON audit_log(created_at);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens(user_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens(token);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_expires_at ON refresh_tokens(expires_at);
 
 -- Inserisci utente admin di default (password: admin123)
 INSERT INTO users (username, email, password_hash, role) 
