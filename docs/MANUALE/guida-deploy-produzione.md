@@ -10,6 +10,7 @@
 - [7. Deploy applicazione](#7-deploy-applicazione)
 - [8. Test post-deploy](#8-test-post-deploy)
 - [9. Rollback](#9-rollback)
+- [10. Test Deploy su VM](#10-test-deploy-su-vm)
 
 ---
 
@@ -418,20 +419,80 @@ docker system prune -a
 
 ---
 
-## 📚 Documentazione Correlata
+---
 
-### Test e Validazione
-- **Guida Test VM**: `docs/MANUALE/guida-test-vm-deploy.md` - Guida completa per testare il deploy sulla VM
-- **Checklist Test**: `docs/MANUALE/checklist-test-vm-deploy.md` - Checklist dettagliata per il test
-- **Riassunto Test**: `docs/MANUALE/riassunto-test-vm.md` - Procedura rapida per il test
-- **Script Test**: `scripts/test_vm_deploy.sh` - Script automatizzato per i controlli
+## 10. Test Deploy su VM (Preparazione Produzione)
 
 ### Prima del Deploy Produzione
-1. **Testa sempre** il deploy su VM seguendo la guida di test
+**IMPORTANTE**: Testa sempre il deploy su VM prima del deploy produzione!
+
+### Configurazione VM di Test
+- **IP VM**: `10.10.10.43` (diverso da produzione `10.10.10.15`)
+- **Hostname**: `gestionale-vm-test`
+- **Sistema**: Ubuntu Server 22.04.3 LTS
+- **Utente**: `mauri`
+- **Password**: `solita` (solo per test)
+
+### Procedura Test Rapida
+```bash
+# 1. Installa Ubuntu Server sulla VM
+# 2. Configura IP statico: 10.10.10.43
+# 3. Ottieni progetto:
+cd /home/mauri
+git clone https://ghp_YOUR_TOKEN@github.com/MauriFerrariF76/gestionale-fullstack.git
+cd gestionale-fullstack
+
+# 4. Installa Docker:
+./scripts/install_docker.sh
+./scripts/setup_docker.sh
+
+# 5. Deploy applicazione:
+docker-compose up -d
+
+# 6. Test funzionalità:
+curl http://localhost:3001/health
+curl http://localhost:3000
+
+# 7. Test accesso esterno (da PC-MAURI):
+curl http://10.10.10.43:3000
+curl http://10.10.10.43:3001/health
+
+# 8. Test completo automatico:
+./scripts/test_vm_deploy.sh --full
+```
+
+### Checklist Test Essenziale
+- [ ] VM accessibile da PC-MAURI: `ssh mauri@10.10.10.43`
+- [ ] Docker installato e funzionante
+- [ ] Progetto clonato correttamente
+- [ ] Segreti configurati in `secrets/`
+- [ ] Servizi avviati: `docker-compose ps`
+- [ ] Backend risponde: `curl http://localhost:3001/health`
+- [ ] Frontend accessibile: `curl http://localhost:3000`
+- [ ] Accesso esterno funziona da PC-MAURI
+- [ ] Report test generato
+
+### Troubleshooting Test VM
+- **Rete non funziona**: Verifica configurazione bridge adapter
+- **Docker non si avvia**: Verifica permessi e spazio disco
+- **Servizi non rispondono**: Controlla log con `docker-compose logs`
+- **Accesso esterno fallisce**: Verifica firewall e routing
+
+### Script di Supporto
+```bash
+# Test completo automatico
+./scripts/test_vm_deploy.sh --full
+
+# Menu interattivo
+./scripts/test_vm_deploy.sh
+```
+
+### Prima del Deploy Produzione
+1. **Testa sempre** il deploy su VM
 2. **Verifica** tutti i punti della checklist
 3. **Documenta** eventuali problemi e soluzioni
 4. **Aggiorna** questa guida se necessario
 
 ---
 
-**La procedura è completa fino all'installazione Docker. Continua con i test sulla VM!** 
+**La procedura è completa. Testa sempre su VM prima del deploy produzione!** 
