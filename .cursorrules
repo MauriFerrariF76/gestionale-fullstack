@@ -9,11 +9,11 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - **docs/**: Tutta la documentazione tecnica, checklist operative, manuale utente e guide pratiche.
 
 ## Tecnologie utilizzate
-- **Node.js/Express** per il backend
-- **Next.js/React** per il frontend
-- **PostgreSQL** come database relazionale
-- **Nginx** come reverse proxy e terminazione HTTPS
-- **MikroTik** per firewall, NAT, DNS statico e resilienza di rete
+- **Node.js/Express** per il backend (documentation Node.js: https://nodejs.org/api/all.html)
+- **Next.js/React** per il frontend (documentation Next.js: https://nextjs.org/docs ; documentation React: https://react.dev/learn )
+- **PostgreSQL** come database relazionale (documentation: https://www.postgresql.org/docs/online-resources/ )
+- **Nginx** come reverse proxy e terminazione HTTPS (documentation: https://nginx.org/en/docs/ )
+- **MikroTik** per firewall, NAT, DNS statico e resilienza di rete (documentation: https://help.mikrotik.com/docs/spaces/ROS/pages/328059/RouterOS )
 - **Let’s Encrypt** per i certificati SSL
 - **Git** per il versionamento del codice e della documentazione
 

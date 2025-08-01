@@ -58,15 +58,22 @@ pg_restore -U gestionale_user -h localhost -d gestionale -v /percorso/backup/ges
 
 ## 3. Script e automazioni
 
-### Backup automatico configurazioni server su NAS
+### Backup automatico Docker su NAS
 
 #### Descrizione
-Il sistema esegue automaticamente il backup delle configurazioni del server su NAS002 (Synology) ogni notte alle 02:00.
+Il sistema esegue automaticamente il backup completo Docker (database, configurazioni, segreti) su NAS002 (Synology) ogni notte alle 02:15.
 
 #### Script utilizzato
-- **File**: `docs/server/backup_config_server.sh`
-- **Cron job**: `0 2 * * *` (ogni notte alle 02:00 CEST)
+- **File**: `docs/server/backup_docker_automatic.sh`
+- **Cron job**: `15 2 * * *` (ogni notte alle 02:15 CEST)
 - **Destinazione**: `/mnt/backup_gestionale/` (NAS002)
+- **Backup locali**: `backup/docker/` (cartella dedicata)
+
+#### Tipi di backup eseguiti
+- **Database PostgreSQL**: Dump completo cifrato
+- **Segreti Docker**: Password e chiavi JWT cifrate
+- **Configurazioni Docker**: File di configurazione
+- **Script Docker**: Script di backup e restore
 
 #### Configurazione NAS
 Il NAS è montato con i seguenti parametri in `/etc/fstab`:
@@ -84,18 +91,20 @@ In caso di errore, viene inviata una email a:
 - `ferraripietrosnc.mauri@outlook.it`
 - `mauriferrari76@gmail.com`
 
-### Report settimanale
-Ogni domenica alle 08:00 viene generato e inviato un report settimanale dei backup.
+### Report settimanale Docker
+Ogni domenica alle 08:30 viene generato e inviato un report settimanale dei backup Docker.
 
 #### Script utilizzato
-- **File**: `docs/server/backup_weekly_report.sh`
-- **Cron job**: `0 8 * * 0` (ogni domenica alle 08:00 CEST)
+- **File**: `docs/server/backup_weekly_report_docker.sh`
+- **Cron job**: `30 8 * * 0` (ogni domenica alle 08:30 CEST)
 
 #### Contenuto del report
 - 📊 Statistiche generali (backup riusciti, errori, tentativi mount)
 - 📅 Log degli ultimi 7 giorni
 - 📋 Riepilogo file backupati
 - 🔍 Verifiche aggiuntive (spazio, permessi, cron attivo)
+- 🐳 Stato container Docker
+- 🔧 Statistiche sistema Docker
 
 ### Verifica manuale
 ```bash
@@ -186,13 +195,13 @@ La replica permette di avere una copia aggiornata del database su un secondo ser
 ### Backup dei volumi Docker
 ```bash
 # Backup volume PostgreSQL
-docker run --rm -v gestionale_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres_backup_$(date +%F).tar.gz -C /data .
+docker run --rm -v gestionale-fullstack_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres_backup_$(date +%F).tar.gz -C /data .
 
 # Backup volume configurazioni
 docker run --rm -v gestionale_config_data:/data -v $(pwd):/backup alpine tar czf /backup/config_backup_$(date +%F).tar.gz -C /data .
 
 # Restore volume PostgreSQL
-docker run --rm -v gestionale_postgres_data:/data -v $(pwd):/backup alpine tar xzf /backup/postgres_backup_YYYY-MM-DD.tar.gz -C /data
+docker run --rm -v gestionale-fullstack_postgres_data:/data -v $(pwd):/backup alpine tar xzf /backup/postgres_backup_YYYY-MM-DD.tar.gz -C /data
 ```
 
 ### Backup automatico con Docker
@@ -207,8 +216,8 @@ BACKUP_DIR="/mnt/backup_gestionale/docker"
 mkdir -p $BACKUP_DIR
 
 # Backup volumi Docker
-docker run --rm -v gestionale_postgres_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/postgres_$DATE.tar.gz -C /data .
-docker run --rm -v gestionale_config_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/config_$DATE.tar.gz -C /data .
+docker run --rm -v gestionale-fullstack_postgres_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/postgres_$DATE.tar.gz -C /data .
+docker run --rm -v gestionale-fullstack_config_data:/data -v $BACKUP_DIR:/backup alpine tar czf /backup/config_$DATE.tar.gz -C /data .
 
 # Mantieni solo gli ultimi 7 giorni
 find $BACKUP_DIR -name "*.tar.gz" -mtime +7 -delete

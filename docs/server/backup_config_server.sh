@@ -36,11 +36,14 @@ fi
 # Backup chiavi JWT (aggiunto per sicurezza)
 echo "[$(date)] Backup chiavi JWT..." | tee -a "$LOG"
 JWT_BACKUP="jwt_keys_backup_$(date +%F_%H%M%S).tar.gz"
+BACKUP_DIR="/home/mauri/gestionale-fullstack/backup/docker/"
 if tar czf "$JWT_BACKUP" backend/config/keys/ 2>/dev/null; then
   if gpg --encrypt --recipient admin@carpenteriaferrari.com "$JWT_BACKUP" 2>/dev/null; then
     rm "$JWT_BACKUP"
-    cp "$JWT_BACKUP.gpg" "$DEST"/
-    rm "$JWT_BACKUP.gpg"
+    # Sposta backup JWT nella cartella dedicata
+    mkdir -p "$BACKUP_DIR"
+    mv "$JWT_BACKUP.gpg" "$BACKUP_DIR"/
+    cp "$BACKUP_DIR"/"$JWT_BACKUP.gpg" "$DEST"/
     echo "[$(date)] Backup chiavi JWT completato" | tee -a "$LOG"
   else
     echo "[$(date)] ERRORE: cifratura chiavi JWT fallita" | tee -a "$LOG"

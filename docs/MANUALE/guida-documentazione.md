@@ -23,7 +23,7 @@ Documentazione dedicata alla sicurezza e continuità operativa:
 - **[Checklist Sicurezza](checklist-sicurezza.md)** - Checklist completa sicurezza deploy e configurazione
 - **[Strategia Docker e Active-Passive](strategia-docker-active-passive.md)** - Containerizzazione e architettura resiliente
 - **[Strategia Backup e Disaster Recovery](strategia-backup-disaster-recovery.md)** - Strategia completa protezione dati
-- **[EMERGENZA_PASSWORDS.md](EMERGENZA_PASSWORDS.md)** - Documento di emergenza con credenziali critiche
+- **[emergenza-passwords.md](emergenza-passwords.md)** - Documento di emergenza con credenziali critiche (accesso: `sudo cat /root/emergenza-passwords.md`)
 
 ### **👥 Manuale Utente**
 Documentazione per gli utenti finali:
@@ -57,7 +57,7 @@ Documenti storici e di progetto (non più attivi):
 1. **Deploy**: Consulta `deploy-architettura-gestionale.md` per la checklist completa
 2. **Backup**: Usa `guida-backup.md` per procedure backup
 3. **Sicurezza**: Verifica `checklist-sicurezza.md` prima di ogni modifica
-4. **Emergenza**: Consulta `EMERGENZA_PASSWORDS.md` per ripristino
+4. **Emergenza**: Consulta `sudo cat /root/emergenza-passwords.md` per ripristino
 
 ### **Per Sviluppo e Manutenzione**
 1. **Architettura**: `strategia-docker-active-passive.md` per Docker e resilienza
@@ -115,7 +115,7 @@ Documenti storici e di progetto (non più attivi):
 
 ### **Sicurezza**
 - **NON committare** mai password o segreti
-- Usa sempre `EMERGENZA_PASSWORDS.md` per credenziali critiche
+- Usa sempre `sudo cat /root/emergenza-passwords.md` per credenziali critiche
 - Mantieni aggiornato il backup dei segreti
 
 ### **Manutenzione**

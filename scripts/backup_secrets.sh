@@ -41,6 +41,7 @@ echo "✅ Tutti i file segreti sono presenti"
 
 # Crea nome file backup con timestamp
 BACKUP_NAME="secrets_backup_$(date +%F_%H%M%S)"
+BACKUP_DIR="/home/mauri/gestionale-fullstack/backup/docker/"
 
 echo "📦 Creazione backup cifrato..."
 
@@ -66,7 +67,13 @@ gpg --encrypt --recipient admin@carpenteriaferrari.com ${BACKUP_NAME}.tar.gz
 if [ $? -eq 0 ]; then
     # Rimuovi backup non cifrato
     rm ${BACKUP_NAME}.tar.gz
+    
+    # Sposta backup nella cartella dedicata
+    mkdir -p "$BACKUP_DIR"
+    mv "${BACKUP_NAME}.tar.gz.gpg" "$BACKUP_DIR"/
+    
     echo "✅ Backup cifrato creato: ${BACKUP_NAME}.tar.gz.gpg"
+    echo "📁 Posizione: $BACKUP_DIR${BACKUP_NAME}.tar.gz.gpg"
 else
     echo "⚠️  Errore nella cifratura. Backup non cifrato mantenuto: ${BACKUP_NAME}.tar.gz"
     echo "   Verifica la configurazione GPG o la chiave admin@carpenteriaferrari.com"

@@ -96,6 +96,8 @@ docker-compose exec postgres pg_isready -U gestionale_user -d gestionale
 ```bash
 # Backup cifrato dei segreti
 ./scripts/backup_secrets.sh
+
+# I backup vengono salvati in: backup/docker/
 ```
 
 ### Ripristino Segreti

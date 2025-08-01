@@ -8,7 +8,7 @@ LOG_FILE="/home/mauri/gestionale-fullstack/docs/server/backup_docker.log"
 REPORT_FILE="/tmp/backup_weekly_report_docker.txt"
 MAILTO="ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com"
 SUBJECT="[REPORT SETTIMANALE DOCKER] Backup Gestionale - $(date +%d/%m/%Y)"
-CONTAINER_NAME="gestionale-postgres"
+CONTAINER_NAME="gestionale_postgres"
 
 # Funzione per pulire il file temporaneo
 cleanup() {

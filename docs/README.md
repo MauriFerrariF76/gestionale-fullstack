@@ -31,7 +31,9 @@ Contiene:
 **Script attivi, configurazioni e log per il server Ubuntu**
 
 Contiene:
-- **Script di Backup** - Script automatici per backup database e configurazioni
+- **Script di Backup Docker** - Script automatici per backup database, configurazioni e segreti Docker
+- **Script di Test Restore** - Script per testare l'integrità dei backup
+- **Script di Report** - Script per report settimanali e monitoring
 - **Configurazioni Nginx** - Configurazioni operative del web server
 - **Servizi Docker** - File di configurazione per i container backend e frontend
 - **Log e Configurazioni** - Log operativi e configurazioni del sistema
@@ -52,7 +54,7 @@ Contiene:
 2. Vai in **[SVILUPPO/](SVILUPPO/)** per le configurazioni tecniche
 3. Vai in **[server/](server/)** per script e configurazioni operative
 4. Segui sempre le checklist di sicurezza
-5. **CRITICO**: Consulta **[SVILUPPO/emergenza-passwords.md](SVILUPPO/emergenza-passwords.md)** per credenziali di emergenza
+5. **CRITICO**: Consulta **`sudo cat /root/emergenza-passwords.md`** per credenziali di emergenza (file protetto)
 
 ### Se sei un **Sviluppatore/DevOps**:
 1. Vai in **[SVILUPPO/](SVILUPPO/)**
@@ -63,7 +65,10 @@ Contiene:
 
 ## 📋 File Speciali
 
-### 🔐 [SVILUPPO/emergenza-passwords.md](SVILUPPO/emergenza-passwords.md)
+### 🔐 File Emergenza Protetto
+**Accesso**: `sudo cat /root/emergenza-passwords.md`  
+**Posizione**: `/root/emergenza-passwords.md` (solo root)  
+**Backup**: Automatico incluso nei backup esistenti
 **CRITICO** - Credenziali di emergenza per accesso al sistema
 - Mantieni sempre aggiornato
 - Conserva una copia cartacea sicura
@@ -71,9 +76,10 @@ Contiene:
 
 ### 🖥️ [server/](server/) - Script Operativi
 **Script attivi e configurazioni per il server Ubuntu**:
-- **backup_database_adaptive.sh** - Script backup database adattivo
+- **backup_docker_automatic.sh** - Script backup automatico Docker completo
 - **backup_config_server.sh** - Script backup configurazioni server
-- **backup_weekly_report.sh** - Script report settimanali
+- **test_restore_docker_backup.sh** - Script test restore Docker
+- **backup_weekly_report_docker.sh** - Script report settimanali Docker
 - **nginx_gestionale.conf** - Configurazione Nginx
 - **gestionale-backend.service** - Servizio systemd backend
 - **gestionale-frontend.service** - Servizio systemd frontend
@@ -103,12 +109,13 @@ Contiene:
 - **[🔒 Checklist Sicurezza](SVILUPPO/checklist-sicurezza.md)** - Checklist sicurezza completa
 - **[📋 Checklist Server](SVILUPPO/checklist-server-ubuntu.md)** - Setup server
 - **[🛠️ Guida Installazione](SVILUPPO/guida-installazione-server.md)** - Installazione server
-- **[🚨 Emergenza Passwords](SVILUPPO/emergenza-passwords.md)** - **CRITICO** - Credenziali di emergenza
+- **[🚨 Emergenza Passwords](SVILUPPO/emergenza-passwords.md)** - **CRITICO** - Credenziali di emergenza (accesso: `sudo cat /root/emergenza-passwords.md`)
 
 ### 🖥️ SERVER (Operativo)
-- **[💾 backup_database_adaptive.sh](server/backup_database_adaptive.sh)** - Script backup database
+- **[🐳 backup_docker_automatic.sh](server/backup_docker_automatic.sh)** - Script backup automatico Docker
 - **[⚙️ backup_config_server.sh](server/backup_config_server.sh)** - Script backup configurazioni
-- **[📊 backup_weekly_report.sh](server/backup_weekly_report.sh)** - Script report settimanali
+- **[🧪 test_restore_docker_backup.sh](server/test_restore_docker_backup.sh)** - Script test restore Docker
+- **[📊 backup_weekly_report_docker.sh](server/backup_weekly_report_docker.sh)** - Script report settimanali Docker
 - **[🌐 nginx_gestionale.conf](server/nginx_gestionale.conf)** - Configurazione Nginx
 - **[🐳 docker-compose.yml](docker-compose.yml)** - Orchestrazione Docker
 - **[🔧 backend/Dockerfile](backend/Dockerfile)** - Container backend
@@ -123,7 +130,7 @@ Contiene:
 - **Testa sempre** le procedure prima di documentarle
 
 ### Sicurezza
-- **Mantieni aggiornato** [SVILUPPO/EMERGENZA_PASSWORDS.md](SVILUPPO/EMERGENZA_PASSWORDS.md)
+- **Mantieni aggiornato** il file protetto: `sudo nano /root/emergenza-passwords.md`
 - **Segui sempre** le checklist di sicurezza
 - **Documenta** ogni modifica alle configurazioni di sicurezza
 

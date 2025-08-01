@@ -6,13 +6,16 @@
 # Si adatta automaticamente a tutte le tabelle presenti
 
 # Configurazione
-DB_NAME="gestionale_ferrari"
+DB_NAME="gestionale"
 DB_USER="gestionale_user"
+DB_PASSWORD="gestionale2025"
 BACKUP_DIR="/mnt/backup_gestionale/database"
 LOG="/home/mauri/gestionale-fullstack/docs/server/test_restore_docker_backup.log"
 TEST_DB_NAME="gestionale_test_restore_docker"
 MAILTO="ferraripietrosnc.mauri@outlook.it,mauriferrari76@gmail.com"
-CONTAINER_NAME="gestionale-postgres"
+CONTAINER_NAME="gestionale_postgres"
+DB_HOST="localhost"
+DB_PORT="5433"
 
 # Imposta variabile per password file (sicuro)
 export PGPASSFILE=~/.pgpass
@@ -41,10 +44,10 @@ echo "[$(date)] Backup da testare: $LATEST_BACKUP" | tee -a "$LOG"
 echo "[$(date)] Creazione database temporaneo $TEST_DB_NAME..." | tee -a "$LOG"
 
 # Elimina il database temporaneo se esiste già
-docker exec "$CONTAINER_NAME" dropdb "$TEST_DB_NAME" 2>/dev/null || true
+PGPASSWORD="$DB_PASSWORD" dropdb -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$TEST_DB_NAME" 2>/dev/null || true
 
 # Crea il nuovo database temporaneo
-docker exec "$CONTAINER_NAME" createdb "$TEST_DB_NAME" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" createdb -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$TEST_DB_NAME" 2>&1 | tee -a "$LOG"
 
 if [ $? -ne 0 ]; then
   echo "[$(date)] ERRORE: Impossibile creare database temporaneo" | tee -a "$LOG"
@@ -54,16 +57,17 @@ fi
 
 # Dai permessi all'utente gestionale_user nel database temporaneo
 echo "[$(date)] Configurazione permessi utente..." | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON DATABASE $TEST_DB_NAME TO $DB_USER;" 2>&1 | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON SCHEMA public TO $DB_USER;" 2>&1 | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_USER;" 2>&1 | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $DB_USER;" 2>&1 | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -d "$TEST_DB_NAME" -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO $DB_USER;" 2>&1 | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -d "$TEST_DB_NAME" -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO $DB_USER;" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON DATABASE $TEST_DB_NAME TO $DB_USER;" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON SCHEMA public TO $DB_USER;" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO $DB_USER;" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO $DB_USER;" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO $DB_USER;" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO $DB_USER;" 2>&1 | tee -a "$LOG"
 
 # Esegui restore nel database temporaneo usando Docker
 echo "[$(date)] Esecuzione restore nel database temporaneo..." | tee -a "$LOG"
-docker exec -i "$CONTAINER_NAME" pg_restore -U "$DB_USER" -d "$TEST_DB_NAME" -v < "$LATEST_BACKUP" 2>&1 | tee -a "$LOG"
+# Prova prima con l'utente gestionale_user
+PGPASSWORD="$DB_PASSWORD" pg_restore -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -v "$LATEST_BACKUP" 2>&1 | tee -a "$LOG"
 RESTORE_EXIT_CODE=${PIPESTATUS[0]}
 
 if [ $RESTORE_EXIT_CODE -ne 0 ]; then
@@ -76,11 +80,11 @@ fi
 
 # Test di connessione e query base
 echo "[$(date)] Test connessione e query base..." | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -U "$DB_USER" -d "$TEST_DB_NAME" -c "SELECT COUNT(*) as table_count FROM information_schema.tables WHERE table_schema = 'public';" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "SELECT COUNT(*) as table_count FROM information_schema.tables WHERE table_schema = 'public';" 2>&1 | tee -a "$LOG"
 
 # Test dinamico su TUTTE le tabelle presenti (non solo quelle specifiche)
 echo "[$(date)] Test dinamico su tutte le tabelle..." | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -U "$DB_USER" -d "$TEST_DB_NAME" -c "
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "
 SELECT 
     t.table_name,
     COALESCE(s.n_tup_ins, 0) as record_count
@@ -93,7 +97,7 @@ ORDER BY t.table_name;
 
 # Test funzioni e stored procedures
 echo "[$(date)] Test funzioni e stored procedures..." | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -U "$DB_USER" -d "$TEST_DB_NAME" -c "
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "
 SELECT 
     routine_name,
     routine_type,
@@ -105,7 +109,7 @@ ORDER BY routine_name;
 
 # Test triggers
 echo "[$(date)] Test triggers..." | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" psql -U "$DB_USER" -d "$TEST_DB_NAME" -c "
+PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$TEST_DB_NAME" -c "
 SELECT 
     trigger_name,
     event_manipulation,
@@ -117,7 +121,7 @@ ORDER BY trigger_name;
 
 # Pulisci database temporaneo
 echo "[$(date)] Pulizia database temporaneo..." | tee -a "$LOG"
-docker exec "$CONTAINER_NAME" dropdb "$TEST_DB_NAME" 2>&1 | tee -a "$LOG"
+PGPASSWORD="$DB_PASSWORD" dropdb -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$TEST_DB_NAME" 2>&1 | tee -a "$LOG"
 
 echo "[$(date)] Test restore Docker completato con successo!" | tee -a "$LOG"
 

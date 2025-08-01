@@ -1,19 +1,32 @@
 # 🔐 Emergenza Passwords - Gestionale Fullstack
 
 **Data creazione:** 31 Luglio 2025  
-**Versione:** 1.0  
+**Versione:** 2.0  
 **Ultimo aggiornamento:** 31 Luglio 2025  
+**Posizione sicura:** `/root/emergenza-passwords.md` (solo root)
 
-## 📋 Indice
-- [🔑 Master Password](#-master-password)
-- [🐳 Docker Secrets](#-docker-secrets)
-- [🔐 Chiavi JWT](#-chiavi-jwt)
-- [🚀 Comandi Emergenza](#-comandi-emergenza)
-- [📞 Contatti Emergenza](#-contatti-emergenza)
-- [🔧 Procedure Emergenza](#-procedure-emergenza)
-- [📍 Posizione Backup](#-posizione-backup)
-- [⚠️ Avvertimenti Importanti](#️-avvertimenti-importanti)
-- [📝 Note Operative](#-note-operative)
+## 📋 Accesso Sicuro
+
+### **Procedura di Accesso in Emergenza**
+```bash
+# Accesso al file protetto (solo root)
+sudo cat /root/emergenza-passwords.md
+
+# Verifica permessi
+ls -la /root/emergenza-passwords.md
+# Risultato: -rw------- 1 root root [dimensione] [data] /root/emergenza-passwords.md
+```
+
+### **Spostamento in Posizione Sicura**
+```bash
+# Sposta il file in posizione protetta
+sudo cp docs/SVILUPPO/emergenza-passwords.md /root/
+sudo chmod 600 /root/emergenza-passwords.md
+sudo chown root:root /root/emergenza-passwords.md
+
+# Verifica sicurezza
+ls -la /root/emergenza-passwords.md
+```
 
 ---
 
@@ -41,6 +54,8 @@
 | **Database** | `gestionale2025` | Password PostgreSQL |
 | **JWT** | `GestionaleFerrari2025JWT_UltraSecure_v1!` | Chiave JWT Backend |
 
+---
+
 ## 🔐 CHIAVI JWT (CRITICHE)
 
 **Chiavi per autenticazione JWT del backend:**
@@ -50,21 +65,21 @@
 | **Chiave Privata** | `backend/config/keys/jwtRS256.key` | `600` (solo proprietario) | Cifrato in NAS |
 | **Chiave Pubblica** | `backend/config/keys/jwtRS256.key.pub` | `644` (lettura) | Cifrato in NAS |
 
-**Backup automatico:** Ogni notte alle 02:00 con `backup_config_server.sh`
-**Formato backup:** `jwt_keys_backup_YYYY-MM-DD_HHMMSS.tar.gz.gpg`
-**Posizione NAS:** `/mnt/backup_gestionale/jwt_keys_backup_*.tar.gz.gpg`
+**Backup automatico:** Ogni notte alle 02:15 con `backup_docker_automatic.sh`
+**Formato backup:** `emergency_passwords_backup_YYYY-MM-DD_HHMMSS.md.backup` (non cifrato) o `.gpg` (cifrato)
+**Posizione NAS:** `/mnt/backup_gestionale/emergency_passwords_backup_*.md.backup`
 
-**Ripristino chiavi JWT:**
+**Ripristino file di emergenza:**
 ```bash
-# Decifra backup
-gpg --decrypt jwt_keys_backup_*.tar.gz.gpg > jwt_restored.tar.gz
-
-# Estrai chiavi
-tar xzf jwt_restored.tar.gz
+# Copia backup da NAS
+cp /mnt/backup_gestionale/emergency_passwords_backup_*.md.backup /root/emergenza-passwords.md
 
 # Imposta permessi sicuri
-chmod 600 backend/config/keys/jwtRS256.key
-chmod 644 backend/config/keys/jwtRS256.key.pub
+sudo chmod 600 /root/emergenza-passwords.md
+sudo chown root:root /root/emergenza-passwords.md
+
+# Verifica accesso
+sudo cat /root/emergenza-passwords.md
 ```
 
 ---
@@ -73,13 +88,16 @@ chmod 644 backend/config/keys/jwtRS256.key.pub
 
 ### Ripristino Completo Gestionale
 ```bash
-# 1. Ripristina segreti Docker
+# 1. Accedi alle credenziali protette
+sudo cat /root/emergenza-passwords.md
+
+# 2. Ripristina segreti Docker
 ./scripts/restore_secrets.sh backup_file.tar.gz.gpg
 
-# 2. Avvia servizi Docker
+# 3. Avvia servizi Docker
 docker-compose up -d
 
-# 3. Verifica servizi
+# 4. Verifica servizi
 docker-compose ps
 ```
 
@@ -135,6 +153,9 @@ docker-compose restart
 
 ### 2. Database Corrotto
 ```bash
+# Accedi alle credenziali protette
+sudo cat /root/emergenza-passwords.md
+
 # Ripristina da backup
 docker-compose exec postgres pg_restore -U gestionale_user -d gestionale backup_file.sql
 
@@ -144,7 +165,9 @@ docker-compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT CO
 
 ### 3. Password Dimenticate
 ```bash
-# Usa le password di emergenza sopra
+# Accedi alle credenziali protette
+sudo cat /root/emergenza-passwords.md
+
 # Se non funzionano, reset completo:
 ./scripts/setup_secrets.sh
 docker-compose up -d
@@ -164,8 +187,10 @@ docker-compose up -d
 ## 📍 POSIZIONE BACKUP
 
 ### Backup Digitali
-- **NAS Aziendale:** `/mnt/nas/backup_gestionale/`
-- **Server Locale:** `/opt/gestionale/backup/`
+- **NAS Aziendale:** `/mnt/backup_gestionale/`
+- **Server Locale:** `/home/mauri/gestionale-fullstack/backup/docker/`
+- **File Protetto:** `/root/emergenza-passwords.md` (incluso nei backup automatici)
+- **Backup Automatico:** Ogni notte alle 02:15 con `backup_docker_automatic.sh`
 - **Cloud:** [Specificare se configurato]
 
 ### Backup Cartaceo
@@ -181,6 +206,7 @@ docker-compose up -d
 3. **Testa periodicamente** le procedure di ripristino
 4. **Mantieni aggiornato** il backup dei segreti
 5. **Verifica sempre** che l'applicazione funzioni dopo il ripristino
+6. **Usa sempre** `sudo cat /root/emergenza-passwords.md` per accesso sicuro
 
 ---
 
@@ -200,7 +226,10 @@ docker-compose up -d
 - Conserva questo documento in luogo sicuro
 - Non committare mai questo file su Git
 - Usa solo per emergenze reali
+- **Accesso sicuro:** `sudo cat /root/emergenza-passwords.md`
 
 ---
 
 **🔐 Questo documento contiene informazioni critiche per la sicurezza aziendale. Mantienilo al sicuro!**
+
+**🚨 ACCESSO SICURO:** `sudo cat /root/emergenza-passwords.md`

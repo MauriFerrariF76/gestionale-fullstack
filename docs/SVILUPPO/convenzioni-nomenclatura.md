@@ -35,7 +35,6 @@ riorganizzazione-completata.md
 # ✅ Corretto - File speciali e importanti
 README.md
 LICENSE.md
-EMERGENZA_PASSWORDS.md
 ```
 
 ### **🔧 Script e Configurazioni**
@@ -126,7 +125,7 @@ gestionale-fullstack/
 │   │   ├── checklist-sicurezza.md
 │   │   ├── strategia-docker-active-passive.md
 │   │   ├── strategia-backup-disaster-recovery.md
-│   │   └── EMERGENZA_PASSWORDS.md
+│   │   └── emergenza-passwords.md
 │   ├── 👥 Manuale Utente
 │   │   └── manuale-utente.md
 │   ├── 🖥️ Configurazione Server

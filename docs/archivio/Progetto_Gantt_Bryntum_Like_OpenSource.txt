@@ -1,0 +1,149 @@
+# 📘 Progetto Gantt Avanzato Personalizzato - "Bryntum-like" Open Source
+
+## ✅ Obiettivo
+Sviluppare un componente **Gantt dinamico e complesso**, ispirato alle funzionalità di Bryntum, **ma 100% personalizzato, legale, open-source** e integrato con:
+
+- Backend Node.js/PostgreSQL
+- App mobile per operai e outsourcing
+- Scheduling automatizzato con AI
+- Integrazione con un gestionale multipagina complesso
+
+---
+
+## ⚙️ Architettura Tecnica
+
+### 🌐 Frontend (React + TypeScript)
+
+- UI multivista: Gantt + lista + dettaglio commessa
+- Componenti chiave:
+  - `GanttView` → Timeline dinamica
+  - `TaskEditor` → Modale per edit avanzato
+  - `ResourceSidebar` → Assegnazioni operai
+  - `Toolbar` → Zoom, filtro, modalità (giorno/settimana/mese)
+
+- Styling con:
+  - TailwindCSS o Styled Components
+  - Temi dinamici per stato (ritardo, completato, ecc.)
+
+### 📊 Librerie Gantt consigliate
+
+| Nome             | Licenza | Note principali |
+|------------------|---------|------------------|
+| `vis-timeline`   | MIT     | Timeline altamente personalizzabile, zoom, drag |
+| `dhtmlxGantt`    | GPL     | Gantt classico, gerarchie, dependencies native |
+| `react-gantt-task` | MIT   | React puro, ideale per componentizzazione semplice |
+
+### 🧩 Funzionalità implementabili
+
+- ✅ Drag & drop con validazione
+- ✅ Dipendenze tra task
+- ✅ Gerarchia e subtasks
+- ✅ Zoom temporale
+- ✅ Scroll orizzontale sincronizzato
+- ✅ Editing in modale o inline
+- ✅ Assegnazione risorse (operai/processi)
+- ✅ Tooltip dettagliato + quick status
+- ✅ Import/export JSON (API)
+- ✅ Stato avanzamento visivo
+- ✅ Colori dinamici, icone, filtri
+
+---
+
+## 🧠 AI Scheduling (Backend)
+
+- Microservizio Python:
+  - Input: disponibilità, task aperti, priorità, scadenze
+  - Output: assegnazione task operai per giorno/settimana
+
+- Comunicazione: REST API o WebSocket
+- Integrazione:
+  - AI aggiorna DB `assegnazioni`
+  - Frontend riceve aggiornamento con polling o socket
+
+---
+
+## 📱 App Mobile (operai / outsourcing)
+
+- React Native o PWA
+- Login personale (JWT)
+- Lista task assegnati + avanzamento (con timer)
+- Upload allegati, immagini
+- **Aggiornamento vocale** per fornitori remoti (Speech-to-Text)
+- Notifiche giornaliere
+- Modalità offline + sync
+
+---
+
+## 🧰 Backend API (Node.js)
+
+- Express.js + TypeScript
+- JWT + RBAC (role-based access)
+- Rate limit, logging, helmet, CORS dinamico
+- Endpoints:
+  - `GET /api/gantt/tasks`
+  - `POST /api/gantt/task`
+  - `PATCH /api/gantt/task/:id`
+  - `GET /api/gantt/assignments`
+  - `POST /api/ai/schedule`
+
+---
+
+## 📐 Database PostgreSQL (schema base)
+
+- `commesse`
+- `gantt_tasks` (id, label, start, end, parent_id, process_id, stato, colore)
+- `task_dependencies` (source_id, target_id)
+- `operai`
+- `assegnazioni`
+- `avanzamenti`
+- `log_attività`
+
+---
+
+## 🔐 Sicurezza e Performance
+
+- HTTPS con Let's Encrypt (Nginx + Certbot)
+- Accesso WAN limitato da MikroTik
+- Rate limiting dinamico (LAN vs WAN)
+- Caching dati Gantt su frontend
+- Session timeout + refresh token
+- CSP, Helmet, logging
+
+---
+
+## ✅ Vantaggi della Soluzione Custom
+
+| Vantaggio | Dettaglio |
+|-----------|-----------|
+| 💰 Zero costi licenza | 100% legale e open-source  
+| 🎯 Controllo completo | Completamente personalizzabile  
+| ⚡ Ottime performance | Ottimizzabile per tuo dominio specifico  
+| 📱 Integrabile con AI e mobile | Pianificazione e aggiornamento ovunque  
+| 🔄 Aggiornamenti gestibili | Nessun vincolo da vendor esterni  
+
+---
+
+## 🚀 Roadmap consigliata
+
+1. Scegli libreria base (vis-timeline o dhtmlxGantt)
+2. Prototipa Gantt statico con dati JSON
+3. Crea backend API + DB relazionale
+4. Aggancia React ↔ API ↔ DB
+5. Aggiungi gestione AI (Python)
+6. Integra app mobile per inserimento ore
+7. Migliora UI/UX → colore, filtri, zoom
+8. Monitoraggio, sicurezza, backup
+
+---
+
+## 🔚 Conclusione
+
+Questo approccio ti garantisce:
+- Scalabilità a lungo termine
+- Nessuna dipendenza da licenze o vendor
+- Compatibilità totale con AI, mobile e infrastruttura locale
+- Prestazioni e personalizzazioni al massimo livello
+
+---
+
+Fine documento.

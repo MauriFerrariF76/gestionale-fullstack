@@ -1,3 +1,54 @@
+# Checklist Problemi Critici - Gestionale Fullstack
+
+## Problemi Identificati e Risoluzioni
+
+### 🔐 Problema GPG - Cifratura Backup (31/07/2025)
+
+#### Descrizione
+Durante il test degli script di backup è stato identificato un problema con la cifratura GPG:
+```
+gpg: error retrieving 'admin@carpenteriaferrari.com' via WKD: No data
+gpg: admin@carpenteriaferrari.com: skipped: No data
+gpg: encryption failed: No data
+```
+
+#### Impatto
+- I backup vengono salvati non cifrati
+- Riduzione della sicurezza dei dati sensibili
+- Backup di segreti, database e configurazioni esposti
+
+#### Stato
+- [x] **RISOLTO**: Configurazione GPG corretta
+- [x] **VERIFICATO**: Test backup cifrato funzionante
+- [x] **DOCUMENTATO**: Procedure aggiornate
+
+#### Azioni Richieste
+1. **Configurare correttamente la chiave GPG**:
+   ```bash
+   # Verificare chiave esistente
+   gpg --list-keys
+   
+   # Importare chiave se necessario
+   gpg --import chiave_privata.asc
+   
+   # Testare cifratura
+   echo "test" | gpg --encrypt --recipient admin@carpenteriaferrari.com
+   ```
+
+2. **Aggiornare script di backup**:
+   - Verificare che tutti gli script usino la chiave corretta
+   - Testare backup cifrato completo
+   - Aggiornare documentazione
+
+3. **Verificare sicurezza**:
+   - Controllare che i backup cifrati siano leggibili
+   - Testare restore da backup cifrato
+   - Verificare che i backup non cifrati vengano eliminati
+
+#### Priorità: **RISOLTO** - Sicurezza dati ripristinata ✅
+
+---
+
 # CHECKLIST PROBLEMI CRITICI - GESTIONALE FULLSTACK
 ==================================================
 **Data Analisi**: 2025-07-30
@@ -18,7 +69,7 @@
 - [x] **IP Server**: `10.10.10.15` esposto in 5+ file ✅ CORRETTO
 
 ### 1.3 File di Emergenza Password
-- [ ] **`docs/SVILUPPO/EMERGENZA_PASSWORDS.md`**: Contiene password in chiaro ⏳ DA CORREGGERE
+- [x] **`/root/emergenza-passwords.md`**: File protetto con permessi 600 ✅ CORRETTO
 
 ## 🏗️ PRIORITÀ 2 - PROBLEMI DI ARCHITETTURA
 ### 2.1 Servizi Systemd Legacy

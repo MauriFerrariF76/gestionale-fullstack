@@ -50,15 +50,22 @@ Aggiungi una riga a `crontab -e` per backup giornaliero:
 0 2 * * * pg_dump -U gestionale_user -h localhost -F c -b -v -f /percorso/backup/gestionale_db_$(date +\%F).backup gestionale
 ```
 
-### Backup automatico configurazioni server su NAS
+### Backup automatico Docker su NAS
 
 #### Descrizione
-Il sistema esegue automaticamente il backup delle configurazioni del server su NAS002 (Synology) ogni notte alle 02:00.
+Il sistema esegue automaticamente il backup completo Docker (database, configurazioni, segreti) su NAS002 (Synology) ogni notte alle 02:15.
 
 #### Script utilizzato
-- **File**: `docs/server/backup_config_server.sh`
-- **Cron job**: `0 2 * * *` (ogni notte alle 02:00 CEST)
+- **File**: `docs/server/backup_docker_automatic.sh`
+- **Cron job**: `15 2 * * *` (ogni notte alle 02:15 CEST)
 - **Destinazione**: `/mnt/backup_gestionale/` (NAS002)
+- **Backup locali**: `backup/docker/` (cartella dedicata)
+
+#### Tipi di backup eseguiti
+- **Database PostgreSQL**: Dump completo cifrato
+- **Segreti Docker**: Password e chiavi JWT cifrate
+- **Configurazioni Docker**: File di configurazione
+- **Script Docker**: Script di backup e restore
 
 #### Configurazione NAS
 Il NAS è montato con i seguenti parametri in `/etc/fstab`:
@@ -71,31 +78,107 @@ In caso di errore, viene inviata una email a:
 - `ferraripietrosnc.mauri@outlook.it`
 - `mauriferrari76@gmail.com`
 
-#### Report settimanale
-Ogni domenica alle 08:00 viene generato e inviato un report settimanale dei backup.
+#### Report settimanale Docker
+Ogni domenica alle 08:30 viene generato e inviato un report settimanale dei backup Docker.
 
-**Script utilizzato**: `docs/server/backup_weekly_report.sh`
-**Cron job**: `0 8 * * 0` (ogni domenica alle 08:00 CEST)
+**Script utilizzato**: `docs/server/backup_weekly_report_docker.sh`
+**Cron job**: `30 8 * * 0` (ogni domenica alle 08:30 CEST)
 
 #### Contenuto del report
 - 📊 Statistiche generali (backup riusciti, errori, tentativi mount)
 - 📅 Log degli ultimi 7 giorni
 - 📋 Riepilogo file backupati
 - 🔍 Verifiche aggiuntive (spazio, permessi, cron attivo)
+- 🐳 Stato container Docker
+- 🔧 Statistiche sistema Docker
 
 #### Verifica manuale
 ```bash
 # Controllo file backupati
 ls -la /mnt/backup_gestionale/
 
+# Controllo backup locali
+ls -la /home/mauri/gestionale-fullstack/backup/docker/
+
 # Controllo log
-cat /mnt/backup_gestionale/backup_config_server.log
+cat /mnt/backup_gestionale/backup_docker.log
 
-# Test manuale backup
-sudo /home/mauri/gestionale-fullstack/docs/server/backup_config_server.sh
+# Test manuale backup Docker
+sudo /home/mauri/gestionale-fullstack/docs/server/backup_docker_automatic.sh
 
-# Test manuale report
-/home/mauri/gestionale-fullstack/docs/server/backup_weekly_report.sh
+# Test manuale report Docker
+/home/mauri/gestionale-fullstack/docs/server/backup_weekly_report_docker.sh
+
+# Test restore Docker
+/home/mauri/gestionale-fullstack/docs/server/test_restore_docker_backup.sh
+```
+
+### Backup automatico GitHub → NAS
+
+#### Descrizione
+Sistema di backup automatico del repository GitHub su NAS002 per garantire ridondanza e indipendenza da GitHub.
+
+#### Script utilizzato
+- **File**: `/usr/local/bin/backup_github_to_nas.sh`
+- **Cron job**: `0 2 * * 0` (ogni domenica alle 02:00 CEST)
+- **Destinazione**: `/backup/gestionale/` (NAS002 - 10.10.10.21)
+
+#### Contenuto del backup
+- **Repository completo**: Mirror del repository GitHub
+- **Versioni**: Tutte le versioni e tag
+- **Storia**: Intera cronologia dei commit
+- **Formato**: Archivio tar.gz con timestamp
+
+#### Configurazione script
+```bash
+#!/bin/bash
+# backup_github_to_nas.sh
+# Backup automatico da GitHub a NAS002
+
+# Configurazione
+GITHUB_REPO="https://github.com/MauriFerrariF76/gestionale-fullstack.git"
+NAS_BACKUP="/mnt/nas_backup/gestionale/"
+BACKUP_DATE=$(date +%Y%m%d_%H%M%S)
+
+# Crea backup
+git clone --mirror $GITHUB_REPO /tmp/gestionale_backup
+tar -czf /tmp/gestionale_$BACKUP_DATE.tar.gz -C /tmp gestionale_backup
+
+# Copia su NAS
+scp /tmp/gestionale_$BACKUP_DATE.tar.gz mauri@10.10.10.21:/backup/gestionale/
+
+# Pulizia
+rm -rf /tmp/gestionale_backup
+rm /tmp/gestionale_$BACKUP_DATE.tar.gz
+```
+
+#### Setup automatico
+```bash
+# Crea script
+sudo nano /usr/local/bin/backup_github_to_nas.sh
+# (inserisci contenuto sopra)
+
+# Rendi eseguibile
+sudo chmod +x /usr/local/bin/backup_github_to_nas.sh
+
+# Aggiungi a crontab
+crontab -e
+# Aggiungi: 0 2 * * 0 /usr/local/bin/backup_github_to_nas.sh
+```
+
+#### Vantaggi
+- ✅ **Ridondanza**: Backup locale indipendente da GitHub
+- ✅ **Recovery**: Ripristino rapido se GitHub non è disponibile
+- ✅ **Versioning**: Mantiene tutte le versioni
+- ✅ **Automazione**: Backup settimanale automatico
+
+#### Verifica manuale
+```bash
+# Controllo backup GitHub su NAS
+ls -la /backup/gestionale/
+
+# Test ripristino da backup NAS
+tar -tzf /backup/gestionale/gestionale_YYYYMMDD_HHMMSS.tar.gz
 ```
 
 ---
@@ -347,7 +430,98 @@ A: Dipende dalla dimensione del database. In genere 10-30 minuti.
 A: Sì, usa `pg_restore -t nome_tabella backup_file.backup`.
 
 ### Q: Cosa fare se ho perso le password?
-A: Contatta l'amministratore o consulta il file `EMERGENZA_PASSWORDS.md`.
+A: Contatta l'amministratore o consulta il file protetto: `sudo cat /root/emergenza-passwords.md`
+
+---
+
+## 8. Procedure di Emergenza
+
+### 🔐 Accesso Credenziali di Emergenza
+```bash
+# Accesso sicuro alle credenziali protette
+sudo cat /root/emergenza-passwords.md
+
+# Verifica che il file esista e sia protetto
+ls -la /root/emergenza-passwords.md
+# Risultato atteso: -rw------- 1 root root [dimensione] [data] /root/emergenza-passwords.md
+```
+
+### 🚨 Scenari di Emergenza
+
+#### **Scenario 1: Server non risponde, accesso SSH**
+```bash
+# 1. Connettiti via SSH
+ssh root@IP_SERVER
+
+# 2. Accedi alle credenziali
+sudo cat /root/emergenza-passwords.md
+
+# 3. Verifica servizi Docker
+docker-compose ps
+
+# 4. Riavvia se necessario
+docker-compose restart
+```
+
+#### **Scenario 2: Database corrotto, ripristino urgente**
+```bash
+# 1. Accedi alle credenziali protette
+sudo cat /root/emergenza-passwords.md
+
+# 2. Trova il backup più recente
+ls -la /mnt/backup_gestionale/database/ | grep backup
+
+# 3. Ripristina database
+docker-compose exec postgres pg_restore -U gestionale_user -d gestionale backup_file.sql
+
+# 4. Verifica integrità
+docker-compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT COUNT(*) FROM users;"
+```
+
+#### **Scenario 3: Password admin dimenticata**
+```bash
+# 1. Accedi alle credenziali protette
+sudo cat /root/emergenza-passwords.md
+
+# 2. Usa le credenziali di emergenza per login
+# Email: admin@gestionale.local
+# Password: Admin2025!
+
+# 3. Se non funzionano, reset completo
+./scripts/setup_secrets.sh
+docker-compose up -d
+```
+
+#### **Scenario 4: Server nuovo, ripristino completo**
+```bash
+# 1. Installa sistema base (Ubuntu Server)
+# 2. Installa Docker e Docker Compose
+# 3. Clona repository
+git clone [repository_url]
+
+# 4. Ripristina credenziali protette
+sudo cp backup/emergenza-passwords.md /root/
+sudo chmod 600 /root/emergenza-passwords.md
+sudo chown root:root /root/emergenza-passwords.md
+
+# 5. Accedi alle credenziali
+sudo cat /root/emergenza-passwords.md
+
+# 6. Ripristina segreti Docker
+./scripts/restore_secrets.sh backup_file.tar.gz.gpg
+
+# 7. Avvia servizi
+docker-compose up -d
+```
+
+### 📋 Checklist Emergenza
+- [ ] **Accesso SSH** al server funzionante
+- [ ] **File protetto** `/root/emergenza-passwords.md` accessibile
+- [ ] **Credenziali** copiate correttamente
+- [ ] **Servizi Docker** avviati e funzionanti
+- [ ] **Database** connesso e operativo
+- [ ] **Frontend** accessibile via browser
+- [ ] **Backup** verificati e integri
 
 ---
 

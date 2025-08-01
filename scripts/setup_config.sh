@@ -197,7 +197,7 @@ create_nas_config() {
 
 ## Credenziali
 - Master Password: "La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"
-- Vedi EMERGENZA_PASSWORDS.md per dettagli
+- Vedi emergenza-passwords.md per dettagli
 
 ## Contatti Emergenza
 - Amministratore: [NOME] - [TELEFONO]
