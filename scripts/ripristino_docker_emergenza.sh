@@ -44,11 +44,13 @@ ripristino_emergenza() {
         sudo ./scripts/install_docker.sh
     fi
     
-    if ! command -v docker-compose &> /dev/null; then
-        log_error "Docker Compose non installato!"
-        echo "   Installazione automatica Docker Compose..."
-        sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
+    if ! docker compose version &> /dev/null; then
+        if ! command -v docker-compose &> /dev/null; then
+            log_error "Docker Compose non installato!"
+            echo "   Installazione automatica Docker Compose..."
+            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+        fi
     fi
     
     log_success "Docker e Docker Compose verificati"
@@ -82,7 +84,7 @@ echo "$JWT_SECRET" > secrets/jwt_secret.txt
     # Passo 3: Ferma servizi esistenti
     log_info "Passo 3: Pulizia servizi esistenti..."
     
-    docker-compose down 2>/dev/null || true
+    docker compose down 2>/dev/null || true
     docker system prune -f 2>/dev/null || true
     
     log_success "Servizi esistenti fermati"
@@ -97,8 +99,8 @@ echo "$JWT_SECRET" > secrets/jwt_secret.txt
     # Passo 5: Build e avvio servizi
     log_info "Passo 5: Build e avvio servizi..."
     
-    docker-compose build --no-cache
-    docker-compose up -d
+    docker compose build --no-cache
+    docker compose up -d
     
     log_success "Servizi avviati"
     
@@ -109,11 +111,11 @@ echo "$JWT_SECRET" > secrets/jwt_secret.txt
     sleep 30
     
     # Verifica container
-    if docker-compose ps | grep -q "Up"; then
+    if docker compose ps | grep -q "Up"; then
         log_success "Container attivi"
     else
         log_error "Alcuni container non sono attivi"
-        docker-compose ps
+        docker compose ps
         exit 1
     fi
     
@@ -122,7 +124,7 @@ echo "$JWT_SECRET" > secrets/jwt_secret.txt
         log_success "Health check OK"
     else
         log_warning "Health check non risponde, controlla log..."
-        docker-compose logs --tail=20
+        docker compose logs --tail=20
     fi
     
     # Verifica frontend
@@ -130,15 +132,15 @@ echo "$JWT_SECRET" > secrets/jwt_secret.txt
         log_success "Frontend accessibile"
     else
         log_warning "Frontend non accessibile, controlla log..."
-        docker-compose logs frontend --tail=10
+        docker compose logs frontend --tail=10
     fi
     
     # Verifica database
-    if docker-compose exec -T postgres pg_isready -U gestionale_user -d gestionale &>/dev/null; then
+    if docker compose exec -T postgres pg_isready -U gestionale_user -d gestionale &>/dev/null; then
         log_success "Database connesso"
     else
         log_warning "Database non connesso, controlla log..."
-        docker-compose logs postgres --tail=10
+        docker compose logs postgres --tail=10
     fi
 }
 

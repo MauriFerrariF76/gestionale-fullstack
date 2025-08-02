@@ -41,9 +41,16 @@ check_prerequisites() {
     fi
     
     # Verifica Docker Compose
-    if ! command -v docker-compose &> /dev/null; then
-        log_error "Docker Compose non installato!"
-        echo "   Installa Docker Compose con: ./scripts/install_docker.sh"
+    if ! command -v docker &> /dev/null; then
+        log_error "Docker non installato!"
+        echo "   Installa Docker con: ./scripts/install_docker.sh"
+        exit 1
+    fi
+    
+    # Verifica Docker Compose plugin
+    if ! docker compose version &> /dev/null; then
+        log_error "Docker Compose plugin non installato!"
+        echo "   Installa Docker Compose plugin con: ./scripts/install_docker.sh"
         exit 1
     fi
     
@@ -114,15 +121,15 @@ start_services() {
     log_info "Avvio servizi Docker..."
     
     # Ferma servizi esistenti
-    docker-compose down 2>/dev/null || true
+    docker compose down 2>/dev/null || true
     
     # Build delle immagini
     log_info "Build immagini Docker..."
-    docker-compose build --no-cache
+    docker compose build --no-cache
     
     # Avvia servizi
     log_info "Avvio servizi..."
-    docker-compose up -d
+    docker compose up -d
     
     log_success "Servizi avviati"
 }
@@ -135,11 +142,11 @@ check_services() {
     sleep 10
     
     # Verifica container attivi
-    if docker-compose ps | grep -q "Up"; then
+    if docker compose ps | grep -q "Up"; then
         log_success "Tutti i servizi sono attivi"
     else
         log_error "Alcuni servizi non sono attivi"
-        docker-compose ps
+        docker compose ps
         exit 1
     fi
     
@@ -147,7 +154,7 @@ check_services() {
     log_info "Verifica health checks..."
     sleep 30
     
-    if docker-compose exec -T postgres pg_isready -U gestionale_user -d gestionale &>/dev/null; then
+    if docker compose exec -T postgres pg_isready -U gestionale_user -d gestionale &>/dev/null; then
         log_success "Database PostgreSQL OK"
     else
         log_warning "Database PostgreSQL non pronto"
@@ -177,15 +184,15 @@ show_info() {
     echo "   💚 Health Check: http://localhost/health"
     echo ""
     echo "🔧 Comandi utili:"
-    echo "   Visualizza log: docker-compose logs -f"
-    echo "   Ferma servizi: docker-compose down"
-    echo "   Riavvia servizi: docker-compose restart"
-    echo "   Ricostruisci: docker-compose up -d --build"
+    echo "   Visualizza log: docker compose logs -f"
+    echo "   Ferma servizi: docker compose down"
+    echo "   Riavvia servizi: docker compose restart"
+    echo "   Ricostruisci: docker compose up -d --build"
     echo ""
     echo "📊 Monitoraggio:"
-    echo "   Stato servizi: docker-compose ps"
-    echo "   Log specifico: docker-compose logs -f backend"
-    echo "   Log database: docker-compose logs -f postgres"
+    echo "   Stato servizi: docker compose ps"
+    echo "   Log specifico: docker compose logs -f backend"
+    echo "   Log database: docker compose logs -f postgres"
     echo ""
     echo "🔐 Segreti Docker:"
     echo "   Backup: ./scripts/backup_secrets.sh"

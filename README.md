@@ -11,7 +11,7 @@
 ./scripts/docker_quick_start.sh
 
 # Avvio manuale
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 🌐 Accesso Applicazione
@@ -22,16 +22,16 @@ docker-compose up -d
 ### 🔧 Comandi Utili
 ```bash
 # Stato servizi
-docker-compose ps
+docker compose ps
 
 # Log in tempo reale
-docker-compose logs -f
+docker compose logs -f
 
 # Ferma servizi
-docker-compose down
+docker compose down
 
 # Ricostruisci (dopo modifiche)
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### Strategia di Deploy
@@ -77,7 +77,7 @@ Il sistema utilizza **Docker secrets** per la gestione sicura delle credenziali:
 
 ### Vantaggi della Containerizzazione
 - **Ambiente uniforme**: Stessa configurazione ovunque
-- **Deploy semplificato**: `docker-compose up -d` per avviare tutto
+- **Deploy semplificato**: `docker compose up -d` per avviare tutto
 - **Backup facilitato**: Backup dei volumi Docker e segreti cifrati
 - **Scalabilità**: Facile aggiungere più istanze dei servizi
 - **Sicurezza**: Gestione centralizzata dei segreti con Docker secrets
@@ -158,10 +158,10 @@ curl http://localhost/health
 ./scripts/docker_quick_start.sh
 
 # Gestione servizi
-docker-compose up -d          # Avvia
-docker-compose down           # Ferma
-docker-compose restart        # Riavvia
-docker-compose logs -f        # Log
+docker compose up -d          # Avvia
+docker compose down           # Ferma
+docker compose restart        # Riavvia
+docker compose logs -f        # Log
 
 # Backup e ripristino
 ./scripts/backup_secrets.sh   # Backup segreti
@@ -171,15 +171,15 @@ docker-compose logs -f        # Log
 ### Monitoraggio
 ```bash
 # Stato servizi
-docker-compose ps
+docker compose ps
 
 # Health checks
 curl http://localhost/health
 
 # Log specifici
-docker-compose logs -f backend
-docker-compose logs -f frontend
-docker-compose logs -f postgres
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f postgres
 ```
 
 ---
@@ -220,13 +220,13 @@ curl http://localhost:3000
 ### Ripristino Rapido
 ```bash
 # 1. Ferma tutto
-docker-compose down
+docker compose down
 
 # 2. Ripristina segreti
 ./scripts/restore_secrets.sh backup_file.tar.gz.gpg
 
 # 3. Riavvia
-docker-compose up -d
+docker compose up -d
 
 # 4. Verifica
 curl http://localhost/health
@@ -235,7 +235,7 @@ curl http://localhost/health
 ### Reset Completo
 ```bash
 # 1. Ferma e rimuovi tutto
-docker-compose down -v
+docker compose down -v
 
 # 2. Setup da zero
 ./scripts/setup_docker.sh

@@ -62,9 +62,9 @@ backup_secrets() {
 backup_database() {
     log_info "Backup database PostgreSQL..."
     
-    if docker-compose ps postgres | grep -q "Up"; then
+    if docker compose ps postgres | grep -q "Up"; then
         BACKUP_FILE="database_backup_$(date +%F_%H%M%S).sql"
-        docker-compose exec -T postgres pg_dump -U gestionale_user gestionale > "$BACKUP_FILE"
+        docker compose exec -T postgres pg_dump -U gestionale_user gestionale > "$BACKUP_FILE"
         
         if [ $? -eq 0 ]; then
             log_success "Database salvato: $BACKUP_FILE"

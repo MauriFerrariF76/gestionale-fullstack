@@ -9,9 +9,9 @@ Questa cartella contiene tutta la documentazione del progetto, organizzata in du
 
 Contiene:
 - **Manuale Utente** - Come usare il gestionale
-- **Guide Operative** - Backup, ripristino, monitoring
+- **Guide Operative** - Backup, ripristino, Docker, log e monitoring
 - **Procedure Standard** - Step-by-step per operazioni comuni
-- **Guida Documentazione** - Come organizzare la documentazione
+- **Deploy Automatico** - Guida completa per deploy automatico
 
 **👥 Destinatari**: Operatori, utenti finali, amministratori di sistema
 
@@ -20,9 +20,10 @@ Contiene:
 
 Contiene:
 - **Checklist e Sicurezza** - Procedure di sicurezza e deploy
-- **Strategie e Architettura** - Containerizzazione, Active-Passive, Disaster Recovery
+- **Architettura e Docker** - Containerizzazione e strategie
 - **Configurazioni Server** - Setup, script, servizi Docker
 - **Convenzioni** - Standard di nomenclatura e sviluppo
+- **Analisi e Troubleshooting** - Report specifici e risoluzioni
 - **Credenziali di Emergenza** - Accesso critico ai sistemi
 
 **👥 Destinatari**: Sviluppatori, DevOps, amministratori tecnici
@@ -98,18 +99,19 @@ Contiene:
 
 ### 📖 MANUALE (Operativo)
 - **[📖 Manuale Utente](MANUALE/manuale-utente.md)** - Come usare il gestionale
+- **[🚀 Guida Deploy Automatico](MANUALE/guida-deploy-automatico-produzione.md)** - Deploy automatico produzione
 - **[💾 Guida Backup e Ripristino](MANUALE/guida-backup-e-ripristino.md)** - Backup, ripristino e disaster recovery
-- **[📊 Guida Monitoring](MANUALE/guida-monitoring.md)** - Come monitorare il sistema
-- **[📝 Guida Documentazione](MANUALE/guida-documentazione.md)** - Come organizzare la documentazione
+- **[🐳 Guida Docker](MANUALE/guida-docker.md)** - Gestione Docker e container
+- **[📊 Guida Log e Monitoring](MANUALE/guida-gestione-log.md)** - Gestione log e monitoring
 
 ### 🛠️ SVILUPPO (Tecnico)
 - **[🐳 Architettura e Docker](SVILUPPO/architettura-e-docker.md)** - Architettura, containerizzazione e resilienza
-- **[💾 Backup e Disaster Recovery](SVILUPPO/backup-e-disaster-recovery.md)** - Strategie backup e ripristino
-- **[📈 Scalabilità e Ottimizzazioni](SVILUPPO/scalabilita-e-ottimizzazioni.md)** - Performance e strategie future
 - **[🔒 Checklist Sicurezza](SVILUPPO/checklist-sicurezza.md)** - Checklist sicurezza completa
 - **[📋 Checklist Server](SVILUPPO/checklist-server-ubuntu.md)** - Setup server
-- **[🛠️ Guida Installazione](SVILUPPO/guida-installazione-server.md)** - Installazione server
+- **[📋 Checklist Problemi](SVILUPPO/checklist-problemi-critici.md)** - Problemi critici risolti
 - **[🚨 Emergenza Passwords](SVILUPPO/emergenza-passwords.md)** - **CRITICO** - Credenziali di emergenza (accesso: `sudo cat /root/emergenza-passwords.md`)
+- **[📝 Convenzioni](SVILUPPO/convenzioni-nomenclatura.md)** - Standard di nomenclatura
+- **[📋 TODO Operativo](SVILUPPO/todo-prossimi-interventi.md)** - Prossimi interventi
 
 ### 🖥️ SERVER (Operativo)
 - **[🐳 backup_docker_automatic.sh](server/backup_docker_automatic.sh)** - Script backup automatico Docker
@@ -119,6 +121,22 @@ Contiene:
 - **[🌐 nginx_gestionale.conf](server/nginx_gestionale.conf)** - Configurazione Nginx
 - **[🐳 docker-compose.yml](docker-compose.yml)** - Orchestrazione Docker
 - **[🔧 backend/Dockerfile](backend/Dockerfile)** - Container backend
+
+---
+
+## 🧹 Pulizia Documentazione Completata
+
+**Data**: $(date +%F)  
+**Stato**: ✅ COMPLETATA  
+
+### 📊 Risultati Pulizia
+- **File eliminati**: 16 file duplicati/inutili
+- **Riduzione**: ~35% dei file di documentazione
+- **Struttura**: Consolidata e organizzata
+- **Script principale**: `scripts/install-gestionale-completo.sh`
+
+### 📋 Dettagli Pulizia
+Vedi **[Pulizia Documentazione](SVILUPPO/pulizia-documentazione-completata.md)** per dettagli completi.
 
 ---
 
@@ -142,3 +160,24 @@ Contiene:
 ---
 
 **💡 Suggerimento**: Questa organizzazione rende più facile trovare la documentazione giusta per il tuo ruolo e le tue esigenze!
+
+---
+
+## Dove trovo cosa (tabella rapida)
+
+| Cosa vuoi fare?                | Script/Guida principale                        |
+|--------------------------------|------------------------------------------------|
+| Deploy automatico              | guida-deploy-automatico-produzione.md, install-gestionale-completo.sh |
+| Test/monitoraggio deploy       | test-vm-clone.sh, monitor-deploy-vm.sh         |
+| Backup segreti                 | backup_secrets.sh, guida-backup-e-ripristino.md|
+| Backup completo Docker         | backup_completo_docker.sh, guida-backup-e-ripristino.md |
+| Backup automatico su NAS       | backup_docker_automatic.sh, guida-backup-e-ripristino.md |
+| Restore segreti                | restore_secrets.sh, guida-backup-e-ripristino.md|
+| Restore completo               | restore_unified.sh, guida-backup-e-ripristino.md|
+| Ottimizzazione disco           | ottimizza-disco-vm.sh                          |
+| Gestione log e monitoring      | guida-gestione-log.md                          |
+| Sicurezza/checklist            | checklist-sicurezza.md, checklist-server-ubuntu.md |
+| Architettura e Docker          | architettura-e-docker.md, guida-docker.md      |
+| Manuale utente                 | manuale-utente.md                              |
+
+---

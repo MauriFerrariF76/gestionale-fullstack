@@ -68,3 +68,18 @@
 - Utente: mauri
 - Fuso orario: Europe/Rome (CEST/CET)
 - Documentazione: `/home/mauri/gestionale-fullstack/docs/` 
+
+---
+
+## Script utili per manutenzione server
+
+- **Backup segreti:** `scripts/backup_secrets.sh`
+- **Backup completo Docker:** `scripts/backup_completo_docker.sh`
+- **Backup automatico su NAS:** `docs/server/backup_docker_automatic.sh`
+- **Restore segreti:** `scripts/restore_secrets.sh`
+- **Restore unificato:** `scripts/restore_unified.sh`
+- **Ottimizzazione disco:** `scripts/ottimizza-disco-vm.sh`
+
+Verifica che i backup siano schedulati e testati regolarmente.
+
+--- 

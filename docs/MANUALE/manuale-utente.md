@@ -49,6 +49,26 @@
 
 ---
 
+## Domande frequenti (FAQ)
+
+**1. Non riesco ad accedere, cosa faccio?**
+- Controlla che email e password siano corretti (rispettare maiuscole/minuscole).
+- Se hai dimenticato la password, contatta l’amministratore o usa “Password dimenticata” se disponibile.
+
+**2. Il gestionale non si apre o dà errore?**
+- Prova a ricaricare la pagina.
+- Se il problema persiste, segnala all’amministratore (potrebbe essere in corso una manutenzione).
+
+**3. Non vedo i dati aggiornati.**
+- Prova a fare logout e login.
+- Se il problema continua, aggiorna la pagina o svuota la cache del browser.
+
+**4. Ho caricato un documento ma non lo trovo.**
+- Controlla nella sezione “Documenti”.
+- Se non compare, attendi qualche minuto e riprova.
+
+---
+
 **Aggiorna questo manuale se vengono aggiunte nuove funzionalità!**
 
 ---

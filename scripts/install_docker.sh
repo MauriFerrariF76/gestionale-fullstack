@@ -136,8 +136,10 @@ verify_installation() {
     fi
     
     # Verifica Docker Compose
-    if docker-compose --version &>/dev/null; then
-        log_success "Docker Compose funzionante: $(docker-compose --version)"
+    if docker compose version &>/dev/null; then
+        log_success "Docker Compose plugin funzionante: $(docker compose version)"
+    elif docker-compose --version &>/dev/null; then
+        log_success "Docker Compose standalone funzionante: $(docker-compose --version)"
     else
         log_error "Docker Compose non funzionante"
         return 1

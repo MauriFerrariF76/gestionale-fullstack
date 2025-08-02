@@ -1,7 +1,7 @@
-# Guida Gestione Log - Gestionale Fullstack
+# Guida Gestione Log e Monitoring - Gestionale Fullstack
 
 ## Panoramica
-Questa guida descrive come gestire i log del sistema gestionale, inclusi backup, applicazioni e sistema operativo.
+Questa guida descrive come gestire i log del sistema gestionale e monitorare le performance, inclusi backup, applicazioni e sistema operativo.
 
 ## Log del Sistema
 
@@ -60,10 +60,10 @@ Ubuntu include già configurazioni per:
 pm2 logs
 
 # Log Docker backend
-docker-compose logs -f backend
+docker compose logs -f backend
 
 # Log Docker frontend
-docker-compose logs -f frontend
+docker compose logs -f frontend
 ```
 
 #### Database PostgreSQL
@@ -179,3 +179,62 @@ tail -f /var/log/syslog | grep -i error
 - I log compressi vengono mantenuti per 30 giorni
 - Il sistema invia alert email per errori critici
 - Controllare regolarmente lo spazio disco dedicato ai log
+
+## Monitoring di Base
+
+### Controllo Servizi
+```bash
+# Verifica stato servizi
+docker compose ps
+
+# Health check backend
+curl -f http://localhost:3001/health
+
+# Health check frontend
+curl -f http://localhost:3000/
+
+# Stato database
+docker compose exec postgres pg_isready -U gestionale_user -d gestionale
+```
+
+### Monitoraggio Performance
+```bash
+# Utilizzo CPU e memoria
+htop
+
+# Utilizzo disco
+df -h
+
+# Processi Docker
+docker stats
+
+# Log in tempo reale
+docker compose logs -f
+```
+
+### Audit Log
+- Tutte le azioni critiche (login, logout, modifiche dati) vengono loggate nella tabella `audit_logs`
+- Controlla regolarmente per accessi sospetti o anomalie
+- Query utili:
+```sql
+-- Ultimi accessi
+SELECT * FROM audit_logs ORDER BY created_at DESC LIMIT 10;
+
+-- Tentativi di login falliti
+SELECT * FROM audit_logs WHERE action = 'LOGIN_FAILED' ORDER BY created_at DESC;
+
+-- Modifiche critiche
+SELECT * FROM audit_logs WHERE action IN ('CREATE', 'UPDATE', 'DELETE') ORDER BY created_at DESC;
+```
+
+## Alert e Notifiche
+
+### Configurazione Email
+- Backup automatici inviano notifiche in caso di errore
+- Report settimanali inviati automaticamente
+- Email di destinazione: `ferraripietrosnc.mauri@outlook.it`, `mauriferrari76@gmail.com`
+
+### Monitoring Avanzato (Opzionale)
+- **Prometheus + Grafana**: Per metriche e dashboard avanzate
+- **OpenTelemetry**: Per tracing distribuito
+- **Sentry**: Per error tracking in produzione

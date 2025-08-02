@@ -156,14 +156,14 @@ restore_database() {
             log_info "Trovato backup database Docker: $db_backup"
             
             # Avvia PostgreSQL container
-            docker-compose up -d postgres
+            docker compose up -d postgres
             
             # Attendi che PostgreSQL sia pronto
             log_info "Attendo che PostgreSQL sia pronto..."
             sleep 30
             
             # Ripristina database
-            if docker-compose exec -T postgres psql -U gestionale_user -d gestionale < "$db_backup"; then
+            if docker compose exec -T postgres psql -U gestionale_user -d gestionale < "$db_backup"; then
                 log_success "Database Docker ripristinato"
                 return 0
             else
@@ -218,7 +218,7 @@ start_services() {
     
     if [ "$DOCKER_AVAILABLE" = true ]; then
         # Avvia Docker Compose
-        if docker-compose up -d; then
+        if docker compose up -d; then
             log_success "Servizi Docker avviati"
             
             # Attendi che i servizi siano pronti
@@ -231,7 +231,7 @@ start_services() {
                 return 0
             else
                 log_warning "Health check fallito, controlla i log"
-                docker-compose logs
+                docker compose logs
             fi
         else
             log_error "Errore nell'avvio servizi Docker"

@@ -352,3 +352,18 @@ echo "✅ Ripristino completato!"
 - **Testa regolarmente** il processo di ripristino
 - **Mantieni aggiornato** il password manager o i file cifrati
 - **Documenta** la procedura di ripristino in un posto sicuro 
+
+---
+
+## Script operativi da usare per la sicurezza
+
+- **Backup segreti:** `scripts/backup_secrets.sh`
+- **Backup completo Docker:** `scripts/backup_completo_docker.sh`
+- **Backup automatico su NAS:** `docs/server/backup_docker_automatic.sh`
+- **Restore segreti:** `scripts/restore_secrets.sh`
+- **Restore unificato:** `scripts/restore_unified.sh`
+- **Ottimizzazione disco:** `scripts/ottimizza-disco-vm.sh`
+
+Verifica che questi script siano schedulati in cron dove necessario e che i backup vengano testati periodicamente.
+
+--- 

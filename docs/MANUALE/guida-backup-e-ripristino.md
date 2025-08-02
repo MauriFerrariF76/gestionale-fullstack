@@ -231,7 +231,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 # Verifica installazione
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 ### Fase 2: Clonazione Repository
@@ -259,22 +259,22 @@ cp -r /mnt/backup_gestionale/gestionale-fullstack/* .
 ### Fase 4: Ripristino Database
 ```bash
 # Avvia solo PostgreSQL
-docker-compose up -d postgres
+docker compose up -d postgres
 
 # Aspetta che il database sia pronto
 sleep 30
 
 # Ripristina backup
-docker-compose exec -T postgres pg_restore -U gestionale_user -d gestionale -v < backup_file.backup
+docker compose exec -T postgres pg_restore -U gestionale_user -d gestionale -v < backup_file.backup
 ```
 
 ### Fase 5: Avvio Completo
 ```bash
 # Avvia tutti i servizi
-docker-compose up -d
+docker compose up -d
 
 # Verifica stato
-docker-compose ps
+docker compose ps
 
 # Testa accesso
 curl http://localhost/health
@@ -287,16 +287,16 @@ curl http://localhost/health
 ### Ripristino solo database
 ```bash
 # Stop servizi
-docker-compose down
+docker compose down
 
 # Avvia solo database
-docker-compose up -d postgres
+docker compose up -d postgres
 
 # Ripristina backup
-docker-compose exec -T postgres pg_restore -U gestionale_user -d gestionale -v < backup_file.backup
+docker compose exec -T postgres pg_restore -U gestionale_user -d gestionale -v < backup_file.backup
 
 # Riavvio servizi
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Ripristino configurazioni
@@ -305,7 +305,7 @@ docker-compose up -d
 cp -r /mnt/backup_gestionale/config/* ./config/
 
 # Riavvio servizi per applicare modifiche
-docker-compose restart
+docker compose restart
 ```
 
 ### Ripristino segreti
@@ -522,6 +522,37 @@ docker-compose up -d
 - [ ] **Database** connesso e operativo
 - [ ] **Frontend** accessibile via browser
 - [ ] **Backup** verificati e integri
+
+---
+
+## Tabella rapida script backup e restore
+
+| Scopo                        | Script                                 | Dove si trova                |
+|------------------------------|----------------------------------------|------------------------------|
+| Backup segreti               | scripts/backup_secrets.sh              | scripts/                     |
+| Backup completo Docker       | scripts/backup_completo_docker.sh      | scripts/                     |
+| Backup automatico su NAS     | docs/server/backup_docker_automatic.sh | docs/server/                 |
+| Backup configurazioni server | docs/server/backup_config_server.sh     | docs/server/                 |
+| Restore segreti              | scripts/restore_secrets.sh             | scripts/                     |
+| Restore unificato            | scripts/restore_unified.sh             | scripts/                     |
+| Test restore backup Docker   | docs/server/test_restore_docker_backup.sh | docs/server/             |
+
+---
+
+## Esempio pratico di restore (Docker)
+
+```bash
+# 1. Copia il file di backup segreti nella directory del progetto
+cp /mnt/backup_gestionale/secrets_backup_2025-08-01.tar.gz.gpg ./
+
+# 2. Ripristina i segreti
+./scripts/restore_secrets.sh secrets_backup_2025-08-01.tar.gz.gpg
+
+# 3. Avvia i servizi
+sudo docker-compose up -d
+```
+
+Per restore completo, vedi anche `scripts/restore_unified.sh`.
 
 ---
 
