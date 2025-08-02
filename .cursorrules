@@ -14,7 +14,7 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - **PostgreSQL** come database relazionale (documentation: https://www.postgresql.org/docs/online-resources/ )
 - **Nginx** come reverse proxy e terminazione HTTPS (documentation: https://nginx.org/en/docs/ )
 - **MikroTik** per firewall, NAT, DNS statico e resilienza di rete (documentation: https://help.mikrotik.com/docs/spaces/ROS/pages/328059/RouterOS )
-- **Let’s Encrypt** per i certificati SSL
+- **Let's Encrypt** per i certificati SSL
 - **Git** per il versionamento del codice e della documentazione
 
 ## Obiettivi
@@ -32,7 +32,7 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - In `/docs` sono presenti:
   - **Checklist specifiche** (es. sicurezza, backup, deploy, ecc.) da seguire e aggiornare per ogni modifica o rilascio.
   - **Documentazione generale** sulla struttura del progetto, le tecnologie utilizzate, le implementazioni e gli strumenti adottati.
-  - **Manuale utente**: guida pratica per l’utilizzo del gestionale, da mantenere aggiornata ad ogni nuova funzionalità o modifica rilevante.
+  - **Manuale utente**: guida pratica per l'utilizzo del gestionale, da mantenere aggiornata ad ogni nuova funzionalità o modifica rilevante.
   - Il materiale di sviluppo deve essere inserito nella cartella  `/docs/SVILUPPO/`
   - Le guide e i manuali devono essere inseriti nella cartella  `/docs/MANUALE/`
 
@@ -81,8 +81,23 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 ## 8. Best practice: commit e push solo di versioni funzionanti
 
 - Prima di ogni commit e push, è obbligatorio testare manualmente che la versione sia funzionante e stabile (almeno nelle funzionalità principali).
-- Non committare né pushare versioni che presentano errori bloccanti, bug critici o che non permettono l’uso normale dell’applicazione.
+- Non committare né pushare versioni che presentano errori bloccanti, bug critici o che non permettono l'uso normale dell'applicazione.
 - Solo dopo aver verificato il corretto funzionamento, procedere con commit e push.
+
+## 9. Formattazione uniforme dei nomi dei file
+
+- **Nomi file sempre in minuscolo**: utilizzare esclusivamente lettere minuscole per i nomi dei file.
+- **Separatori con trattini**: utilizzare trattini (`-`) per separare le parole nei nomi dei file.
+- **Nessuna maiuscola**: evitare completamente l'uso di maiuscole nei nomi dei file.
+- **Esempi corretti**:
+  - ✅ `automazione.md`
+  - ✅ `checklist-automazione.md`
+  - ✅ `guida-backup-e-ripristino.md`
+  - ❌ `AUTOMAZIONE.md`
+  - ❌ `CHECKLIST-AUTOMAZIONE.md`
+  - ❌ `GuidaBackup.md`
+- **Applicazione retroattiva**: quando si incontrano file con nomi non conformi, rinominarli seguendo questa convenzione.
+- **Consistenza**: mantenere questa convenzione per tutti i file del progetto, inclusi script, configurazioni e documentazione.
 
 ---
 

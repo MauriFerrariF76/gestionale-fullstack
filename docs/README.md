@@ -9,7 +9,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 ### 📁 `/docs/SVILUPPO/` - Materiale di Sviluppo
 - **Architettura e configurazioni**: `architettura-e-docker.md`
 - **Checklist operative**: `checklist-*.md`
-- **Automazione**: `AUTOMAZIONE.md`, `CHECKLIST-AUTOMAZIONE.md`
+- **Automazione**: `automazione.md`, `checklist-automazione.md`
 - **Configurazioni server**: `configurazione-*.md`
 - **Analisi e troubleshooting**: `analisi-*.md`, `emergenza-*.md`
 
@@ -45,7 +45,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 ### 📋 Checklist Operative
 - **Sicurezza**: `/docs/SVILUPPO/checklist-sicurezza.md`
 - **Server**: `/docs/SVILUPPO/checklist-server-ubuntu.md`
-- **Automazione**: `/docs/SVILUPPO/CHECKLIST-AUTOMAZIONE.md`
+- **Automazione**: `/docs/SVILUPPO/checklist-automazione.md`
 - **Problemi critici**: `/docs/SVILUPPO/checklist-problemi-critici.md`
 
 ## Accesso e Deploy
@@ -79,7 +79,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 
 ### 🛠️ Sviluppo
 - **Architettura**: `/docs/SVILUPPO/architettura-e-docker.md`
-- **Automazione**: `/docs/SVILUPPO/AUTOMAZIONE.md`
+- **Automazione**: `/docs/SVILUPPO/automazione.md`
 - **Sicurezza**: `/docs/SVILUPPO/checklist-sicurezza.md`
 
 ### 📖 Manuali

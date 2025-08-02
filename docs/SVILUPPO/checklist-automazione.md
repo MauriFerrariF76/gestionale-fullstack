@@ -40,8 +40,8 @@
 - [x] Log configurati
 
 ### 5. Documentazione
-- [x] File `docs/SVILUPPO/AUTOMAZIONE.md` creato e aggiornato
-- [x] File `docs/SVILUPPO/CHECKLIST-AUTOMAZIONE.md` creato
+- [x] File `docs/SVILUPPO/automazione.md` creato e aggiornato
+- [x] File `docs/SVILUPPO/checklist-automazione.md` creato
 - [x] Istruzioni complete per setup e manutenzione
 - [x] **Spiegazione integrazione con backup esistenti**
 
