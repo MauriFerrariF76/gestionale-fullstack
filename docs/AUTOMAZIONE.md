@@ -4,6 +4,8 @@
 
 Questo documento descrive l'automazione essenziale implementata per garantire **manutenzione quasi zero** del gestionale, mantenendo solo i controlli di sicurezza critici.
 
+**IMPORTANTE**: L'automazione si **integra** con il sistema di backup esistente, non lo sostituisce.
+
 ## Componenti Automatizzati
 
 ### 1. **Dependabot - Sicurezza Automatica**
@@ -15,15 +17,14 @@ Questo documento descrive l'automazione essenziale implementata per garantire **
   - Dipendenze npm (backend e frontend)
   - GitHub Actions
 
-### 2. **Backup Automatico**
+### 2. **Backup Integrato (NON duplicato)**
 - **Script**: `scripts/backup-automatico.sh`
 - **Frequenza**: Giornaliero (02:00)
-- **Cosa fa**:
-  - Backup database PostgreSQL
-  - Backup codice Git
-  - Backup configurazioni (nginx, config, secrets)
-  - Pulizia backup vecchi (30 giorni)
-  - Verifica spazio disco
+- **Integrazione con backup esistenti**:
+  - ✅ **Backup principali**: `docs/server/backup_docker_automatic.sh` (su NAS)
+  - ✅ **Backup configurazioni**: `docs/server/backup_config_server.sh` (su NAS)
+  - ✅ **Backup emergenza**: Locale (solo se NAS non disponibile)
+  - ✅ **Backup Git**: Sempre locale (aggiuntivo)
 
 ### 3. **Monitoraggio Base**
 - **Script**: `scripts/monitoraggio-base.sh`
@@ -34,6 +35,42 @@ Questo documento descrive l'automazione essenziale implementata per garantire **
   - Certificato SSL valido
   - Spazio disco
   - Container Docker attivi
+
+## Architettura Backup
+
+### **Sistema Backup Completo**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    SISTEMA BACKUP INTEGRATO                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  🔒 BACKUP PRINCIPALI (NAS)                                │
+│  ├── docs/server/backup_docker_automatic.sh               │
+│  │   ├── Database PostgreSQL (cifrato)                    │
+│  │   ├── Segreti Docker (cifrati)                         │
+│  │   ├── Test restore automatico                          │
+│  │   └── Notifiche email                                  │
+│  │                                                        │
+│  ├── docs/server/backup_config_server.sh                  │
+│  │   ├── Configurazioni server                            │
+│  │   ├── Chiavi JWT (cifrate)                            │
+│  │   └── Sincronizzazione NAS                             │
+│  │                                                        │
+│  🚨 BACKUP EMERGENZA (Locale)                             │
+│  ├── scripts/backup-automatico.sh                         │
+│  │   ├── Git (sempre locale)                              │
+│  │   ├── Database (solo se NAS non disponibile)          │
+│  │   └── Configurazioni (solo se NAS non disponibile)    │
+│  │                                                        │
+│  📊 MONITORAGGIO                                           │
+│  └── scripts/monitoraggio-base.sh                         │
+│      ├── Controllo server                                 │
+│      ├── Controllo database                               │
+│      ├── Controllo SSL                                    │
+│      └── Alert automatici                                 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ## Configurazione
 
@@ -50,7 +87,7 @@ Questo documento descrive l'automazione essenziale implementata per garantire **
 # Vedi job cron attivi
 crontab -l
 
-# Test manuale backup
+# Test manuale backup integrato
 ./scripts/backup-automatico.sh
 
 # Test manuale monitoraggio
@@ -59,9 +96,10 @@ crontab -l
 
 ## File di Log
 
-- **Backup**: `/backup/backup.log`
+- **Backup integrato**: `/backup/backup.log`
 - **Monitoraggio**: `/backup/monitoraggio.log`
 - **Alert**: `/backup/alert.log`
+- **Backup NAS**: `/docs/server/backup_*.log`
 
 ## Manutenzione
 
@@ -70,6 +108,7 @@ crontab -l
 1. **Verifica log**: Controlla file di log per errori
 2. **Spazio disco**: Verifica che non sia pieno
 3. **Dependabot**: Controlla Pull Request di sicurezza
+4. **Backup NAS**: Verifica che i backup su NAS funzionino
 
 ### Interventi Manuali Solo Se:
 
@@ -78,15 +117,36 @@ crontab -l
 - 🔴 **Database offline**: Riavvia container PostgreSQL
 - 🔴 **SSL scaduto**: Rinnova certificato Let's Encrypt
 - 🔴 **Spazio disco pieno**: Pulisci backup vecchi
+- 🔴 **NAS non disponibile**: Verifica connessione NAS
+
+## Differenze con Backup Esistenti
+
+### **Backup Principali (NAS) - ESISTENTI**
+- ✅ Database PostgreSQL (cifrato)
+- ✅ Segreti Docker (cifrati)
+- ✅ Configurazioni server
+- ✅ Chiavi JWT (cifrate)
+- ✅ Test restore automatico
+- ✅ Notifiche email
+- ✅ Report settimanali
+
+### **Backup Emergenza (Locale) - NUOVI**
+- ✅ Git (sempre salvato)
+- ✅ Database (solo se NAS non disponibile)
+- ✅ Configurazioni (solo se NAS non disponibile)
+- ✅ Retention breve (7 giorni)
+- ✅ Verifica integrità backup esistenti
 
 ## Rimozione Automazione
 
 ```bash
-# Rimuovi tutti i job cron
+# Rimuovi solo i job cron aggiuntivi
 crontab -r
 
 # Rimuovi file Dependabot
 rm .github/dependabot.yml
+
+# I backup principali rimangono attivi
 ```
 
 ## Personalizzazione
@@ -106,11 +166,11 @@ In `scripts/setup-automazione.sh`, cambia:
 echo "0 2 * * * $BACKUP_SCRIPT ..."
 ```
 
-### Modifica Retention Backup
+### Modifica Retention Backup Emergenza
 
 In `scripts/backup-automatico.sh`, cambia:
 ```bash
-RETENTION_DAYS=30  # Giorni di retention
+RETENTION_DAYS=7  # Giorni di retention backup emergenza
 ```
 
 ## Troubleshooting
@@ -139,6 +199,18 @@ curl -I https://tuodominio.com
 tail -f backup/monitoraggio.log
 ```
 
+### Backup NAS Non Funziona
+```bash
+# Verifica script esistenti
+ls -la docs/server/backup_*.sh
+
+# Test manuale backup Docker
+./docs/server/backup_docker_automatic.sh
+
+# Verifica log NAS
+tail -f docs/server/backup_docker.log
+```
+
 ### Dependabot Non Funziona
 - Verifica che il repository sia su GitHub
 - Controlla le impostazioni del repository
@@ -147,7 +219,8 @@ tail -f backup/monitoraggio.log
 ## Sicurezza
 
 - ✅ Solo aggiornamenti di sicurezza (no funzionalità)
-- ✅ Backup crittografati (se necessario)
+- ✅ Backup cifrati su NAS (esistenti)
+- ✅ Backup emergenza locale
 - ✅ Log di tutte le operazioni
 - ✅ Alert automatici per problemi critici
 - ✅ Retention automatica dei backup
@@ -156,10 +229,11 @@ tail -f backup/monitoraggio.log
 
 - 🚀 **Manutenzione quasi zero**: Sistema gira da solo
 - 🔒 **Sicurezza automatica**: Vulnerabilità scoperte automaticamente
-- 💾 **Backup automatici**: Dati sempre protetti
+- 💾 **Backup ridondanti**: NAS + locale di emergenza
 - 📊 **Monitoraggio continuo**: Problemi rilevati subito
 - ⚡ **Interventi solo in emergenza**: Nessuna manutenzione preventiva
+- 🔄 **Integrazione intelligente**: Non duplica, integra
 
 ---
 
-**Nota**: Questa automazione è progettata per essere "set and forget". Una volta configurata, richiede interventi manuali solo in caso di emergenze o vulnerabilità critiche. 
+**Nota**: Questa automazione si integra con il sistema di backup esistente, fornendo backup di emergenza e monitoraggio aggiuntivo senza duplicare le funzionalità già presenti. 
