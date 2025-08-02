@@ -40,14 +40,6 @@
   - Standard di nomenclatura del progetto
   - **Stato**: ✅ ATTIVA
 
-- **`todo-prossimi-interventi.md`**
-  - Prossimi interventi da fare
-  - **Stato**: ✅ ATTIVA
-
-- **`verifica-tecnologie-completa.md`**
-  - Verifica tecnologie utilizzate
-  - **Stato**: ✅ ATTIVA
-
 ---
 
 ### 🟡 FILE OBSOLETI (Sostituiti dalla Checklist Unificata)
@@ -82,8 +74,6 @@
 
 ### Per Sviluppo
 1. **Convenzioni**: `convenzioni-nomenclatura.md`
-2. **TODO**: `todo-prossimi-interventi.md`
-3. **Verifica**: `verifica-tecnologie-completa.md`
 
 ---
 
@@ -148,8 +138,6 @@ mv docs/SVILUPPO/correzioni-comandi-docker-completate.md docs/archivio/
 
 ### File di Supporto:
 - **`convenzioni-nomenclatura.md`** - Standard progetto
-- **`todo-prossimi-interventi.md`** - Prossimi interventi
-- **`verifica-tecnologie-completa.md`** - Verifica tecnologie
 
 ### File di Configurazione:
 - **`configurazione-https-lets-encrypt.md`** - SSL/HTTPS

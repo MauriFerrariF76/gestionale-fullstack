@@ -12,7 +12,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Architettura**: `architettura-e-docker.md`
 - **Configurazioni**: `configurazione-*.md`
 - **Emergenza**: `emergenza-passwords.md`
-- **Sviluppo**: `convenzioni-nomenclatura.md`, `todo-prossimi-interventi.md`
+- **Sviluppo**: `convenzioni-nomenclatura.md`
 - **Organizzazione**: `README.md` (guida alla cartella)
 
 ### 📁 `/docs/MANUALE/` - Guide e Manuali
