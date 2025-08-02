@@ -7,11 +7,13 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 ## Struttura Documentazione
 
 ### 📁 `/docs/SVILUPPO/` - Materiale di Sviluppo
-- **Architettura e configurazioni**: `architettura-e-docker.md`
-- **Checklist operative**: `checklist-*.md`
-- **Automazione**: `automazione.md`, `checklist-automazione.md`
-- **Configurazioni server**: `configurazione-*.md`
-- **Analisi e troubleshooting**: `analisi-*.md`, `emergenza-*.md`
+- **Checklist operativa unificata**: `checklist-operativa-unificata.md` ⭐ **PRINCIPALE**
+- **Automazione**: `automazione.md`
+- **Architettura**: `architettura-e-docker.md`
+- **Configurazioni**: `configurazione-*.md`
+- **Emergenza**: `emergenza-passwords.md`
+- **Sviluppo**: `convenzioni-nomenclatura.md`, `todo-prossimi-interventi.md`
+- **Organizzazione**: `README.md` (guida alla cartella)
 
 ### 📁 `/docs/MANUALE/` - Guide e Manuali
 - **Manuale utente**: `manuale-utente.md`
