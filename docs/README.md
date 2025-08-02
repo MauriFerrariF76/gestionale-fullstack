@@ -1,183 +1,96 @@
-# 📚 Documentazione Gestionale Fullstack
+# Documentazione Gestionale Fullstack
 
-Questa cartella contiene tutta la documentazione del progetto, organizzata in due sezioni principali per facilitare la navigazione e l'utilizzo.
+## Panoramica
 
-## 📁 Struttura della Documentazione
+Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendenti e documenti, accessibile sia da LAN che da remoto tramite dominio pubblico e HTTPS.
 
-### 📖 [MANUALE/](MANUALE/) - Guide Operative e Manuale Utente
-**Per operatori, utenti finali e amministratori di sistema**
+## Struttura Documentazione
 
-Contiene:
-- **Manuale Utente** - Come usare il gestionale
-- **Guide Operative** - Backup, ripristino, Docker, log e monitoring
-- **Procedure Standard** - Step-by-step per operazioni comuni
-- **Deploy Automatico** - Guida completa per deploy automatico
+### 📁 `/docs/SVILUPPO/` - Materiale di Sviluppo
+- **Architettura e configurazioni**: `architettura-e-docker.md`
+- **Checklist operative**: `checklist-*.md`
+- **Automazione**: `AUTOMAZIONE.md`, `CHECKLIST-AUTOMAZIONE.md`
+- **Configurazioni server**: `configurazione-*.md`
+- **Analisi e troubleshooting**: `analisi-*.md`, `emergenza-*.md`
 
-**👥 Destinatari**: Operatori, utenti finali, amministratori di sistema
+### 📁 `/docs/MANUALE/` - Guide e Manuali
+- **Manuale utente**: `manuale-utente.md`
+- **Guide operative**: `guida-*.md`
+- **Procedure backup**: `guida-backup-e-ripristino.md`
+- **Deploy**: `guida-deploy-automatico-produzione.md`
 
-### 🛠️ [SVILUPPO/](SVILUPPO/) - Documentazione Tecnica e Checklist
-**Per sviluppatori, DevOps e amministratori tecnici**
+### 📁 `/docs/server/` - Configurazioni Server
+- **Script di backup**: `backup_*.sh`
+- **Configurazioni nginx**: `*.conf`
+- **Log e report**: `*.log`
 
-Contiene:
-- **Checklist e Sicurezza** - Procedure di sicurezza e deploy
-- **Architettura e Docker** - Containerizzazione e strategie
-- **Configurazioni Server** - Setup, script, servizi Docker
-- **Convenzioni** - Standard di nomenclatura e sviluppo
-- **Analisi e Troubleshooting** - Report specifici e risoluzioni
-- **Credenziali di Emergenza** - Accesso critico ai sistemi
+## Tecnologie Utilizzate
 
-**👥 Destinatari**: Sviluppatori, DevOps, amministratori tecnici
+- **Backend**: Node.js/Express con autenticazione JWT
+- **Frontend**: Next.js/React con gestione ruoli
+- **Database**: PostgreSQL
+- **Reverse Proxy**: Nginx con HTTPS
+- **Infrastruttura**: Docker, MikroTik, Let's Encrypt
 
-### 🖥️ [server/](server/) - Script e Configurazioni Operative
-**Script attivi, configurazioni e log per il server Ubuntu**
+## Automazione e Sicurezza
 
-Contiene:
-- **Script di Backup Docker** - Script automatici per backup database, configurazioni e segreti Docker
-- **Script di Test Restore** - Script per testare l'integrità dei backup
-- **Script di Report** - Script per report settimanali e monitoring
-- **Configurazioni Nginx** - Configurazioni operative del web server
-- **Servizi Docker** - File di configurazione per i container backend e frontend
-- **Log e Configurazioni** - Log operativi e configurazioni del sistema
+### 🔒 Automazione Essenziale
+- **Dependabot**: Monitoraggio vulnerabilità automatico
+- **Backup integrati**: NAS + locale di emergenza
+- **Monitoraggio continuo**: Server, database, SSL
+- **Manutenzione quasi zero**: Sistema automatizzato
 
-**👥 Destinatari**: Amministratori di sistema, operatori tecnici
+**Documentazione**: `/docs/SVILUPPO/AUTOMAZIONE.md`
 
----
+### 📋 Checklist Operative
+- **Sicurezza**: `/docs/SVILUPPO/checklist-sicurezza.md`
+- **Server**: `/docs/SVILUPPO/checklist-server-ubuntu.md`
+- **Automazione**: `/docs/SVILUPPO/CHECKLIST-AUTOMAZIONE.md`
+- **Problemi critici**: `/docs/SVILUPPO/checklist-problemi-critici.md`
 
-## 🚀 Come Iniziare
+## Accesso e Deploy
 
-### Se sei un **Operatore/Utente Finale**:
-1. Vai in **[MANUALE/](MANUALE/)** 
-2. Inizia dal **[Manuale Utente](MANUALE/manuale-utente.md)**
-3. Consulta le guide operative quando necessario
+### 🌐 Accesso Produzione
+- **URL**: https://tuodominio.com
+- **HTTPS**: Certificati Let's Encrypt automatici
+- **Firewall**: MikroTik con regole specifiche
 
-### Se sei un **Amministratore di Sistema**:
-1. Vai in **[MANUALE/](MANUALE/)** per le guide operative
-2. Vai in **[SVILUPPO/](SVILUPPO/)** per le configurazioni tecniche
-3. Vai in **[server/](server/)** per script e configurazioni operative
-4. Segui sempre le checklist di sicurezza
-5. **CRITICO**: Consulta **`sudo cat /root/emergenza-passwords.md`** per credenziali di emergenza (file protetto)
+### 🚀 Deploy
+- **Automatico**: Docker Compose
+- **Backup**: NAS Synology + locale
+- **Monitoraggio**: Script automatici
 
-### Se sei un **Sviluppatore/DevOps**:
-1. Vai in **[SVILUPPO/](SVILUPPO/)**
-2. Inizia dalle **[Convenzioni Nomenclatura](SVILUPPO/convenzioni-nomenclatura.md)**
-3. Consulta **[Architettura e Docker](SVILUPPO/architettura-e-docker.md)**
+## Manutenzione
 
----
+### Controlli Periodici
+1. **Sicurezza**: Verifica vulnerabilità Dependabot
+2. **Backup**: Controllo log backup NAS e locale
+3. **Monitoraggio**: Verifica alert automatici
+4. **Spazio disco**: Controllo utilizzo
 
-## 📋 File Speciali
+### Interventi Solo Se
+- 🔴 Vulnerabilità critica
+- 🔴 Server down
+- 🔴 Database offline
+- 🔴 SSL scaduto
+- 🔴 Spazio disco pieno
 
-### 🔐 File Emergenza Protetto
-**Accesso**: `sudo cat /root/emergenza-passwords.md`  
-**Posizione**: `/root/emergenza-passwords.md` (solo root)  
-**Backup**: Automatico incluso nei backup esistenti
-**CRITICO** - Credenziali di emergenza per accesso al sistema
-- Mantieni sempre aggiornato
-- Conserva una copia cartacea sicura
-- Aggiorna dopo ogni cambio password
+## Documentazione Principale
 
-### 🖥️ [server/](server/) - Script Operativi
-**Script attivi e configurazioni per il server Ubuntu**:
-- **backup_docker_automatic.sh** - Script backup automatico Docker completo
-- **backup_config_server.sh** - Script backup configurazioni server
-- **test_restore_docker_backup.sh** - Script test restore Docker
-- **backup_weekly_report_docker.sh** - Script report settimanali Docker
-- **nginx_gestionale.conf** - Configurazione Nginx
-- **gestionale-backend.service** - Servizio systemd backend
-- **gestionale-frontend.service** - Servizio systemd frontend
+### 🛠️ Sviluppo
+- **Architettura**: `/docs/SVILUPPO/architettura-e-docker.md`
+- **Automazione**: `/docs/SVILUPPO/AUTOMAZIONE.md`
+- **Sicurezza**: `/docs/SVILUPPO/checklist-sicurezza.md`
 
-### 📁 [archivio/](archivio/) - Documenti Storici
-- **backup-router.txt** - Configurazioni router storiche
-- **Gest-GPT5.txt** - Documento di progetto originale
-- **STATO_BACKEND_AUTENTICAZIONE_v2.txt** - Stato sviluppo precedente
-- **data-1753102894027.csv** - Dati temporanei
-- **chat claude 1.txt** - Chat di sviluppo
-- **riorganizzazione-processo-2025.md** - Documentazione del processo di riorganizzazione
+### 📖 Manuali
+- **Utente**: `/docs/MANUALE/manuale-utente.md`
+- **Backup**: `/docs/MANUALE/guida-backup-e-ripristino.md`
+- **Deploy**: `/docs/MANUALE/guida-deploy-automatico-produzione.md`
+
+### ⚙️ Server
+- **Backup**: `/docs/server/backup_*.sh`
+- **Configurazioni**: `/docs/server/*.conf`
 
 ---
 
-## 🔗 Collegamenti Rapidi
-
-### 📖 MANUALE (Operativo)
-- **[📖 Manuale Utente](MANUALE/manuale-utente.md)** - Come usare il gestionale
-- **[🚀 Guida Deploy Automatico](MANUALE/guida-deploy-automatico-produzione.md)** - Deploy automatico produzione
-- **[💾 Guida Backup e Ripristino](MANUALE/guida-backup-e-ripristino.md)** - Backup, ripristino e disaster recovery
-- **[🐳 Guida Docker](MANUALE/guida-docker.md)** - Gestione Docker e container
-- **[📊 Guida Log e Monitoring](MANUALE/guida-gestione-log.md)** - Gestione log e monitoring
-
-### 🛠️ SVILUPPO (Tecnico)
-- **[🐳 Architettura e Docker](SVILUPPO/architettura-e-docker.md)** - Architettura, containerizzazione e resilienza
-- **[🔒 Checklist Sicurezza](SVILUPPO/checklist-sicurezza.md)** - Checklist sicurezza completa
-- **[📋 Checklist Server](SVILUPPO/checklist-server-ubuntu.md)** - Setup server
-- **[📋 Checklist Problemi](SVILUPPO/checklist-problemi-critici.md)** - Problemi critici risolti
-- **[🚨 Emergenza Passwords](SVILUPPO/emergenza-passwords.md)** - **CRITICO** - Credenziali di emergenza (accesso: `sudo cat /root/emergenza-passwords.md`)
-- **[📝 Convenzioni](SVILUPPO/convenzioni-nomenclatura.md)** - Standard di nomenclatura
-- **[📋 TODO Operativo](SVILUPPO/todo-prossimi-interventi.md)** - Prossimi interventi
-
-### 🖥️ SERVER (Operativo)
-- **[🐳 backup_docker_automatic.sh](server/backup_docker_automatic.sh)** - Script backup automatico Docker
-- **[⚙️ backup_config_server.sh](server/backup_config_server.sh)** - Script backup configurazioni
-- **[🧪 test_restore_docker_backup.sh](server/test_restore_docker_backup.sh)** - Script test restore Docker
-- **[📊 backup_weekly_report_docker.sh](server/backup_weekly_report_docker.sh)** - Script report settimanali Docker
-- **[🌐 nginx_gestionale.conf](server/nginx_gestionale.conf)** - Configurazione Nginx
-- **[🐳 docker-compose.yml](docker-compose.yml)** - Orchestrazione Docker
-- **[🔧 backend/Dockerfile](backend/Dockerfile)** - Container backend
-
----
-
-## 🧹 Pulizia Documentazione Completata
-
-**Data**: $(date +%F)  
-**Stato**: ✅ COMPLETATA  
-
-### 📊 Risultati Pulizia
-- **File eliminati**: 16 file duplicati/inutili
-- **Riduzione**: ~35% dei file di documentazione
-- **Struttura**: Consolidata e organizzata
-- **Script principale**: `scripts/install-gestionale-completo.sh`
-
-### 📋 Dettagli Pulizia
-Vedi **[Pulizia Documentazione](SVILUPPO/pulizia-documentazione-completata.md)** per dettagli completi.
-
----
-
-## 📝 Note Importanti
-
-### Aggiornamento Documentazione
-- **Aggiorna sempre** la documentazione quando modifichi funzionalità o procedure
-- **Segui le checklist** per ogni operazione critica
-- **Testa sempre** le procedure prima di documentarle
-
-### Sicurezza
-- **Mantieni aggiornato** il file protetto: `sudo nano /root/emergenza-passwords.md`
-- **Segui sempre** le checklist di sicurezza
-- **Documenta** ogni modifica alle configurazioni di sicurezza
-
-### Collaborazione
-- **Leggi sempre** la documentazione prima di iniziare a lavorare
-- **Aggiorna** la documentazione dopo ogni modifica significativa
-- **Segui** le convenzioni di nomenclatura
-
----
-
-**💡 Suggerimento**: Questa organizzazione rende più facile trovare la documentazione giusta per il tuo ruolo e le tue esigenze!
-
----
-
-## Dove trovo cosa (tabella rapida)
-
-| Cosa vuoi fare?                | Script/Guida principale                        |
-|--------------------------------|------------------------------------------------|
-| Deploy automatico              | guida-deploy-automatico-produzione.md, install-gestionale-completo.sh |
-| Test/monitoraggio deploy       | test-vm-clone.sh, monitor-deploy-vm.sh         |
-| Backup segreti                 | backup_secrets.sh, guida-backup-e-ripristino.md|
-| Backup completo Docker         | backup_completo_docker.sh, guida-backup-e-ripristino.md |
-| Backup automatico su NAS       | backup_docker_automatic.sh, guida-backup-e-ripristino.md |
-| Restore segreti                | restore_secrets.sh, guida-backup-e-ripristino.md|
-| Restore completo               | restore_unified.sh, guida-backup-e-ripristino.md|
-| Ottimizzazione disco           | ottimizza-disco-vm.sh                          |
-| Gestione log e monitoring      | guida-gestione-log.md                          |
-| Sicurezza/checklist            | checklist-sicurezza.md, checklist-server-ubuntu.md |
-| Architettura e Docker          | architettura-e-docker.md, guida-docker.md      |
-| Manuale utente                 | manuale-utente.md                              |
-
----
+**Nota**: Tutta la documentazione segue le convenzioni del progetto. Il materiale di sviluppo è in `/docs/SVILUPPO/`, le guide in `/docs/MANUALE/`.
