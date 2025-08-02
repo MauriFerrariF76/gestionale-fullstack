@@ -90,11 +90,13 @@ Il sistema utilizza **Docker secrets** per la gestione sicura delle credenziali:
 La documentazione è organizzata secondo le convenzioni del progetto:
 
 #### **📁 `/docs/SVILUPPO/` - Materiale di Sviluppo**
-- **`configurazione-nas.md`** - Configurazione NAS e integrazione backup
-- **`strategia-docker-active-passive.md`** - Architettura Docker e Active-Passive
-- **`checklist-sicurezza.md`** - Checklist sicurezza e best practice
-- **`checklist-docker.md`** - Checklist operativa Docker
-- **`strategia-backup-disaster-recovery.md`** - Strategia backup e disaster recovery
+- **`checklist-operativa-unificata.md`** ⭐ **PRINCIPALE** - Checklist unificata per tutte le operazioni
+- **`automazione.md`** - Automazione essenziale e monitoraggio
+- **`architettura-e-docker.md`** - Architettura Docker e containerizzazione
+- **`configurazione-nas.md`** - Configurazione NAS e backup
+- **`configurazione-https-lets-encrypt.md`** - Configurazione SSL/HTTPS
+- **`emergenza-passwords.md`** - Credenziali di emergenza (CRITICO)
+- **`convenzioni-nomenclatura.md`** - Standard di nomenclatura
 
 #### **📁 `/docs/MANUALE/` - Guide e Manuali**
 - **`guida-docker.md`** - Guida completa per uso Docker
@@ -117,8 +119,8 @@ La documentazione è organizzata secondo le convenzioni del progetto:
 ## 🖥️ Documentazione Server Ubuntu
 
 ### Configurazione e Gestione
-- **[docs/SVILUPPO/checklist-server-ubuntu.md](docs/SVILUPPO/checklist-server-ubuntu.md)** - Checklist operativa post-installazione, sicurezza e manutenzione server
-- **[docs/SVILUPPO/guida-installazione-server.md](docs/SVILUPPO/guida-installazione-server.md)** - Guida dettagliata installazione/configurazione server
+- **[docs/SVILUPPO/checklist-operativa-unificata.md](docs/SVILUPPO/checklist-operativa-unificata.md)** - Checklist unificata per tutte le operazioni
+- **[docs/SVILUPPO/architettura-e-docker.md](docs/SVILUPPO/architettura-e-docker.md)** - Architettura Docker e containerizzazione
 
 ### Gestione Servizi
 - **Servizi Docker**: Backend, frontend, database e nginx gestiti tramite Docker Compose

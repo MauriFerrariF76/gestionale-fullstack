@@ -1,8 +1,8 @@
 # 🔐 Emergenza Passwords - Gestionale Fullstack
 
-**Data creazione:** 31 Luglio 2025  
-**Versione:** 2.0  
-**Ultimo aggiornamento:** 31 Luglio 2025  
+**Data creazione:** 2 Agosto 2025
+**Versione:** 2.1
+**Ultimo aggiornamento:** 2 Agosto 2025  
 **Posizione sicura:** `/root/emergenza-passwords.md` (solo root)
 
 ## 📋 Accesso Sicuro

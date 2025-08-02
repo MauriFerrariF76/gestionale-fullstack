@@ -20,8 +20,8 @@ Definire convenzioni standard per la nomenclatura di file e cartelle, garantendo
 ```bash
 # ✅ Corretto - Leggibile e SEO-friendly
 guida-backup.md
-checklist-sicurezza.md
-strategia-docker-active-passive.md
+checklist-operativa-unificata.md
+architettura-e-docker.md
 deploy-architettura-gestionale.md
 manuale-utente.md
 guida-gestione-log.md
@@ -122,16 +122,16 @@ gestionale-fullstack/
 │   │   ├── guida-gestione-log.md
 │   │   └── guida-monitoring.md
 │   ├── 🔐 Sicurezza e Resilienza
-│   │   ├── checklist-sicurezza.md
-│   │   ├── strategia-docker-active-passive.md
-│   │   ├── strategia-backup-disaster-recovery.md
+│   │   ├── checklist-operativa-unificata.md
+│   │   ├── architettura-e-docker.md
+│   │   ├── automazione.md
 │   │   └── emergenza-passwords.md
 │   ├── 👥 Manuale Utente
 │   │   └── manuale-utente.md
 │   ├── 🖥️ Configurazione Server
 │   │   └── server/
-│   │       ├── checklist-server-ubuntu.md
-│   │       ├── guida-installazione-server.md
+│   │       ├── configurazione-https-lets-encrypt.md
+│   │       ├── configurazione-nas.md
 │   │       ├── backup_config_server.sh
 │   │       ├── backup_database_adaptive.sh
 │   │       ├── nginx_gestionale.conf
