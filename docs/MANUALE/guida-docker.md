@@ -165,7 +165,7 @@ sudo netstat -tlnp | grep :80
 sudo netstat -tlnp | grep :443
 
 # Se occupate, ferma servizi esistenti
-sudo systemctl stop nginx apache2
+sudo systemctl stop nginx
 ```
 
 ---

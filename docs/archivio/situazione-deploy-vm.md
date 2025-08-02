@@ -26,6 +26,7 @@ postgres interrupted - nginx error "get "https://registry-1.docker.io/v2/": net/
 - **Server**: 10.10.10.15 (hardware fisico)
 - **Sistema**: Ubuntu 24.04.2 LTS
 - **SSH**: Porta 27
+> **Nota sicurezza:** Per sicurezza, la porta SSH del server è la **27**. La 22 è usata solo per il primo accesso o per host legacy.
 - **Docker**: 27.5.1 + Docker Compose 1.29.2
 - **Stato**: ✅ Perfettamente funzionante
 - **Container**: 4 container attivi e healthy

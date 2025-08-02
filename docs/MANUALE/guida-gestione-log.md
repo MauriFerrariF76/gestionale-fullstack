@@ -45,7 +45,6 @@ sudo logrotate -d /etc/logrotate.d/backup_gestionale
 
 #### Configurazione Logrotate
 Ubuntu include già configurazioni per:
-- `apache2` (se usato)
 - `nginx` (se configurato)
 - `postgresql`
 - `syslog`
@@ -54,11 +53,8 @@ Ubuntu include già configurazioni per:
 ### 3. Log Applicazioni
 
 #### Backend Node.js
-**Gestione:** Docker o PM2
+**Gestione:** Docker
 ```bash
-# Log PM2
-pm2 logs
-
 # Log Docker backend
 docker compose logs -f backend
 

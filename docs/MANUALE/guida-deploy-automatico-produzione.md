@@ -12,6 +12,8 @@
 
 ## 1. Prerequisiti
 
+> **Nota sicurezza:** Per sicurezza, la porta SSH del server è la **27**. La 22 è usata solo per il primo accesso o per host legacy. Tutti i comandi e le configurazioni fanno riferimento alla porta 27.
+
 ### Prima di iniziare il deploy automatico:
 - ✅ Backup completo del sistema esistente
 - ✅ Test di ripristino completato su VM
@@ -369,7 +371,7 @@ ssh -p 27 mauri@10.10.10.43
 ```
 
 ### Checklist Test Automatico Essenziale
-- [ ] VM accessibile da PC-MAURI: `ssh mauri@10.10.10.43` (porta 22 iniziale)
+- [ ] VM accessibile da PC-MAURI: `ssh mauri@10.10.10.43` (porta 22 solo per il primo accesso, poi usare sempre la 27)
 - [ ] Script automatico scaricato e eseguibile
 - [ ] Deploy automatico completato senza errori
 - [ ] SSH configurato su porta 27: `ssh -p 27 mauri@10.10.10.43`
