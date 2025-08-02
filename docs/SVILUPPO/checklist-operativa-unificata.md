@@ -153,6 +153,13 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - **Setup automazione**: `scripts/setup-automazione.sh`
 - **Monitoraggio**: `scripts/monitoraggio-base.sh`
 
+### Deploy e Installazione
+- **Installazione completa**: `scripts/install-gestionale-completo.sh`
+- **Deploy automatico VM**: `scripts/deploy-vm-automatico.sh`
+- **Monitoraggio deploy**: `scripts/monitor-deploy-vm.sh`
+- **Test VM clone**: `scripts/test-vm-clone.sh`
+- **Ripristino emergenza**: `scripts/ripristino_docker_emergenza.sh`
+
 ---
 
 ## 📋 NOTE OPERATIVE
