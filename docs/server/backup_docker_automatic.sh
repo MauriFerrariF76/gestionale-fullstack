@@ -92,9 +92,9 @@ backup_secrets() {
 backup_database() {
     log_info "Backup database PostgreSQL..."
     
-    if docker-compose ps postgres | grep -q "Up"; then
-        BACKUP_FILE="database_docker_backup_$(date +%F_%H%M%S).sql"
-        docker-compose exec -T postgres pg_dump -U gestionale_user gestionale > "$BACKUP_FILE"
+    if docker compose ps postgres | grep -q "Up"; then
+    BACKUP_FILE="database_docker_backup_$(date +%F_%H%M%S).sql"
+    docker compose exec -T postgres pg_dump -U gestionale_user gestionale > "$BACKUP_FILE"
         
         if [ $? -eq 0 ]; then
             # Comprimi e cifra il backup
@@ -306,13 +306,13 @@ PROCEDURA RIPRISTINO:
 1. Clona repository: git clone [URL]
 2. Copia backup in directory progetto
 3. Ripristina segreti: ./scripts/restore_secrets.sh secrets_backup_*.tar.gz.gpg
-4. Ripristina database: docker-compose exec -T postgres psql -U gestionale_user -d gestionale < database_backup_*.sql
-5. Avvia servizi: docker-compose up -d
+4. Ripristina database: docker compose exec -T postgres psql -U gestionale_user -d gestionale < database_backup_*.sql
+5. Avvia servizi: docker compose up -d
 
 VERIFICA POST-RIPRISTINO:
 - curl http://localhost/health
-- docker-compose ps
-- docker-compose logs
+- docker compose ps
+- docker compose logs
 
 CONTATTI EMERGENZA:
 - Amministratore: [NOME] - [TELEFONO]

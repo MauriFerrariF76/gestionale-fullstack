@@ -280,9 +280,9 @@ verify_restore() {
     echo "  - Health: http://localhost/health"
     echo ""
     echo "Comandi utili:"
-    echo "  - Logs: docker-compose logs -f"
-    echo "  - Status: docker-compose ps"
-    echo "  - Stop: docker-compose down"
+    echo "  - Logs: docker compose logs -f"
+echo "  - Status: docker compose ps"
+echo "  - Stop: docker compose down"
     echo ""
 }
 

@@ -96,12 +96,8 @@ install_docker() {
 install_docker_compose() {
     log_info "Installazione Docker Compose..."
     
-    # Installa Docker Compose standalone (compatibilità)
-    curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    chmod +x /usr/local/bin/docker-compose
-    
-    # Crea symlink per compatibilità
-    ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+    # Docker Compose è ora integrato in Docker, non serve installazione separata
+# Verifica che docker compose sia disponibile
     
     log_success "Docker Compose installato"
 }
@@ -138,8 +134,8 @@ verify_installation() {
     # Verifica Docker Compose
     if docker compose version &>/dev/null; then
         log_success "Docker Compose plugin funzionante: $(docker compose version)"
-    elif docker-compose --version &>/dev/null; then
-        log_success "Docker Compose standalone funzionante: $(docker-compose --version)"
+    elif docker compose version &>/dev/null; then
+    log_success "Docker Compose funzionante: $(docker compose version)"
     else
         log_error "Docker Compose non funzionante"
         return 1

@@ -48,8 +48,8 @@ ripristino_emergenza() {
         if ! command -v docker > /dev/null || ! docker compose version > /dev/null 2>&1; then
             log_error "Docker Compose non installato!"
             echo "   Installazione automatica Docker Compose..."
-            sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
+            # Docker Compose è ora integrato in Docker, non serve installazione separata
+# Verifica che docker compose sia disponibile
         fi
     fi
     

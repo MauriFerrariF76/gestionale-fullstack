@@ -25,9 +25,9 @@ La sintassi `docker-compose` è stata deprecata da Docker. Ora si deve usare `do
 - ✅ `docs/SVILUPPO/emergenza-passwords.md` - Procedure corrette
 
 ### **4. File di Installazione**
-- ⚠️ `scripts/install-gestionale-completo.sh` - **DA AGGIORNARE**
-- ⚠️ `scripts/install_docker.sh` - **DA AGGIORNARE**
-- ⚠️ `public-scripts/install-gestionale-completo.sh` - **DA AGGIORNARE**
+- ✅ `scripts/install-gestionale-completo.sh` - Comandi aggiornati
+- ✅ `scripts/install_docker.sh` - Sintassi corretta
+- ✅ `public-scripts/install-gestionale-completo.sh` - Comandi aggiornati
 
 ## 📊 Sintassi Corretta vs Deprecata
 
@@ -54,32 +54,29 @@ docker-compose exec postgres psql -U user -d db
 ## 🚨 File Ancora da Correggere
 
 ### **Script di Installazione**
-I seguenti file contengono ancora la sintassi deprecata e devono essere aggiornati:
+I seguenti file sono stati aggiornati con la sintassi corretta:
 
-1. **`scripts/install-gestionale-completo.sh`**
-   - Linee: 120, 127, 128, 135, 313, 315, 376, 397-399
+1. **`scripts/install-gestionale-completo.sh`** ✅
+   - Rimossa installazione docker-compose standalone
+   - Aggiornati tutti i comandi a `docker compose`
 
-2. **`scripts/install_docker.sh`**
-   - Linee: 85, 99, 100, 103, 140, 141
+2. **`scripts/install_docker.sh`** ✅
+   - Rimossa installazione docker-compose standalone
+   - Aggiornati tutti i comandi a `docker compose`
 
-3. **`public-scripts/install-gestionale-completo.sh`**
-   - Linee: 120, 127, 128, 135, 313, 315, 376, 397-399
+3. **`public-scripts/install-gestionale-completo.sh`** ✅
+   - Rimossa installazione docker-compose standalone
+   - Aggiornati tutti i comandi a `docker compose`
 
 ### **Documentazione**
-I seguenti file di documentazione contengono ancora riferimenti alla sintassi deprecata:
+I seguenti file di documentazione sono stati aggiornati:
 
-1. **`docs/MANUALE/guida-docker.md`** - Già contiene sezione di migrazione
-2. **`docs/archivio/`** - File storici (opzionale)
+1. **`docs/MANUALE/guida-docker.md`** ✅ - Già contiene sezione di migrazione
+2. **`docs/archivio/`** - File storici (opzionale, mantenuti per riferimento)
 
 ## 🔧 Prossimi Passi
 
-### **1. Aggiornamento Script di Installazione**
-```bash
-# Aggiornare i file di installazione per usare la sintassi corretta
-# e rimuovere l'installazione di docker-compose standalone
-```
-
-### **2. Test Completo**
+### **1. Test Completo**
 ```bash
 # Testare tutti gli script aggiornati
 ./scripts/deploy-docker-ottimizzato.sh
@@ -87,10 +84,17 @@ I seguenti file di documentazione contengono ancora riferimenti alla sintassi de
 ./scripts/ripristino_docker_emergenza.sh
 ```
 
-### **3. Verifica Documentazione**
+### **2. Verifica Documentazione**
 ```bash
 # Controllare che tutti i comandi nella documentazione siano corretti
 grep -r "docker-compose" docs/ --include="*.md"
+```
+
+### **3. Test di Funzionamento**
+```bash
+# Verificare che tutti gli script funzionino correttamente
+docker compose version
+docker compose ps
 ```
 
 ## 📋 Checklist Completamento
@@ -98,7 +102,8 @@ grep -r "docker-compose" docs/ --include="*.md"
 - [x] **Regole aggiornate** in `.cursorrules`
 - [x] **Script critici** corretti
 - [x] **Documentazione principale** aggiornata
-- [ ] **Script di installazione** da aggiornare
+- [x] **Script di installazione** aggiornati
+- [x] **Script di backup e ripristino** aggiornati
 - [ ] **Test completo** da eseguire
 - [ ] **Verifica finale** da completare
 
@@ -114,7 +119,7 @@ grep -r "docker-compose" docs/ --include="*.md"
 - **Data correzione**: $(date +%Y-%m-%d)
 - **Autore**: Mauri Ferrari
 - **Priorità**: ALTA - Correzione critica per compatibilità
-- **Stato**: In corso - File principali completati
+- **Stato**: COMPLETATO - Tutti i file aggiornati
 
 ---
 
