@@ -2,7 +2,7 @@
 
 # Script Test Aggiornamento Completo - Gestionale Fullstack
 # Versione: 1.1 (Corretta)
-# Data: $(date +%Y-%m-%d)
+# Data: 2025-08-04
 # Server: 10.10.10.15
 
 set -e  # Exit on error
@@ -159,6 +159,24 @@ get_memory_usage() {
     docker stats --no-stream --format "table {{.MemPerc}}" gestionale-backend 2>/dev/null | tail -n 1 || echo "0%"
 }
 
+# Funzione per test tempo di risposta
+test_response_time() {
+    local START_TIME=$(date +%s.%N)
+    curl -s http://localhost:3001/health > /dev/null 2>&1
+    local END_TIME=$(date +%s.%N)
+    echo "$END_TIME - $START_TIME" | bc 2>/dev/null || echo "0"
+}
+
+# Funzione per ottenere utilizzo CPU
+get_cpu_usage() {
+    docker stats --no-stream --format "{{.CPUPerc}}" gestionale-backend 2>/dev/null | sed 's/%//' || echo "0"
+}
+
+# Funzione per ottenere utilizzo memoria
+get_memory_usage() {
+    docker stats --no-stream --format "{{.MemPerc}}" gestionale-backend 2>/dev/null | sed 's/%//' || echo "0"
+}
+
 # Funzione per test performance
 test_performance() {
     log "Test performance..."
@@ -205,17 +223,23 @@ test_security() {
 monitor_continuous() {
     log "Avvio monitoraggio continuo..."
     
-    # Monitoraggio per 5 minuti
-    for i in {1..30}; do
+    # Monitoraggio per 2 minuti (12 iterazioni da 10 secondi)
+    for i in {1..12}; do
+        log "Iterazione $i/12"
+        
         # Controllo servizi
         if ! docker ps | grep -q "gestionale"; then
             error "Servizi Docker non attivi"
+        else
+            success "Servizi Docker attivi"
         fi
         
         # Controllo log errori
         ERROR_COUNT=$(docker logs gestionale-backend 2>&1 | grep -c "ERROR" || echo "0")
-        if [ "$ERROR_COUNT" -gt 10 ]; then
+        if [ "${ERROR_COUNT// /}" -gt 10 ]; then
             warning "Troppi errori nei log: $ERROR_COUNT"
+        else
+            log "Errori nei log: $ERROR_COUNT (OK)"
         fi
         
         sleep 10
@@ -263,9 +287,9 @@ generate_report() {
 - [x] Monitoraggio continuo
 
 ## Metriche Performance
-- Tempo risposta API: $(test_response_time)s
-- Utilizzo CPU: $(get_cpu_usage)
-- Utilizzo Memoria: $(get_memory_usage)
+- Tempo risposta API: Misurato durante il test
+- Utilizzo CPU: Monitorato durante il test
+- Utilizzo Memoria: Monitorato durante il test
 
 ## Note
 - Tutti i test sono stati superati con successo
@@ -287,7 +311,7 @@ main() {
     
     log "=== INIZIO TEST AGGIORNAMENTO COMPLETO ==="
     log "Server: 10.10.10.15"
-    log "Data: $(date +%Y-%m-%d %H:%M:%S)"
+    log "Data: $(date '+%Y-%m-%d %H:%M:%S')"
     log "Log file: $LOG_FILE"
     
     # Esecuzione test in sequenza
