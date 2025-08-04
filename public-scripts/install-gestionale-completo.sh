@@ -6,6 +6,29 @@
 
 set -e
 
+# Configurazione logging
+LOG_DIR="/home/mauri/logs"
+LOG_FILE="$LOG_DIR/deploy-$(date +%Y%m%d-%H%M%S).log"
+ERROR_LOG="$LOG_DIR/deploy-errors-$(date +%Y%m%d-%H%M%S).log"
+
+# Crea directory log se non esiste
+mkdir -p "$LOG_DIR"
+
+# Funzione per logging completo
+log_to_file() {
+    local level="$1"
+    local message="$2"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] [$level] $message" | tee -a "$LOG_FILE"
+}
+
+# Funzione per logging errori
+log_error_to_file() {
+    local message="$1"
+    local timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+    echo "[$timestamp] [ERROR] $message" | tee -a "$LOG_FILE" "$ERROR_LOG"
+}
+
 # Colori per output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -13,22 +36,39 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# Funzioni di utilità
+# Funzioni di utilità con logging
 log_info() {
     echo -e "${BLUE}ℹ️  $1${NC}"
+    log_to_file "INFO" "$1"
 }
 
 log_success() {
     echo -e "${GREEN}✅ $1${NC}"
+    log_to_file "SUCCESS" "$1"
 }
 
 log_warning() {
     echo -e "${YELLOW}⚠️  $1${NC}"
+    log_to_file "WARNING" "$1"
 }
 
 log_error() {
     echo -e "${RED}❌ $1${NC}"
+    log_error_to_file "$1"
 }
+
+# Inizio logging
+log_info "=== INIZIO DEPLOY AUTOMATICO GESTIONALE ==="
+log_info "Versione script: 2.0.0"
+log_info "Data/ora: $(date)"
+log_info "Sistema: $(lsb_release -d | cut -f2)"
+log_info "Kernel: $(uname -r)"
+log_info "Architettura: $(uname -m)"
+log_info "Utente: $(whoami)"
+log_info "Directory: $(pwd)"
+log_info "Log file: $LOG_FILE"
+log_info "Error log: $ERROR_LOG"
+log_info "=========================================="
 
 # Verifica prerequisiti
 check_prerequisites() {
@@ -360,24 +400,48 @@ post_install_checks() {
     echo ""
 }
 
-# Generazione report
+# Generazione report completo con log integrati
 generate_report() {
-    log_info "=== GENERAZIONE REPORT ==="
+    log_info "=== GENERAZIONE REPORT COMPLETO ==="
     
-    REPORT_FILE="/home/mauri/install-report-$(date +%Y%m%d-%H%M%S).txt"
+    REPORT_FILE="/home/mauri/deploy-report-$(date +%Y%m%d-%H%M%S).txt"
     
+    # Crea report completo con log integrati
     cat > "$REPORT_FILE" << EOF
-=== REPORT INSTALLAZIONE GESTIONALE ===
-Data: $(date)
+================================================================================
+                           REPORT DEPLOY AUTOMATICO GESTIONALE
+================================================================================
+Data/ora: $(date)
+Versione script: 2.0.0
 Sistema: $(lsb_release -d | cut -f2)
 Kernel: $(uname -r)
+Architettura: $(uname -m)
 IP: $(ip route get 8.8.8.8 | awk '{print $7}')
 SSH Porta: 27
-Docker: $(docker --version)
-Docker Compose: $(docker compose version)
+Utente: $(whoami)
+Directory: $(pwd)
+
+================================================================================
+                                    LOG COMPLETI
+================================================================================
+EOF
+    
+    # Aggiungi log completi al report
+    if [ -f "$LOG_FILE" ]; then
+        cat "$LOG_FILE" >> "$REPORT_FILE"
+    fi
+    
+    # Aggiungi informazioni finali
+    cat >> "$REPORT_FILE" << EOF
+
+================================================================================
+                                    STATO SISTEMA
+================================================================================
+Docker: $(docker --version 2>/dev/null || echo "Non installato")
+Docker Compose: $(docker compose version 2>/dev/null || echo "Non installato")
 
 === CONTAINER ATTIVI ===
-$(docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}")
+$(docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" 2>/dev/null || echo "Nessun container attivo")
 
 === CONFIGURAZIONE COMPLETATA ===
 ✅ Sistema aggiornato
@@ -398,14 +462,47 @@ Stato container: docker ps
 Log container: docker compose logs -f
 Ferma servizi: docker compose down
 Avvia servizi: docker compose up -d
+
+=== FILE DI LOG ===
+Log completi: $LOG_FILE
+Error log: $ERROR_LOG
+Report completo: $REPORT_FILE
+
+=== COMANDI PER VISUALIZZARE LOG ===
+Visualizza log in tempo reale: tail -f $LOG_FILE
+Visualizza errori: tail -f $ERROR_LOG
+Visualizza report completo: cat $REPORT_FILE
+Copia report su PC: scp mauri@$(ip route get 8.8.8.8 | awk '{print $7}'):$REPORT_FILE ./
+
+================================================================================
+                                    FINE REPORT
+================================================================================
 EOF
     
-    log_success "Report generato: $REPORT_FILE"
+    log_success "Report completo generato: $REPORT_FILE"
+    log_info "Il report contiene tutti i log del deploy"
+    log_info "Per copiare il report sul PC: scp mauri@$(ip route get 8.8.8.8 | awk '{print $7}'):$REPORT_FILE ./"
+    
+    # Mostra informazioni per accesso ai log
     echo ""
+    echo "📄 REPORT E LOG DISPONIBILI:"
+    echo "   Report completo: $REPORT_FILE"
+    echo "   Log dettagliati: $LOG_FILE"
+    echo "   Errori: $ERROR_LOG"
+    echo ""
+    echo "📋 COMANDI PER ACCEDERE AI LOG:"
+    echo "   Visualizza report: cat $REPORT_FILE"
+    echo "   Log in tempo reale: tail -f $LOG_FILE"
+    echo "   Solo errori: tail -f $ERROR_LOG"
+    echo "   Copia su PC: scp mauri@$(ip route get 8.8.8.8 | awk '{print $7}'):$REPORT_FILE ./"
+    echo ""
+}
 }
 
 # Funzione principale
 main() {
+    log_info "=== INIZIO FUNZIONE PRINCIPALE ==="
+    
     echo "=========================================="
     echo "INSTALLAZIONE AUTOMATICA GESTIONALE"
     echo "Versione: 2.0.0"
@@ -415,30 +512,99 @@ main() {
     echo "=========================================="
     echo ""
     
-    check_prerequisites
-    update_system
-    install_docker
-    configure_network
-    configure_ssh
-    configure_firewall
-    clone_repository
-    setup_application
-    setup_ssl
-    post_install_checks
-    generate_report
+    # Esecuzione con gestione errori
+    local exit_code=0
     
-    echo "=========================================="
-    echo "INSTALLAZIONE COMPLETATA CON SUCCESSO!"
-    echo "=========================================="
-    echo ""
-    echo "🎉 Il gestionale è ora operativo!"
-    echo ""
-    echo "📋 Prossimi passi:"
-    echo "1. Configura le variabili d'ambiente in .env"
-    echo "2. Accedi all'applicazione via browser"
-    echo "3. Configura backup e monitoraggio"
-    echo ""
-    echo "📞 Supporto: Consulta la documentazione in /docs"
+    check_prerequisites || exit_code=1
+    if [ $exit_code -eq 0 ]; then
+        update_system || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        install_docker || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        configure_network || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        configure_ssh || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        configure_firewall || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        clone_repository || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        setup_application || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        setup_ssl || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        post_install_checks || exit_code=1
+    fi
+    if [ $exit_code -eq 0 ]; then
+        generate_report || exit_code=1
+    fi
+    
+    # Logging finale
+    if [ $exit_code -eq 0 ]; then
+        log_success "=== DEPLOY COMPLETATO CON SUCCESSO ==="
+        log_success "Data/ora completamento: $(date)"
+        log_success "Durata totale: $SECONDS secondi"
+        log_success "Log file: $LOG_FILE"
+        log_success "Error log: $ERROR_LOG"
+        
+        echo "=========================================="
+        echo "INSTALLAZIONE COMPLETATA CON SUCCESSO!"
+        echo "=========================================="
+        echo ""
+        echo "🎉 Il gestionale è ora operativo!"
+        echo ""
+        echo "📋 Prossimi passi:"
+        echo "1. Configura le variabili d'ambiente in .env"
+        echo "2. Accedi all'applicazione via browser"
+        echo "3. Configura backup e monitoraggio"
+        echo ""
+        echo "📞 Supporto: Consulta la documentazione in /docs"
+        echo ""
+        echo "📄 REPORT E LOG:"
+        echo "   Report completo: $REPORT_FILE"
+        echo "   Log dettagliati: $LOG_FILE"
+        echo "   Errori: $ERROR_LOG"
+        echo ""
+        echo "📋 COMANDI UTILI:"
+        echo "   Visualizza report: cat $REPORT_FILE"
+        echo "   Log in tempo reale: tail -f $LOG_FILE"
+        echo "   Solo errori: tail -f $ERROR_LOG"
+        echo "   Copia su PC: scp mauri@$(ip route get 8.8.8.8 | awk '{print $7}'):$REPORT_FILE ./"
+    else
+        log_error "=== DEPLOY FALLITO ==="
+        log_error "Data/ora errore: $(date)"
+        log_error "Durata totale: $SECONDS secondi"
+        log_error "Log file: $LOG_FILE"
+        log_error "Error log: $ERROR_LOG"
+        
+        echo "=========================================="
+        echo "INSTALLAZIONE FALLITA!"
+        echo "=========================================="
+        echo ""
+        echo "❌ Si è verificato un errore durante l'installazione"
+        echo ""
+        echo "📄 Consulta i log per i dettagli:"
+        echo "   Report completo: $REPORT_FILE"
+        echo "   Log dettagliati: $LOG_FILE"
+        echo "   Errori: $ERROR_LOG"
+        echo ""
+        echo "🔧 Possibili soluzioni:"
+        echo "1. Verifica i prerequisiti (memoria, disco, rete)"
+        echo "2. Controlla la connettività internet"
+        echo "3. Verifica i permessi di amministratore"
+        echo "4. Consulta la documentazione in /docs"
+    fi
+    
+    log_info "=== FINE FUNZIONE PRINCIPALE ==="
+    return $exit_code
 }
 
 # Esecuzione script

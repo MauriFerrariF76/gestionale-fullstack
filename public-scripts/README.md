@@ -46,7 +46,18 @@ Lo script `install-gestionale-completo.sh` esegue automaticamente:
 9. ✅ **Nginx dockerizzato** (Installato automaticamente con Docker Compose)
 10. ✅ **SSL/HTTPS** (Configurato con Let's Encrypt se dominio configurato)
 11. ✅ **Verifiche post-installazione**
-12. ✅ **Generazione report**
+12. ✅ **Logging completo** (Tutti i dettagli salvati in file)
+13. ✅ **Generazione report** (Report completo con log integrati)
+
+## 📄 Sistema di Logging
+
+Lo script include un sistema di logging completo:
+
+- **Log dettagliati**: `/home/mauri/logs/deploy-YYYYMMDD-HHMMSS.log`
+- **Log errori**: `/home/mauri/logs/deploy-errors-YYYYMMDD-HHMMSS.log`
+- **Report completo**: `/home/mauri/deploy-report-YYYYMMDD-HHMMSS.txt`
+
+Il report finale contiene tutti i log del deploy e può essere copiato facilmente sul PC locale.
 
 ## 🔒 Sicurezza
 
