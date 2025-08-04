@@ -178,8 +178,8 @@ Lo script esegue automaticamente:
 
 1. ✅ **Verifica prerequisiti** (sistema, memoria, disco)
 2. ✅ **Aggiornamento sistema** (pacchetti essenziali + build tools)
-3. ✅ **Installazione Node.js** (18.x LTS + npm + TypeScript)
-4. ✅ **Installazione strumenti sviluppo** (debugging, networking, compressione)
+3. ✅ **Installazione Docker** (Docker CE + Docker Compose)
+4. ✅ **Installazione strumenti essenziali** (sistema, backup, SSL)
 5. ✅ **Configurazione rete** (IP statico, DNS)
 6. ✅ **Configurazione SSH** (porta 27, sicurezza)
 7. ✅ **Configurazione firewall** (UFW)
@@ -208,9 +208,9 @@ nano install-gestionale-completo.sh
 
 ### 4.1 Test automatici eseguiti dallo script
 Lo script verifica automaticamente:
-- ✅ **Node.js e npm**: Versioni corrette
-- ✅ **TypeScript e ts-node**: Installati globalmente
-- ✅ **PostgreSQL client**: Installato
+- ✅ **Docker e Docker Compose**: Versioni corrette
+- ✅ **Docker daemon**: Attivo e funzionante
+- ✅ **PostgreSQL client**: Installato per backup
 - ✅ **Certbot**: Installato per SSL
 - ✅ **Container Docker**: Attivi e healthy
 - ✅ **Connettività**: Internet funzionante
@@ -283,6 +283,12 @@ sudo ./install-gestionale-completo.sh
 
 ### 5.2 Se Docker non si avvia
 ```bash
+# Verifica servizio Docker
+sudo systemctl status docker
+
+# Riavvia servizio Docker
+sudo systemctl restart docker
+
 # Verifica permessi
 groups mauri
 
@@ -410,12 +416,14 @@ ssh -p 27 mauri@10.10.10.43
 - **Testa ripristino** su VM
 - **Documenta** ogni configurazione
 
-### Vantaggi del Deploy Automatico:
-- **Tempo ridotto**: Deploy completo in ~30 minuti
+### Vantaggi del Deploy Automatico con Docker:
+- **Tempo ridotto**: Deploy completo in ~15 minuti
 - **Riproducibilità**: Stessa configurazione ovunque
-- **Sicurezza**: Configurazione standardizzata
-- **Manutenzione**: Report automatico generato
-- **Troubleshooting**: Log dettagliati
+- **Sicurezza**: Container isolati e immutabili
+- **Manutenzione**: Rollback istantaneo e report automatico
+- **Troubleshooting**: Log centralizzati e debugging semplificato
+- **Scalabilità**: Facile aggiungere servizi e load balancing
+- **Zero conflitti**: Ogni servizio ha la sua versione isolata
 
 ---
 
