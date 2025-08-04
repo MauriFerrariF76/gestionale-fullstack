@@ -23,8 +23,13 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 
 ### 📁 `/docs/server/` - Configurazioni Server
 - **Script di backup**: `backup_*.sh`
-- **Configurazioni nginx**: `*.conf`
+- **Configurazioni nginx**: `nginx_production.conf`
 - **Log e report**: `*.log`
+
+### 📁 `/docs/archivio/` - Materiale Storico
+- **File obsoleti**: Configurazioni e script sostituiti
+- **Analisi storiche**: Report e analisi completate
+- **Versioni precedenti**: Documentazione superata
 
 ## Tecnologie Utilizzate
 
@@ -42,7 +47,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Monitoraggio continuo**: Server, database, SSL
 - **Manutenzione quasi zero**: Sistema automatizzato
 
-**Documentazione**: `/docs/SVILUPPO/AUTOMAZIONE.md`
+**Documentazione**: `/docs/SVILUPPO/automazione.md`
 
 ### 📋 Checklist Operativa
 - **Checklist unificata**: `/docs/SVILUPPO/checklist-operativa-unificata.md`
@@ -55,7 +60,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 ## Accesso e Deploy
 
 ### 🌐 Accesso Produzione
-- **URL**: https://tuodominio.com
+- **URL**: https://gestionale.carpenteriaferrari.com
 - **HTTPS**: Certificati Let's Encrypt automatici
 - **Firewall**: MikroTik con regole specifiche
 
@@ -93,8 +98,8 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 
 ### ⚙️ Server
 - **Backup**: `/docs/server/backup_*.sh`
-- **Configurazioni**: `/docs/server/*.conf`
+- **Configurazioni**: `/docs/server/nginx_production.conf`
 
 ---
 
-**Nota**: Tutta la documentazione segue le convenzioni del progetto. Il materiale di sviluppo è in `/docs/SVILUPPO/`, le guide in `/docs/MANUALE/`.
+**Nota**: Tutta la documentazione segue le convenzioni del progetto. Il materiale di sviluppo è in `/docs/SVILUPPO/`, le guide in `/docs/MANUALE/`. I file obsoleti sono stati spostati in `/docs/archivio/`.

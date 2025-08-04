@@ -10,6 +10,10 @@
   - Contiene: Sicurezza, Backup, Monitoraggio, Server, Deploy
   - **Stato**: ✅ ATTIVA - Usa questa per tutte le operazioni
 
+- **`checklist-aggiornamento-sicuro.md`**
+  - Procedure per aggiornamenti sicuri
+  - **Stato**: ✅ ATTIVA - Per aggiornamenti di sistema
+
 #### 🔧 Automazione
 - **`automazione.md`**
   - Documentazione completa dell'automazione essenziale
@@ -40,24 +44,25 @@
   - Standard di nomenclatura del progetto
   - **Stato**: ✅ ATTIVA
 
+- **`gestione-script-pubblici.md`**
+  - Gestione script pubblici e repository
+  - **Stato**: ✅ ATTIVA
+
+#### 🔍 Verifica e Monitoraggio
+- **`verifica-server-produzione.md`**
+  - Procedure di verifica server produzione
+  - **Stato**: ✅ ATTIVA
+
 ---
 
-### 🟡 FILE OBSOLETI (Sostituiti dalla Checklist Unificata)
+### 🟡 FILE IN ARCHIVIO (Storici)
 
-> **⚠️ ATTENZIONE**: Questi file sono stati consolidati in `checklist-operativa-unificata.md`
+> **📁 Archivio**: I file storici sono stati spostati in `/docs/archivio/`
 
-#### ❌ Checklist Obsolete
-- **`checklist-sicurezza.md`** → Integrata in "Sicurezza e Deploy"
-- **`checklist-server-ubuntu.md`** → Integrata in "Server e Infrastruttura"
-- **`checklist-problemi-critici.md`** → Integrata in "Sicurezza e Deploy"
-- **`checklist-automazione.md`** → Integrata in "Monitoraggio e Automazione"
-
-#### ❌ File Storici
-- **`pulizia-documentazione-completata.md`** → Storico, completato
-- **`situazione-deploy-vm.md`** → Storico, completato
-- **`analisi-server-prova.md`** → Storico, completato
-- **`risoluzione-avvio-automatico.md`** → Storico, completato
-- **`correzioni-comandi-docker-completate.md`** → Storico, completato
+#### 📋 File Storici Spostati
+- **`analisi-critica-aggiornamento-nodejs20.md`** → Archivio (analisi completata)
+- **`correzioni-script-aggiornamento.md`** → Archivio (correzioni completate)
+- **`riepilogo-correzioni-completate.md`** → Archivio (riepilogo storico)
 
 ---
 
@@ -68,12 +73,22 @@
 2. **Consulta**: `automazione.md` per automazione
 3. **Riferimento**: `architettura-e-docker.md` per architettura
 
+### Per Aggiornamenti
+1. **Procedura sicura**: `checklist-aggiornamento-sicuro.md`
+2. **Verifica**: `verifica-server-produzione.md`
+
 ### Per Emergenze
 1. **Credenziali**: `sudo cat /root/emergenza-passwords.md`
 2. **Checklist**: Sezione "Interventi Solo Se" in `checklist-operativa-unificata.md`
 
 ### Per Sviluppo
 1. **Convenzioni**: `convenzioni-nomenclatura.md`
+2. **Script pubblici**: `gestione-script-pubblici.md`
+
+### Per Miglioramenti Futuri
+1. **Architettura**: Best practices in `architettura-e-docker.md`
+2. **Checklist**: Miglioramenti in `checklist-operativa-unificata.md`
+3. **Automazione**: Raccomandazioni avanzate in `automazione.md`
 
 ---
 
@@ -84,46 +99,18 @@
 ```
 checklist-operativa-unificata.md
 ├── 🔒 SICUREZZA E DEPLOY
-│   ├── checklist-sicurezza.md (sicurezza base)
-│   └── checklist-problemi-critici.md (problemi risolti)
+│   ├── Sicurezza base
+│   ├── Best practices implementate ✅
+│   └── Miglioramenti futuri 🔄
 ├── 💾 BACKUP E DISASTER RECOVERY
-│   ├── checklist-server-ubuntu.md (backup)
-│   └── checklist-automazione.md (backup emergenza)
+│   ├── Backup automatici
+│   └── Procedure di emergenza
 ├── 📊 MONITORAGGIO E AUTOMAZIONE
-│   └── checklist-automazione.md (monitoraggio)
+│   └── Monitoraggio continuo
 ├── 🖥️ SERVER E INFRASTRUTTURA
-│   └── checklist-server-ubuntu.md (configurazione)
+│   └── Configurazione server
 └── 🚀 DEPLOY E MANUTENZIONE
-    └── checklist-server-ubuntu.md (manutenzione)
-```
-
----
-
-## 🧹 Pulizia Consigliata
-
-### Opzioni per File Obsoleti:
-
-1. **Mantenere per storia** (raccomandato)
-2. **Spostare in archivio**: `docs/archivio/checklist-obsolete/`
-3. **Eliminare**: Se sicuri che tutto sia migrato
-
-### Comando per Spostare in Archivio:
-```bash
-# Crea directory archivio
-mkdir -p docs/archivio/checklist-obsolete
-
-# Sposta file obsoleti
-mv docs/SVILUPPO/checklist-sicurezza.md docs/archivio/checklist-obsolete/
-mv docs/SVILUPPO/checklist-server-ubuntu.md docs/archivio/checklist-obsolete/
-mv docs/SVILUPPO/checklist-problemi-critici.md docs/archivio/checklist-obsolete/
-mv docs/SVILUPPO/checklist-automazione.md docs/archivio/checklist-obsolete/
-
-# Sposta file storici
-mv docs/SVILUPPO/pulizia-documentazione-completata.md docs/archivio/
-mv docs/SVILUPPO/situazione-deploy-vm.md docs/archivio/
-mv docs/SVILUPPO/analisi-server-prova.md docs/archivio/
-mv docs/SVILUPPO/risoluzione-avvio-automatico.md docs/archivio/
-mv docs/SVILUPPO/correzioni-comandi-docker-completate.md docs/archivio/
+    └── Procedure di manutenzione
 ```
 
 ---
@@ -132,12 +119,15 @@ mv docs/SVILUPPO/correzioni-comandi-docker-completate.md docs/archivio/
 
 ### File Principali (Usa Questi):
 - ⭐ **`checklist-operativa-unificata.md`** - Checklist principale
+- **`checklist-aggiornamento-sicuro.md`** - Aggiornamenti sicuri
 - **`automazione.md`** - Automazione essenziale
 - **`architettura-e-docker.md`** - Architettura sistema
 - **`emergenza-passwords.md`** - Credenziali critiche
 
 ### File di Supporto:
 - **`convenzioni-nomenclatura.md`** - Standard progetto
+- **`gestione-script-pubblici.md`** - Script pubblici
+- **`verifica-server-produzione.md`** - Verifica server
 
 ### File di Configurazione:
 - **`configurazione-https-lets-encrypt.md`** - SSL/HTTPS
@@ -145,4 +135,4 @@ mv docs/SVILUPPO/correzioni-comandi-docker-completate.md docs/archivio/
 
 ---
 
-**Nota**: La checklist unificata sostituisce completamente le 4 checklist obsolete. Usa sempre quella per tutte le operazioni. 
+**Nota**: La checklist unificata sostituisce completamente le checklist obsolete. I file storici sono stati spostati in `/docs/archivio/` per mantenere la storia del progetto. 

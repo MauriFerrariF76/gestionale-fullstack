@@ -179,15 +179,17 @@ Lo script esegue automaticamente:
 1. ✅ **Verifica prerequisiti** (sistema, memoria, disco)
 2. ✅ **Aggiornamento sistema** (pacchetti essenziali + build tools)
 3. ✅ **Installazione Docker** (Docker CE + Docker Compose)
-4. ✅ **Installazione strumenti essenziali** (sistema, backup, SSL)
-5. ✅ **Configurazione rete** (IP statico, DNS)
-6. ✅ **Configurazione SSH** (porta 27, sicurezza)
-7. ✅ **Configurazione firewall** (UFW)
-8. ✅ **Installazione Docker** (versione specifica)
-9. ✅ **Clonazione repository** (Git)
-10. ✅ **Setup applicazione** (variabili, segreti)
-11. ✅ **Verifiche post-installazione**
-12. ✅ **Generazione report**
+   - **Nota**: Durante l'installazione Docker, il sistema può chiedere conferma per sovrascrivere la chiave GPG: rispondere **Y** (Yes)
+4. ✅ **Configurazione rete** (IP statico, DNS)
+5. ✅ **Configurazione SSH** (porta 27, sicurezza)
+6. ✅ **Configurazione firewall** (UFW)
+7. ✅ **Clonazione repository** (Git)
+   - **Nota**: Lo script rimuove automaticamente directory esistenti e clona il repository corretto
+8. ✅ **Setup applicazione** (variabili, segreti)
+   - **Nginx dockerizzato**: Installato automaticamente con Docker Compose
+   - **SSL/HTTPS**: Configurato con Let's Encrypt (se dominio configurato)
+9. ✅ **Verifiche post-installazione**
+10. ✅ **Generazione report**
 
 ### 3.5 Personalizzazione IP (se necessario)
 Se devi cambiare l'IP del server, modifica lo script prima dell'esecuzione:
@@ -206,13 +208,52 @@ nano install-gestionale-completo.sh
 
 ## 4. Verifiche Post-Deploy
 
-### 4.1 Test automatici eseguiti dallo script
+### 4.1 Architettura Dockerizzata Completa
+
+Il deploy automatico configura un'architettura **completamente dockerizzata**:
+
+```
+Internet → Docker Nginx (80/443) → Container Docker
+                    ↓
+            ┌─────────────────┐
+            │   Frontend      │
+            │   (3000)        │
+            └─────────────────┘
+                    ↓
+            ┌─────────────────┐
+            │   Backend       │
+            │   (3001)        │
+            └─────────────────┘
+                    ↓
+            ┌─────────────────┐
+            │   PostgreSQL    │
+            │   (5432)        │
+            └─────────────────┘
+```
+
+**Componenti installati:**
+- ✅ **Docker Host**: Solo Docker Engine + Docker Compose
+- ✅ **Nginx Container**: Reverse proxy dockerizzato
+- ✅ **Frontend Container**: Next.js dockerizzato
+- ✅ **Backend Container**: Node.js API dockerizzato
+- ✅ **PostgreSQL Container**: Database dockerizzato
+- ✅ **SSL/HTTPS**: Let's Encrypt con certificati host
+
+**Vantaggi dell'architettura dockerizzata:**
+- ✅ **Isolamento completo**: Ogni servizio nel suo container
+- ✅ **Rollback facile**: Versioni specifiche per ogni componente
+- ✅ **Scalabilità**: Facile aggiungere repliche
+- ✅ **Manutenzione**: Aggiornamenti indipendenti
+- ✅ **Sicurezza**: Container isolati e immutabili
+- ✅ **Consistenza**: Stesso ambiente ovunque
+
+### 4.2 Test automatici eseguiti dallo script
 Lo script verifica automaticamente:
 - ✅ **Docker e Docker Compose**: Versioni corrette
 - ✅ **Docker daemon**: Attivo e funzionante
+- ✅ **Container Docker**: Attivi e healthy (nginx, frontend, backend, postgres)
 - ✅ **PostgreSQL client**: Installato per backup
 - ✅ **Certbot**: Installato per SSL
-- ✅ **Container Docker**: Attivi e healthy
 - ✅ **Connettività**: Internet funzionante
 - ✅ **Porte in ascolto**: 27, 80, 443, 5433
 
@@ -244,11 +285,21 @@ sudo ss -tuln | grep :27
 ### 4.3 Test accesso esterno
 ```bash
 # Test da PC-MAURI (sostituisci con l'IP del server)
-curl http://10.10.10.15:3000
-curl http://10.10.10.15:3001/health
+
+# Test HTTP (porta 80)
+curl http://10.10.10.15
+curl http://10.10.10.15/api/health
+
+# Test HTTPS (porta 443) - se SSL configurato
+curl https://gestionale.carpenteriaferrari.com
+curl https://gestionale.carpenteriaferrari.com/api/health
 
 # Test SSH
 ssh -p 27 mauri@10.10.10.15
+
+# Test con browser
+# HTTP: http://10.10.10.15
+# HTTPS: https://gestionale.carpenteriaferrari.com
 ```
 
 ### 4.4 Report generato automaticamente
@@ -278,6 +329,20 @@ free -h
 ping -c 3 8.8.8.8
 
 # Riavvia lo script
+sudo ./install-gestionale-completo.sh
+```
+
+### 5.2 Se il repository non si clona
+```bash
+# Verifica connettività GitHub
+ping -c 3 github.com
+
+# Prova clone manuale
+cd /home/mauri
+rm -rf gestionale-fullstack
+git clone https://github.com/MauriFerrariF76/gestionale-fullstack.git
+
+# Se funziona, riavvia lo script
 sudo ./install-gestionale-completo.sh
 ```
 

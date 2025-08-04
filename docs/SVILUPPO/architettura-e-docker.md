@@ -321,6 +321,44 @@ healthcheck:
   test: ["CMD", "curl", "-f", "http://localhost:3001/health"]  # Backend
 ```
 
+### Best Practices Implementate ✅
+- **Containerizzazione completa**: Tutti i servizi dockerizzati
+- **Nginx dockerizzato**: Reverse proxy isolato e versionabile
+- **SSL sull'host**: Certificati Let's Encrypt persistenti
+- **Health checks**: Monitoraggio automatico tutti i servizi
+- **Secrets management**: Gestione sicura password via Docker
+- **Volumi persistenti**: Dati persistenti per database
+- **Isolamento di rete**: Container in rete Docker dedicata
+- **Logging centralizzato**: Log unificati per tutti i servizi
+
+### Architettura Corretta ✅
+```
+Internet → Docker Nginx (80/443) → Container Docker
+                    ↓
+            ┌─────────────────┐
+            │   Frontend      │
+            │   (3000)        │
+            └─────────────────┘
+                    ↓
+            ┌─────────────────┐
+            │   Backend       │
+            │   (3001)        │
+            └─────────────────┘
+                    ↓
+            ┌─────────────────┐
+            │   PostgreSQL    │
+            │   (5432)        │
+            └─────────────────┘
+```
+
+**Vantaggi dell'architettura dockerizzata:**
+- ✅ **Isolamento completo**: Ogni servizio nel suo container
+- ✅ **Rollback facile**: Versioni specifiche per ogni componente
+- ✅ **Scalabilità**: Facile aggiungere repliche
+- ✅ **Manutenzione**: Aggiornamenti indipendenti
+- ✅ **Sicurezza**: Container isolati e immutabili
+- ✅ **Consistenza**: Stesso ambiente ovunque
+
 ---
 
 ## 9. Note operative e troubleshooting

@@ -45,14 +45,24 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **npm workspace errors**: Warning ignorabili se build funziona
 
 ### Sicurezza Docker
-- [ ] **Container non-root**: Tutti i container con utente non-root
-- [ ] **Secrets management**: Password e chiavi in Docker secrets
-- [ ] **Network isolation**: Container isolati in rete Docker dedicata
-- [ ] **Volume permissions**: Volumi con permessi corretti (non root)
+- [x] **Container non-root**: Tutti i container con utente non-root
+- [x] **Secrets management**: Password e chiavi in Docker secrets
+- [x] **Network isolation**: Container isolati in rete Docker dedicata
+- [x] **Volume permissions**: Volumi con permessi corretti (non root)
 - [ ] **Image scanning**: Verifica vulnerabilità immagini Docker
-- [ ] **Resource limits**: Limiti CPU e memoria sui container
-- [ ] **Health checks**: Configurati per tutti i servizi
-- [ ] **Logging centralizzato**: Log per tutti i container
+- [x] **Resource limits**: Limiti CPU e memoria sui container
+- [x] **Health checks**: Configurati per tutti i servizi
+- [x] **Logging centralizzato**: Log per tutti i container
+
+### Miglioramenti Futuri 🔄
+- [ ] **Backup automatico**: Script backup automatizzato con notifiche
+- [ ] **Monitoring avanzato**: Prometheus/Grafana per metriche dettagliate
+- [ ] **Rate limiting aggressivo**: Protezione avanzata API
+- [ ] **WAF**: Web Application Firewall per sicurezza aggiuntiva
+- [ ] **Intrusion detection**: Sistema di rilevamento intrusioni
+- [ ] **High availability**: Load balancer per ridondanza
+- [ ] **Database clustering**: Replicazione database per resilienza
+- [ ] **Backup cross-site**: Backup automatico su siti multipli
 
 ### Procedure di Fallback (Aggiornamenti)
 - [ ] **Script test falliti**: Usare test manuali incrementali
