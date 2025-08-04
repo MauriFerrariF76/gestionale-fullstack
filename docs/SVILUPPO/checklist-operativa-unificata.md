@@ -26,8 +26,16 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 ### Sicurezza Avanzata
 - [ ] **MFA attivo**: Almeno per admin (implementazione in corso)
 - [ ] **Password PostgreSQL**: Utenza app con permessi minimi (no superuser)
-- [ ] **Aggiornamenti sicurezza**: Patch applicate regolarmente
+- [x] **Aggiornamenti sicurezza**: Patch applicate regolarmente
 - [ ] **TTL DNS**: Impostare a 1 ora (3600 secondi) per resilienza
+
+### Aggiornamenti Software
+- [x] **Node.js aggiornato**: Da v18.20.8 a v20.19.4 (2025-08-04)
+  - Backend: Node.js 20.19.4 attivo
+  - Frontend: Node.js 20.19.4 attivo
+  - Build testati e funzionanti
+  - Performance migliorate
+  - Zero errori nei log
 
 ### Sicurezza Docker
 - [ ] **Container non-root**: Tutti i container con utente non-root
