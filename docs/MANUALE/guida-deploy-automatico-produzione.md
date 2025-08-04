@@ -22,6 +22,17 @@
 - ✅ Credenziali di accesso al server
 - ✅ Backup dei segreti e configurazioni (NAS002: `/mnt/backup_gestionale/`)
 
+### ⚠️ Requisiti Hardware (CRITICO)
+**Per VM di test:**
+- **CPU**: **Almeno 2 core** (1 CPU può causare blocchi durante build Docker)
+- **RAM**: **Almeno 2GB** (minimo per Docker + applicazioni)
+- **Disco**: **Almeno 10GB** (per sistema + container + log)
+
+**Per server di produzione:**
+- **CPU**: **Almeno 4 core** (per performance ottimali)
+- **RAM**: **Almeno 4GB** (per carico di lavoro)
+- **Disco**: **Almeno 20GB** (per sistema + container + log + backup)
+
 ### Materiale necessario:
 - USB con Ubuntu Server 24.04.2 LTS (raccomandato)
 - Documentazione del progetto
@@ -415,6 +426,15 @@ df -h
 - **Sistema**: Ubuntu Server 24.04.2 LTS
 - **Utente**: `mauri`
 - **Password**: `solita` (solo per test)
+
+### ⚠️ Requisiti Hardware VM (CRITICO)
+**Per evitare problemi di deploy, configura la VM con:**
+- **CPU**: **Almeno 2 core** (1 CPU può causare blocchi durante build Docker)
+- **RAM**: **Almeno 2GB** (minimo per Docker + applicazioni)
+- **Disco**: **Almeno 10GB** (per sistema + container + log)
+- **Rete**: **Bridge Adapter** (per connettività diretta)
+
+**NOTA**: Con 1 CPU il deploy può bloccarsi durante l'installazione di Docker e il build dei container.
 
 ### Procedura Test Rapida Automatico
 ```bash

@@ -23,9 +23,21 @@ sudo ./install-gestionale-completo.sh
 
 ## 📋 Prerequisiti
 - Ubuntu Server 24.04.2 LTS
-- Minimo 2GB RAM
-- Minimo 3GB spazio disco (per VM di test)
+- **CPU**: Almeno 2 core (1 CPU può causare blocchi durante build Docker)
+- **RAM**: Minimo 2GB (per Docker + applicazioni)
+- **Disco**: Minimo 10GB (per sistema + container + log)
 - Connessione internet stabile
+
+### ⚠️ Requisiti Hardware (CRITICO)
+**Per VM di test:**
+- **CPU**: **Almeno 2 core** (1 CPU può causare blocchi durante build Docker)
+- **RAM**: **Almeno 2GB** (minimo per Docker + applicazioni)
+- **Disco**: **Almeno 10GB** (per sistema + container + log)
+
+**Per server di produzione:**
+- **CPU**: **Almeno 4 core** (per performance ottimali)
+- **RAM**: **Almeno 4GB** (per carico di lavoro)
+- **Disco**: **Almeno 20GB** (per sistema + container + log + backup)
 
 ## 🔧 Configurazione
 - **IP Server Produzione**: 10.10.10.15
