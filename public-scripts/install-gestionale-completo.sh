@@ -6,6 +6,9 @@
 
 set -e
 
+# Gestione errori migliorata
+trap 'log_error "Script interrotto da errore. Controlla i log: $LOG_FILE"' ERR
+
 # Configurazione logging
 LOG_DIR="/home/mauri/logs"
 LOG_FILE="$LOG_DIR/deploy-$(date +%Y%m%d-%H%M%S).log"
@@ -61,7 +64,7 @@ log_error() {
 log_info "=== INIZIO DEPLOY AUTOMATICO GESTIONALE ==="
 log_info "Versione script: 2.0.0"
 log_info "Data/ora: $(date)"
-log_info "Sistema: $(lsb_release -d | cut -f2)"
+log_info "Sistema: $(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2 2>/dev/null || echo 'Sistema non identificato')"
 log_info "Kernel: $(uname -r)"
 log_info "Architettura: $(uname -m)"
 log_info "Utente: $(whoami)"
@@ -413,7 +416,7 @@ generate_report() {
 ================================================================================
 Data/ora: $(date)
 Versione script: 2.0.0
-Sistema: $(lsb_release -d | cut -f2)
+Sistema: $(cat /etc/os-release | grep PRETTY_NAME | cut -d'"' -f2 2>/dev/null || echo 'Sistema non identificato')
 Kernel: $(uname -r)
 Architettura: $(uname -m)
 IP: $(ip route get 8.8.8.8 | awk '{print $7}')

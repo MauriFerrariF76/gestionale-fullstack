@@ -12,11 +12,13 @@ Script per il deploy automatico del gestionale aziendale.
 
 ### Deploy Automatico Completo
 ```bash
-# Clonazione repository
-git clone https://github.com/MauriFerrariF76/gestionale-fullstack.git
-cd gestionale-fullstack
-chmod +x public-scripts/install-gestionale-completo.sh
-sudo ./public-scripts/install-gestionale-completo.sh
+# Download script di deploy
+cd /home/mauri
+wget https://raw.githubusercontent.com/MauriFerrariF76/gestionale-fullstack/main/public-scripts/install-gestionale-completo.sh
+chmod +x install-gestionale-completo.sh
+
+# Esegui deploy automatico (lo script clonerà tutto)
+sudo ./install-gestionale-completo.sh
 ```
 
 ## 📋 Prerequisiti
