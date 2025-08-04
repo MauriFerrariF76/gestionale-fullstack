@@ -131,6 +131,17 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Nginx reverse proxy**: Configurato
 - [x] **SSL con Let's Encrypt**: Automatico
 
+### Aggiornamento Sicuro
+- [x] **Checklist aggiornamento**: `/docs/SVILUPPO/checklist-aggiornamento-sicuro.md`
+- [x] **Script test completo**: `scripts/test-aggiornamento-completo.sh`
+- [x] **Script rollback automatico**: `scripts/rollback-automatico.sh`
+- [x] **Script monitoraggio**: `scripts/monitor-aggiornamento.sh`
+- [x] **Server test**: 10.10.10.15 configurato
+- [x] **Backup pre-aggiornamento**: Obbligatorio
+- [x] **Test incrementali**: Backend → Frontend → Database
+- [x] **Rollback plan**: < 15 minuti
+- [x] **Monitoraggio 24/7**: Post-aggiornamento
+
 ### Manutenzione Periodica
 - [ ] **Aggiornamento pacchetti**: Sistema (mensile)
 - [ ] **Verifica spazio disco**: Settimanale
@@ -159,6 +170,13 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - **Monitoraggio deploy**: `scripts/monitor-deploy-vm.sh`
 - **Test VM clone**: `scripts/test-vm-clone.sh`
 - **Ripristino emergenza**: `scripts/ripristino_docker_emergenza.sh`
+
+### Script Aggiornamento Sicuro
+- **Test completo**: `scripts/test-aggiornamento-completo.sh`
+- **Rollback automatico**: `scripts/rollback-automatico.sh`
+- **Monitoraggio**: `scripts/monitor-aggiornamento.sh`
+- **Test incrementale**: `scripts/test-incrementale.sh`
+- **Test rollback**: `scripts/test-rollback.sh`
 
 ---
 

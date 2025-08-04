@@ -3,7 +3,7 @@
 # Descrizione: Container per Next.js con build ottimizzato
 
 # Fase 1: Build
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Imposta directory di lavoro
 WORKDIR /app
@@ -21,7 +21,7 @@ COPY . .
 RUN npm run build
 
 # Fase 2: Runtime
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 
 # Imposta utente non-root per sicurezza
 RUN addgroup -g 1001 -S nodejs

@@ -2,8 +2,8 @@
 # Versione: 1.0
 # Descrizione: Container per API Node.js/Express con TypeScript
 
-# Immagine base Node.js 18 Alpine (leggera e sicura)
-FROM node:18-alpine
+# Immagine base Node.js 20 Alpine (leggera e sicura)
+FROM node:20-alpine
 
 # Imposta utente non-root per sicurezza
 RUN addgroup -g 1001 -S nodejs

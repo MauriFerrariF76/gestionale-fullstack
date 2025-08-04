@@ -1,5 +1,4 @@
 {
-  "/api/clienti/route": "app/api/clienti/route.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/clienti/nuovo/page": "app/clienti/nuovo/page.js",
