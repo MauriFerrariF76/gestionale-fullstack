@@ -500,7 +500,6 @@ EOF
     echo "   Copia su PC: scp mauri@$(ip route get 8.8.8.8 | awk '{print $7}'):$REPORT_FILE ./"
     echo ""
 }
-}
 
 # Funzione principale
 main() {
