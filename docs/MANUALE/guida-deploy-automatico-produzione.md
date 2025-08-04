@@ -161,7 +161,7 @@ mkdir gestionale-fullstack
 cd gestionale-fullstack
 
 # Download script di automazione (repository pubblico)
-wget https://raw.githubusercontent.com/MauriFerrariF76/gestionale-scripts-public/main/install-gestionale-completo.sh
+wget https://raw.githubusercontent.com/MauriFerrariF76/gestionale-fullstack/main/public-scripts/install-gestionale-completo.sh
 
 # Rendi eseguibile
 chmod +x install-gestionale-completo.sh
