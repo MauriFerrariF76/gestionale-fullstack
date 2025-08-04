@@ -44,6 +44,9 @@ echo "Sistema sarà offline durante l'aggiornamento"
 cd /home/mauri/gestionale-fullstack
 ./scripts/backup_completo_docker.sh
 
+# Se lo script fallisce, usa backup manuale:
+docker exec gestionale_postgres pg_dump -U gestionale_user gestionale > backup/db_backup_$(date +%Y-%m-%d_%H%M%S).sql
+
 # Verifica integrità backup
 ls -la /home/mauri/backup/db_*.sql | tail -1
 ```
@@ -62,6 +65,11 @@ git checkout -b test-aggiornamento-$(date +%Y%m%d)
 ```bash
 # Esegui test completo su 10.10.10.15
 ./scripts/test-aggiornamento-completo.sh
+
+# Se lo script fallisce, usa test manuali:
+cd backend && npm audit && npm update --save && npm run build
+cd frontend && npm audit && npm run build
+docker exec gestionale_postgres psql -U gestionale_user -d gestionale -c "SELECT 1;"
 
 # Verifica risultati
 cat /home/mauri/backup/reports/test-report-*.md | tail -1
@@ -99,6 +107,11 @@ npm run migrate:test
 ```bash
 # Avvia monitoraggio pre-aggiornamento
 ./scripts/monitor-aggiornamento.sh pre
+
+# Se lo script fallisce, usa controlli manuali:
+docker stats --no-stream
+docker logs gestionale_backend --tail 10
+curl -s -w "%{time_total}" -o /dev/null http://localhost:3001/health
 
 # Verifica baseline performance
 curl -s http://localhost:3001/api/health
@@ -283,6 +296,40 @@ tail -f /home/mauri/backup/logs/rollback-*.log
 ---
 
 ## 🚨 GESTIONE EMERGENZE
+
+### Troubleshooting Script
+
+#### Script di Test Non Funzionanti
+```bash
+# Errore: unexpected EOF while looking for matching `"'
+# Soluzione: Usa test manuali
+cd backend && npm audit && npm run build
+cd frontend && npm run build
+docker exec gestionale_postgres psql -U gestionale_user -d gestionale -c "SELECT 1;"
+```
+
+#### Script di Monitoraggio Non Funzionanti
+```bash
+# Errore: unexpected EOF while looking for matching `"'
+# Soluzione: Usa controlli manuali
+docker stats --no-stream
+docker logs gestionale_backend --tail 20
+curl -s -w "%{time_total}" -o /dev/null http://localhost:3001/health
+```
+
+#### Backup Script Fallito
+```bash
+# Errore: Permission denied o docker compose non riconosciuto
+# Soluzione: Backup manuale database
+docker exec gestionale_postgres pg_dump -U gestionale_user gestionale > backup/db_backup_$(date +%Y-%m-%d_%H%M%S).sql
+```
+
+#### npm Update Frontend Error
+```bash
+# Errore: Unsupported URL Type "workspace:"
+# Soluzione: Ignora se build funziona
+npm run build  # Se funziona, procedi
+```
 
 ### Problemi Comuni
 

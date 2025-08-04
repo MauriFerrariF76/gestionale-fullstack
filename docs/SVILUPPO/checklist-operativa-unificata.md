@@ -37,6 +37,13 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
   - Performance migliorate
   - Zero errori nei log
 
+### Lezioni Apprese Aggiornamento
+- [x] **Script automatici problematici**: Errori di sintassi identificati
+- [x] **Test manuali efficaci**: Alternativa affidabile agli script automatici
+- [x] **Backup manuale necessario**: Script backup con problemi di permessi
+- [x] **Monitoraggio manuale**: Controlli diretti più affidabili
+- [x] **npm workspace errors**: Warning ignorabili se build funziona
+
 ### Sicurezza Docker
 - [ ] **Container non-root**: Tutti i container con utente non-root
 - [ ] **Secrets management**: Password e chiavi in Docker secrets
@@ -46,6 +53,14 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [ ] **Resource limits**: Limiti CPU e memoria sui container
 - [ ] **Health checks**: Configurati per tutti i servizi
 - [ ] **Logging centralizzato**: Log per tutti i container
+
+### Procedure di Fallback (Aggiornamenti)
+- [ ] **Script test falliti**: Usare test manuali incrementali
+- [ ] **Script monitoraggio falliti**: Usare controlli manuali
+- [ ] **Script backup falliti**: Usare backup manuale database
+- [ ] **npm workspace errors**: Ignorare se build funziona
+- [ ] **Health checks manuali**: Verifica diretta servizi Docker
+- [ ] **Performance manuale**: Misurazione tempi risposta diretta
 
 ---
 
