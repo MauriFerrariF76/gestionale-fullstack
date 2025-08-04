@@ -47,6 +47,7 @@ if [ ! -d "$PUBLIC_REPO" ]; then
     mkdir -p "$PUBLIC_REPO"
     cd "$PUBLIC_REPO"
     git init
+    git branch -m main
     git remote add origin https://github.com/MauriFerrariF76/gestionale-scripts-public.git
     log_success "Repository pubblico creato"
 else
