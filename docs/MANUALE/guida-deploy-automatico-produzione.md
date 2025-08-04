@@ -160,17 +160,18 @@ cd /home/mauri
 mkdir gestionale-fullstack
 cd gestionale-fullstack
 
-# Download script di automazione (repository pubblico)
-wget https://raw.githubusercontent.com/MauriFerrariF76/gestionale-scripts-public/main/install-gestionale-completo.sh
+# Clonazione repository pubblico
+git clone https://github.com/MauriFerrariF76/gestionale-fullstack.git
 
-# Rendi eseguibile
-chmod +x install-gestionale-completo.sh
+# Vai nella directory e rendi eseguibile lo script
+cd gestionale-fullstack
+chmod +x public-scripts/install-gestionale-completo.sh
 ```
 
 ### 3.3 Esecuzione deploy automatico
 ```bash
 # Esegui lo script di automazione con privilegi di amministratore
-sudo ./install-gestionale-completo.sh
+sudo ./public-scripts/install-gestionale-completo.sh
 ```
 
 ### 3.4 Cosa fa lo script automatico
@@ -424,11 +425,10 @@ df -h
 # 2. Configura IP statico: 10.10.10.43
 # 3. Download e esecuzione script automatico:
 cd /home/mauri
-mkdir gestionale-fullstack
+git clone https://github.com/MauriFerrariF76/gestionale-fullstack.git
 cd gestionale-fullstack
-wget https://raw.githubusercontent.com/MauriFerrariF76/gestionale-fullstack/main/scripts/install-gestionale-completo.sh
-chmod +x install-gestionale-completo.sh
-sudo ./install-gestionale-completo.sh
+chmod +x public-scripts/install-gestionale-completo.sh
+sudo ./public-scripts/install-gestionale-completo.sh
 
 # 4. Test automatici (eseguiti dallo script):
 # - Verifica container: docker ps
