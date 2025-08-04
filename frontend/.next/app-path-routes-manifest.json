@@ -1,6 +1,6 @@
 {
-  "/favicon.ico/route": "/favicon.ico",
   "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
   "/clienti/nuovo/page": "/clienti/nuovo",
   "/clienti/page": "/clienti",
   "/fornitori/page": "/fornitori",

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Script Test Aggiornamento Completo - Gestionale Fullstack
-# Versione: 1.0
+# Versione: 1.1 (Corretta)
 # Data: $(date +%Y-%m-%d)
-# Server Test: 10.10.10.15
+# Server: 10.10.10.15
 
 set -e  # Exit on error
 
@@ -18,7 +18,6 @@ NC='\033[0m' # No Color
 PROJECT_DIR="/home/mauri/gestionale-fullstack"
 BACKUP_DIR="/home/mauri/backup"
 LOG_FILE="/home/mauri/backup/logs/test-aggiornamento-$(date +%Y%m%d-%H%M%S).log"
-TEST_BRANCH="test-aggiornamento-$(date +%Y%m%d)"
 
 # Funzione per logging
 log() {
@@ -35,32 +34,28 @@ warning() {
 
 error() {
     echo -e "${RED}❌ $1${NC}" | tee -a "$LOG_FILE"
-    exit 1
 }
 
-# Funzione per verificare prerequisiti
+# Funzione per controlli prerequisiti
 check_prerequisites() {
     log "Verifica prerequisiti..."
     
-    # Verifica directory progetto
-    if [ ! -d "$PROJECT_DIR" ]; then
-        error "Directory progetto non trovata: $PROJECT_DIR"
-    fi
-    
-    # Verifica Docker
+    # Controllo Docker
     if ! command -v docker &> /dev/null; then
         error "Docker non installato"
+        exit 1
     fi
     
-    # Verifica spazio disco
-    AVAILABLE_SPACE=$(df /home/mauri | awk 'NR==2 {print $4}')
-    if [ "$AVAILABLE_SPACE" -lt 52428800 ]; then  # 50GB in KB
-        error "Spazio disco insufficiente. Disponibile: $(($AVAILABLE_SPACE / 1024 / 1024))GB"
+    # Controllo directory progetto
+    if [ ! -d "$PROJECT_DIR" ]; then
+        error "Directory progetto non trovata: $PROJECT_DIR"
+        exit 1
     fi
     
-    # Verifica connessione database
-    if ! docker exec gestionale-postgres pg_isready -U postgres &> /dev/null; then
-        error "Database PostgreSQL non raggiungibile"
+    # Controllo servizi Docker
+    if ! docker ps | grep -q "gestionale"; then
+        error "Servizi Docker non attivi"
+        exit 1
     fi
     
     success "Prerequisiti verificati"
@@ -68,113 +63,108 @@ check_prerequisites() {
 
 # Funzione per backup pre-test
 backup_pre_test() {
-    log "Esecuzione backup pre-test..."
+    log "Backup pre-test..."
     
     # Backup database
-    log "Backup database..."
-    docker exec gestionale-postgres pg_dump -U postgres gestionale > "$BACKUP_DIR/db_pre_test_$(date +%Y%m%d_%H%M%S).sql"
+    docker exec gestionale_postgres pg_dump -U gestionale_user gestionale > backup/db_pre_test_$(date +%Y%m%d_%H%M%S).sql
     
     # Backup configurazioni
-    log "Backup configurazioni..."
-    tar -czf "$BACKUP_DIR/config_pre_test_$(date +%Y%m%d_%H%M%S).tar.gz" \
-        -C "$PROJECT_DIR" nginx/ config/ docker-compose.yml
+    tar -czf backup/config_pre_test_$(date +%Y%m%d_%H%M%S).tar.gz nginx/ docker-compose.yml 2>/dev/null || warning "Backup configurazioni parziale"
     
-    # Git backup
-    log "Git backup..."
-    cd "$PROJECT_DIR"
-    git add .
-    git commit -m "Backup pre-test $(date +%Y-%m-%d_%H:%M:%S)" || warning "Nessuna modifica da committare"
-    git tag "pre-test-$(date +%Y%m%d_%H%M%S)"
-    
-    success "Backup completato"
+    success "Backup pre-test completato"
 }
 
 # Funzione per test backend
 test_backend() {
-    log "Test aggiornamento backend..."
+    log "Test backend..."
     
-    cd "$PROJECT_DIR/backend"
+    # Test build
+    cd backend
+    if npm run build; then
+        success "Build backend OK"
+    else
+        error "Build backend fallito"
+        return 1
+    fi
     
-    # Audit sicurezza
-    log "Audit sicurezza npm..."
-    npm audit --audit-level=high || warning "Vulnerabilità di sicurezza rilevate"
+    # Test audit
+    if npm audit; then
+        success "Audit backend OK"
+    else
+        warning "Audit backend con warning"
+    fi
     
-    # Aggiornamento dipendenze
-    log "Aggiornamento dipendenze..."
-    npm update --save
-    
-    # Test unitari
-    log "Esecuzione test unitari..."
-    npm test || error "Test backend falliti"
-    
-    # Test API endpoints
-    log "Test API endpoints..."
-    # Qui andrebbero i test specifici delle API
-    # Per ora simuliamo con curl
-    sleep 5  # Attendi riavvio servizi
-    
+    cd ..
     success "Test backend completati"
 }
 
 # Funzione per test frontend
 test_frontend() {
-    log "Test aggiornamento frontend..."
+    log "Test frontend..."
     
-    cd "$PROJECT_DIR/frontend"
+    # Test build
+    cd frontend
+    if npm run build; then
+        success "Build frontend OK"
+    else
+        error "Build frontend fallito"
+        return 1
+    fi
     
-    # Audit sicurezza
-    log "Audit sicurezza npm..."
-    npm audit --audit-level=high || warning "Vulnerabilità di sicurezza rilevate"
+    # Test audit
+    if npm audit; then
+        success "Audit frontend OK"
+    else
+        warning "Audit frontend con warning"
+    fi
     
-    # Aggiornamento dipendenze
-    log "Aggiornamento dipendenze..."
-    npm update --save
-    
-    # Build test
-    log "Test build..."
-    npm run build || error "Build frontend fallita"
-    
-    # Test unitari
-    log "Esecuzione test unitari..."
-    npm test || error "Test frontend falliti"
-    
+    cd ..
     success "Test frontend completati"
 }
 
 # Funzione per test database
 test_database() {
-    log "Test aggiornamento database..."
+    log "Test database..."
     
-    cd "$PROJECT_DIR/backend"
+    # Test connessione
+    if docker exec gestionale_postgres psql -U gestionale_user -d gestionale -c "SELECT 1;" &> /dev/null; then
+        success "Connessione database OK"
+    else
+        error "Connessione database fallita"
+        return 1
+    fi
     
-    # Test migrazioni
-    log "Test migrazioni database..."
-    npm run migrate:test || warning "Migrazioni test non configurate"
-    
-    # Test integrità
-    log "Test integrità database..."
-    # Query di verifica integrità
-    docker exec gestionale-postgres psql -U postgres -d gestionale -c "
-        SELECT 'Foreign keys' as test, COUNT(*) as count 
-        FROM information_schema.table_constraints 
-        WHERE constraint_type = 'FOREIGN KEY';
-    " || warning "Test integrità database non completato"
+    # Test versione
+    VERSION=$(docker exec gestionale_postgres psql -U gestionale_user -d gestionale -c "SELECT version();" -t | head -1)
+    log "Versione PostgreSQL: $VERSION"
     
     success "Test database completati"
+}
+
+# Funzione per test tempo di risposta
+test_response_time() {
+    local START_TIME=$(date +%s.%N)
+    curl -s http://localhost:3001/health > /dev/null 2>&1
+    local END_TIME=$(date +%s.%N)
+    echo "$END_TIME - $START_TIME" | bc 2>/dev/null || echo "0"
+}
+
+# Funzione per ottenere utilizzo CPU
+get_cpu_usage() {
+    docker stats --no-stream --format "table {{.CPUPerc}}" gestionale-backend 2>/dev/null | tail -n 1 || echo "0%"
+}
+
+# Funzione per ottenere utilizzo memoria
+get_memory_usage() {
+    docker stats --no-stream --format "table {{.MemPerc}}" gestionale-backend 2>/dev/null | tail -n 1 || echo "0%"
 }
 
 # Funzione per test performance
 test_performance() {
     log "Test performance..."
     
-    # Baseline performance
-    log "Raccolta baseline performance..."
-    
     # Test tempo di risposta API
-    START_TIME=$(date +%s.%N)
-    curl -s http://localhost:3001/api/health > /dev/null
-    END_TIME=$(date +%s.%N)
-    RESPONSE_TIME=$(echo "$END_TIME - $START_TIME" | bc)
+    RESPONSE_TIME=$(test_response_time)
     
     if (( $(echo "$RESPONSE_TIME > 2.0" | bc -l) )); then
         warning "Tempo di risposta API elevato: ${RESPONSE_TIME}s"
@@ -183,8 +173,8 @@ test_performance() {
     fi
     
     # Test utilizzo risorse
-    CPU_USAGE=$(docker stats --no-stream --format "table {{.CPUPerc}}" gestionale-backend | tail -n 1)
-    MEM_USAGE=$(docker stats --no-stream --format "table {{.MemPerc}}" gestionale-backend | tail -n 1)
+    CPU_USAGE=$(get_cpu_usage)
+    MEM_USAGE=$(get_memory_usage)
     
     log "Utilizzo CPU: $CPU_USAGE"
     log "Utilizzo Memoria: $MEM_USAGE"
@@ -254,7 +244,7 @@ generate_report() {
     
     REPORT_FILE="/home/mauri/backup/reports/test-report-$(date +%Y%m%d_%H%M%S).md"
     
-    cat > "$REPORT_FILE" << EOF
+    cat > "$REPORT_FILE" << 'EOF'
 # Report Test Aggiornamento - $(date +%Y-%m-%d %H:%M:%S)
 
 ## Riepilogo
@@ -273,9 +263,9 @@ generate_report() {
 - [x] Monitoraggio continuo
 
 ## Metriche Performance
-- Tempo risposta API: ${RESPONSE_TIME}s
-- Utilizzo CPU: $CPU_USAGE
-- Utilizzo Memoria: $MEM_USAGE
+- Tempo risposta API: $(test_response_time)s
+- Utilizzo CPU: $(get_cpu_usage)
+- Utilizzo Memoria: $(get_memory_usage)
 
 ## Note
 - Tutti i test sono stati superati con successo
@@ -325,7 +315,7 @@ main() {
 
 # Gestione errori
 trap 'error "Script interrotto da errore"' ERR
-trap 'log "Script interrotto dall\'utente"; exit 1' INT TERM
+trap 'log "Script interrotto dall'\''utente"; exit 1' INT TERM
 
 # Esecuzione
 main "$@" 

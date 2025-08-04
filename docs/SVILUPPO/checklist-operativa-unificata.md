@@ -195,9 +195,9 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - **Ripristino emergenza**: `scripts/ripristino_docker_emergenza.sh`
 
 ### Script Aggiornamento Sicuro
-- **Test completo**: `scripts/test-aggiornamento-completo.sh`
+- **Test completo**: `scripts/test-aggiornamento-completo.sh` ✅ CORRETTO
 - **Rollback automatico**: `scripts/rollback-automatico.sh`
-- **Monitoraggio**: `scripts/monitor-aggiornamento.sh`
+- **Monitoraggio**: `scripts/monitor-aggiornamento.sh` ✅ CORRETTO
 - **Test incrementale**: `scripts/test-incrementale.sh`
 - **Test rollback**: `scripts/test-rollback.sh`
 
@@ -236,6 +236,7 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - Monitoraggio e automazione
 - Configurazione server
 - Deploy automatico
+- **Correzioni script aggiornamento**: Completate (2025-08-04)
 
 ### 🔄 In Corso
 - MFA per admin

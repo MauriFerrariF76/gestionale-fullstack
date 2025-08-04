@@ -1,12 +1,7 @@
 {
   "version": 4,
   "routes": {
-    "/favicon.ico": {
-      "initialHeaders": {
-        "cache-control": "public, max-age=0, must-revalidate",
-        "content-type": "image/x-icon",
-        "x-next-cache-tags": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico"
-      },
+    "/login": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -19,8 +14,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/favicon.ico",
-      "dataRoute": null,
+      "srcRoute": "/login",
+      "dataRoute": "/login.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -102,7 +97,12 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/login": {
+    "/favicon.ico": {
+      "initialHeaders": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "content-type": "image/x-icon",
+        "x-next-cache-tags": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico"
+      },
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -115,8 +115,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/login",
-      "dataRoute": "/login.rsc",
+      "srcRoute": "/favicon.ico",
+      "dataRoute": null,
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -154,8 +154,8 @@
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "6c8888be77baf917a7c98f7fde2288de",
-    "previewModeSigningKey": "8dda592bf2b4bf5d07643f5184d1f8a664eef485ca0120dbbce3b1b4f970e14c",
-    "previewModeEncryptionKey": "e6af32477dbe578a941db3c475591fea2d47e1f54ef507de5afa2b50315f8979"
+    "previewModeId": "93e8f0685edb434857c1866f5bacb745",
+    "previewModeSigningKey": "83fe39f36092042833e884acad0521f6df813b4fcea83a0e18e167b31bbdad71",
+    "previewModeEncryptionKey": "daec512d16adf57e2725011984704af1f11544695edbbf75c9b5e7756c2329c0"
   }
 }

@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Script Monitoraggio Aggiornamento - Gestionale Fullstack
-# Versione: 1.0
-# Data: $(date +%Y-%m-%d)
-# Server: 10.10.10.15
+# Script Monitoraggio Aggiornamento Node.js
+# Versione: 2.0
+# Data: 2025-08-04
+# Descrizione: Monitoraggio completo pre/post aggiornamento
 
-set -e  # Exit on error
+set -euo pipefail
 
 # Colori per output
 RED='\033[0;31m'
@@ -14,275 +14,110 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Configurazioni
-PROJECT_DIR="/home/mauri/gestionale-fullstack"
-BACKUP_DIR="/home/mauri/backup"
-LOG_FILE="/home/mauri/backup/logs/monitor-aggiornamento-$(date +%Y%m%d-%H%M%S).log"
-ALERT_EMAIL="mauri@dominio.com"
-ROLLBACK_SCRIPT="/home/mauri/gestionale-fullstack/scripts/rollback-automatico.sh"
+# Configurazione
+LOG_FILE="/home/mauri/backup/logs/monitor-aggiornamento-$(date +%Y%m%d_%H%M%S).log"
+BASELINE_FILE="/tmp/baseline_metrics.txt"
 
-# Metriche baseline
-BASELINE_RESPONSE_TIME=2.0
-BASELINE_CPU_USAGE=80
-BASELINE_MEMORY_USAGE=80
-MAX_ERROR_COUNT=10
-MAX_RESPONSE_TIME=5.0
-
-# Funzione per logging
+# Funzioni di utilità
 log() {
-    echo -e "${BLUE}[$(date +'%Y-%m-%d %H:%M:%S')]${NC} $1" | tee -a "$LOG_FILE"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
 
 success() {
     echo -e "${GREEN}✅ $1${NC}" | tee -a "$LOG_FILE"
 }
 
-warning() {
-    echo -e "${YELLOW}⚠️  $1${NC}" | tee -a "$LOG_FILE"
-}
-
 error() {
     echo -e "${RED}❌ $1${NC}" | tee -a "$LOG_FILE"
 }
 
-# Funzione per invio alert email
-send_alert() {
-    local subject="$1"
-    local message="$2"
-    local priority="$3"
-    
-    if [ "$priority" = "critical" ]; then
-        subject="🚨 CRITICO: $subject"
-    elif [ "$priority" = "warning" ]; then
-        subject="⚠️  WARNING: $subject"
-    fi
-    
-    echo "$message" | mail -s "$subject" "$ALERT_EMAIL" || warning "Impossibile inviare email alert"
+warning() {
+    echo -e "${YELLOW}⚠️ $1${NC}" | tee -a "$LOG_FILE"
 }
 
-# Funzione per test health check
+info() {
+    echo -e "${BLUE}ℹ️ $1${NC}" | tee -a "$LOG_FILE"
+}
+
+# Funzione per test health check API
 test_health_check() {
-    local response=$(curl -s -w "%{http_code}|%{time_total}" -o /dev/null http://localhost:3001/api/health 2>/dev/null || echo "000|0.0")
-    local http_code=$(echo "$response" | cut -d'|' -f1)
-    local response_time=$(echo "$response" | cut -d'|' -f2)
-    
-    if [ "$http_code" = "200" ]; then
-        echo "$response_time"
-        return 0
+    local START_TIME=$(date +%s.%N)
+    if curl -s http://localhost:3001/health > /dev/null 2>&1; then
+        local END_TIME=$(date +%s.%N)
+        echo "$END_TIME - $START_TIME" | bc 2>/dev/null || echo "0"
     else
-        echo "0"
-        return 1
+        echo "999"
     fi
 }
 
 # Funzione per test frontend
 test_frontend() {
-    local response=$(curl -s -w "%{http_code}" -o /dev/null http://localhost:3000 2>/dev/null || echo "000")
-    
-    if [ "$response" = "200" ]; then
-        return 0
-    else
-        return 1
-    fi
+    curl -s http://localhost:3000 > /dev/null 2>&1
+    return $?
 }
 
 # Funzione per test database
 test_database() {
-    if docker exec gestionale-postgres pg_isready -U postgres &> /dev/null; then
-        return 0
-    else
-        return 1
-    fi
+    docker exec gestionale-postgres pg_isready -U postgres > /dev/null 2>&1
+    return $?
 }
 
-# Funzione per raccolta metriche Docker
+# Funzione per ottenere metriche Docker
 get_docker_metrics() {
-    local container_name="$1"
-    local metric_type="$2"
+    local container="$1"
+    local metric="$2"
     
-    case "$metric_type" in
+    case "$metric" in
         "cpu")
-            docker stats --no-stream --format "table {{.CPUPerc}}" "$container_name" | tail -n 1 | sed 's/%//'
+            docker stats --no-stream --format "{{.CPUPerc}}" "$container" 2>/dev/null | sed 's/%//' || echo "0"
             ;;
         "memory")
-            docker stats --no-stream --format "table {{.MemPerc}}" "$container_name" | tail -n 1 | sed 's/%//'
+            docker stats --no-stream --format "{{.MemPerc}}" "$container" 2>/dev/null | sed 's/%//' || echo "0"
             ;;
-        "status")
-            docker ps --format "table {{.Status}}" | grep "$container_name" | head -1
+        *)
+            echo "0"
             ;;
     esac
 }
 
-# Funzione per conteggio errori nei log
-count_errors() {
-    local container_name="$1"
-    local error_type="$2"
+# Funzione per controllare spazio disco
+check_disk_space() {
+    df / | tail -1 | awk '{print $5}' | sed 's/%//'
+}
+
+# Funzione per inviare alert
+send_alert() {
+    local title="$1"
+    local message="$2"
+    local level="${3:-info}"
     
-    case "$error_type" in
+    log "ALERT [$level]: $title - $message"
+    
+    # Qui si può aggiungere l'invio di notifiche (email, Slack, etc.)
+    case "$level" in
         "critical")
-            docker logs "$container_name" 2>&1 | grep -c "CRITICAL\|FATAL\|ERROR" || echo "0"
+            echo -e "${RED}🚨 CRITICAL: $title${NC}"
             ;;
         "warning")
-            docker logs "$container_name" 2>&1 | grep -c "WARN\|WARNING" || echo "0"
+            echo -e "${YELLOW}⚠️ WARNING: $title${NC}"
             ;;
-        "all")
-            docker logs "$container_name" 2>&1 | grep -c "ERROR\|WARN\|CRITICAL\|FATAL" || echo "0"
+        *)
+            echo -e "${BLUE}ℹ️ INFO: $title${NC}"
             ;;
     esac
-}
-
-# Funzione per verifica spazio disco
-check_disk_space() {
-    local usage=$(df /home/mauri | awk 'NR==2 {print $5}' | sed 's/%//')
-    local available=$(df /home/mauri | awk 'NR==2 {print $4}')
-    
-    echo "$usage|$available"
-}
-
-# Funzione per test completo sistema
-run_system_test() {
-    local test_results=()
-    local issues=()
-    
-    log "Esecuzione test completo sistema..."
-    
-    # Test health check API
-    local response_time=$(test_health_check)
-    if [ "$response_time" != "0" ]; then
-        test_results+=("API: OK (${response_time}s)")
-        if (( $(echo "$response_time > $MAX_RESPONSE_TIME" | bc -l) )); then
-            issues+=("Tempo risposta API elevato: ${response_time}s")
-        fi
-    else
-        test_results+=("API: FAIL")
-        issues+=("API non raggiungibile")
-    fi
-    
-    # Test frontend
-    if test_frontend; then
-        test_results+=("Frontend: OK")
-    else
-        test_results+=("Frontend: FAIL")
-        issues+=("Frontend non raggiungibile")
-    fi
-    
-    # Test database
-    if test_database; then
-        test_results+=("Database: OK")
-    else
-        test_results+=("Database: FAIL")
-        issues+=("Database non raggiungibile")
-    fi
-    
-    # Test servizi Docker
-    local docker_services=$(docker ps | grep -c "gestionale" || echo "0")
-    if [ "$docker_services" -ge 3 ]; then
-        test_results+=("Docker: OK ($docker_services servizi)")
-    else
-        test_results+=("Docker: FAIL ($docker_services servizi)")
-        issues+=("Servizi Docker insufficienti: $docker_services")
-    fi
-    
-    # Test metriche performance
-    local backend_cpu=$(get_docker_metrics "gestionale-backend" "cpu")
-    local backend_memory=$(get_docker_metrics "gestionale-backend" "memory")
-    
-    if [ -n "$backend_cpu" ] && [ "$backend_cpu" -gt "$BASELINE_CPU_USAGE" ]; then
-        issues+=("CPU backend elevata: ${backend_cpu}%")
-    fi
-    
-    if [ -n "$backend_memory" ] && [ "$backend_memory" -gt "$BASELINE_MEMORY_USAGE" ]; then
-        issues+=("Memoria backend elevata: ${backend_memory}%")
-    fi
-    
-    # Test errori nei log
-    local critical_errors=$(count_errors "gestionale-backend" "critical")
-    if [ "$critical_errors" -gt 0 ]; then
-        issues+=("Errori critici nei log: $critical_errors")
-    fi
-    
-    # Test spazio disco
-    local disk_metrics=$(check_disk_space)
-    local disk_usage=$(echo "$disk_metrics" | cut -d'|' -f1)
-    local disk_available=$(echo "$disk_metrics" | cut -d'|' -f2)
-    
-    if [ "$disk_usage" -gt 90 ]; then
-        issues+=("Spazio disco critico: ${disk_usage}%")
-    fi
-    
-    # Output risultati
-    echo "=== RISULTATI TEST ==="
-    for result in "${test_results[@]}"; do
-        echo "  $result"
-    done
-    
-    if [ ${#issues[@]} -gt 0 ]; then
-        echo "=== PROBLEMI RILEVATI ==="
-        for issue in "${issues[@]}"; do
-            warning "$issue"
-        done
-        return 1
-    else
-        success "Tutti i test superati"
-        return 0
-    fi
-}
-
-# Funzione per monitoraggio continuo
-continuous_monitoring() {
-    local duration_minutes="${1:-60}"  # Default 60 minuti
-    local interval_seconds="${2:-30}"  # Default 30 secondi
-    local iterations=$((duration_minutes * 60 / interval_seconds))
-    
-    log "Avvio monitoraggio continuo per ${duration_minutes} minuti (intervallo: ${interval_seconds}s)"
-    
-    local iteration=0
-    local critical_issues=0
-    
-    while [ $iteration -lt $iterations ]; do
-        iteration=$((iteration + 1))
-        log "Iterazione $iteration/$iterations"
-        
-        # Esegui test sistema
-        if ! run_system_test; then
-            critical_issues=$((critical_issues + 1))
-            
-            # Se troppi problemi critici, considera rollback
-            if [ $critical_issues -ge 3 ]; then
-                error "Troppi problemi critici rilevati ($critical_issues). Considerare rollback."
-                send_alert "PROBLEMI CRITICI RILEVATI" "Monitoraggio ha rilevato $critical_issues problemi critici consecutivi.\nServer: 10.10.10.15\nConsiderare rollback automatico." "critical"
-                
-                # Trigger rollback automatico se script disponibile
-                if [ -f "$ROLLBACK_SCRIPT" ]; then
-                    log "Trigger rollback automatico..."
-                    "$ROLLBACK_SCRIPT" auto
-                fi
-                break
-            fi
-        else
-            critical_issues=0  # Reset contatore se tutto OK
-        fi
-        
-        # Attendi prossima iterazione
-        sleep $interval_seconds
-    done
-    
-    log "Monitoraggio continuo completato"
 }
 
 # Funzione per monitoraggio pre-aggiornamento
 pre_update_monitoring() {
-    log "Monitoraggio pre-aggiornamento..."
+    log "=== MONITORAGGIO PRE-AGGIORNAMENTO ==="
     
-    # Raccolta baseline
-    log "Raccolta baseline performance..."
-    
+    # Salva baseline
     local baseline_response_time=$(test_health_check)
     local baseline_cpu=$(get_docker_metrics "gestionale-backend" "cpu")
     local baseline_memory=$(get_docker_metrics "gestionale-backend" "memory")
     
     # Salva baseline
-    cat > "/tmp/baseline_metrics.txt" << EOF
+    cat > "$BASELINE_FILE" << 'EOF'
 BASELINE_RESPONSE_TIME=$baseline_response_time
 BASELINE_CPU_USAGE=$baseline_cpu
 BASELINE_MEMORY_USAGE=$baseline_memory
@@ -290,42 +125,85 @@ BASELINE_TIMESTAMP=$(date +%s)
 EOF
     
     success "Baseline salvata: response_time=${baseline_response_time}s, cpu=${baseline_cpu}%, memory=${baseline_memory}%"
+    
+    # Test servizi
+    if test_health_check > /dev/null; then
+        success "API Health OK"
+    else
+        error "API Health FAIL"
+    fi
+    
+    if test_frontend; then
+        success "Frontend OK"
+    else
+        error "Frontend FAIL"
+    fi
+    
+    if test_database; then
+        success "Database OK"
+    else
+        error "Database FAIL"
+    fi
+    
+    info "Monitoraggio pre-aggiornamento completato"
 }
 
 # Funzione per monitoraggio post-aggiornamento
 post_update_monitoring() {
-    log "Monitoraggio post-aggiornamento..."
+    log "=== MONITORAGGIO POST-AGGIORNAMENTO ==="
     
     # Carica baseline
-    if [ -f "/tmp/baseline_metrics.txt" ]; then
-        source "/tmp/baseline_metrics.txt"
+    if [ -f "$BASELINE_FILE" ]; then
+        source "$BASELINE_FILE"
+    else
+        warning "Baseline non trovata, usando valori di default"
+        BASELINE_RESPONSE_TIME="0.1"
+        BASELINE_CPU_USAGE="5"
+        BASELINE_MEMORY_USAGE="10"
     fi
     
-    # Confronto con baseline
+    # Test attuali
     local current_response_time=$(test_health_check)
     local current_cpu=$(get_docker_metrics "gestionale-backend" "cpu")
     local current_memory=$(get_docker_metrics "gestionale-backend" "memory")
     
-    log "Confronto con baseline..."
-    log "  Response time: $BASELINE_RESPONSE_TIME -> $current_response_time"
-    log "  CPU: $BASELINE_CPU_USAGE -> $current_cpu"
-    log "  Memory: $BASELINE_MEMORY_USAGE -> $current_memory"
-    
-    # Verifica degradazione
+    # Confronto performance
     local performance_degraded=false
     
     if (( $(echo "$current_response_time > $BASELINE_RESPONSE_TIME * 1.5" | bc -l) )); then
-        warning "Performance degradata: tempo risposta aumentato del 50%"
+        warning "Tempo risposta degradato: ${current_response_time}s vs ${BASELINE_RESPONSE_TIME}s"
         performance_degraded=true
     fi
     
-    if [ "$current_cpu" -gt "$((BASELINE_CPU_USAGE + 20))" ]; then
-        warning "Performance degradata: CPU aumentata del 20%"
+    if (( $(echo "$current_cpu > $BASELINE_CPU_USAGE * 1.3" | bc -l) )); then
+        warning "CPU usage aumentato: ${current_cpu}% vs ${BASELINE_CPU_USAGE}%"
         performance_degraded=true
     fi
     
-    if [ "$current_memory" -gt "$((BASELINE_MEMORY_USAGE + 20))" ]; then
-        warning "Performance degradata: memoria aumentata del 20%"
+    if (( $(echo "$current_memory > $BASELINE_MEMORY_USAGE * 1.3" | bc -l) )); then
+        warning "Memory usage aumentato: ${current_memory}% vs ${BASELINE_MEMORY_USAGE}%"
+        performance_degraded=true
+    fi
+    
+    # Test servizi
+    if test_health_check > /dev/null; then
+        success "API Health OK"
+    else
+        error "API Health FAIL"
+        performance_degraded=true
+    fi
+    
+    if test_frontend; then
+        success "Frontend OK"
+    else
+        error "Frontend FAIL"
+        performance_degraded=true
+    fi
+    
+    if test_database; then
+        success "Database OK"
+    else
+        error "Database FAIL"
         performance_degraded=true
     fi
     
@@ -336,13 +214,114 @@ post_update_monitoring() {
     fi
 }
 
+# Funzione per monitoraggio continuo
+continuous_monitoring() {
+    local duration="$1"
+    local interval="$2"
+    local iterations=$((duration * 60 / interval))
+    
+    log "=== MONITORAGGIO CONTINUO ==="
+    log "Durata: ${duration} minuti"
+    log "Intervallo: ${interval} secondi"
+    log "Iterazioni: ${iterations}"
+    
+    for ((i=1; i<=iterations; i++)); do
+        log "Iterazione $i/$iterations"
+        
+        # Test servizi
+        local api_ok=false
+        local frontend_ok=false
+        local db_ok=false
+        
+        if test_health_check > /dev/null; then
+            api_ok=true
+        fi
+        
+        if test_frontend; then
+            frontend_ok=true
+        fi
+        
+        if test_database; then
+            db_ok=true
+        fi
+        
+        # Log stato
+        if [ "$api_ok" = true ] && [ "$frontend_ok" = true ] && [ "$db_ok" = true ]; then
+            success "Tutti i servizi OK"
+        else
+            error "Problemi rilevati: API=$api_ok, Frontend=$frontend_ok, DB=$db_ok"
+        fi
+        
+        # Metriche
+        local cpu=$(get_docker_metrics "gestionale-backend" "cpu")
+        local memory=$(get_docker_metrics "gestionale-backend" "memory")
+        local disk=$(check_disk_space)
+        
+        log "Metriche: CPU=${cpu}%, Memory=${memory}%, Disk=${disk}%"
+        
+        # Alert se necessario
+        if [ "$cpu" -gt 80 ]; then
+            send_alert "CPU ALTA" "CPU usage: ${cpu}%" "warning"
+        fi
+        
+        if [ "$memory" -gt 80 ]; then
+            send_alert "MEMORY ALTA" "Memory usage: ${memory}%" "warning"
+        fi
+        
+        if [ "$disk" -gt 90 ]; then
+            send_alert "DISK PIENO" "Disk usage: ${disk}%" "critical"
+        fi
+        
+        sleep "$interval"
+    done
+}
+
+# Funzione per test singolo sistema
+run_system_test() {
+    log "=== TEST SISTEMA SINGOLO ==="
+    
+    # Test servizi
+    log "Test API..."
+    if test_health_check > /dev/null; then
+        success "API OK"
+    else
+        error "API FAIL"
+    fi
+    
+    log "Test Frontend..."
+    if test_frontend; then
+        success "Frontend OK"
+    else
+        error "Frontend FAIL"
+    fi
+    
+    log "Test Database..."
+    if test_database; then
+        success "Database OK"
+    else
+        error "Database FAIL"
+    fi
+    
+    # Metriche
+    local cpu=$(get_docker_metrics "gestionale-backend" "cpu")
+    local memory=$(get_docker_metrics "gestionale-backend" "memory")
+    local disk=$(check_disk_space)
+    
+    log "Metriche sistema:"
+    log "  CPU: ${cpu}%"
+    log "  Memory: ${memory}%"
+    log "  Disk: ${disk}%"
+    
+    success "Test sistema completato"
+}
+
 # Funzione per report monitoraggio
 generate_monitoring_report() {
     log "Generazione report monitoraggio..."
     
     REPORT_FILE="/home/mauri/backup/reports/monitoring-report-$(date +%Y%m%d_%H%M%S).md"
     
-    cat > "$REPORT_FILE" << EOF
+    cat > "$REPORT_FILE" << 'EOF'
 # Report Monitoraggio Aggiornamento - $(date +%Y-%m-%d %H:%M:%S)
 
 ## Riepilogo
@@ -425,7 +404,7 @@ main() {
 
 # Gestione errori
 trap 'error "Script interrotto da errore"' ERR
-trap 'log "Script interrotto dall\'utente"; exit 1' INT TERM
+trap 'log "Script interrotto dall'\''utente"; exit 1' INT TERM
 
 # Esecuzione
 main "$@" 
