@@ -125,8 +125,8 @@ La documentazione è organizzata secondo le convenzioni del progetto:
 ### Gestione Servizi
 - **Servizi Docker**: Backend, frontend, database e nginx gestiti tramite Docker Compose
   ```bash
-  docker-compose start|stop|restart|status
-  docker-compose logs -f
+  docker compose start|stop|restart|status
+docker compose logs -f
   ```
 
 ### Backup e Configurazioni

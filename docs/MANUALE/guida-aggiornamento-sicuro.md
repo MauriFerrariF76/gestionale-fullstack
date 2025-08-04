@@ -121,7 +121,7 @@ docker stats --no-stream
 #### 3.2 Esecuzione Aggiornamento
 ```bash
 # 1. Stop servizi
-docker-compose down
+docker compose down
 
 # 2. Backup finale
 ./scripts/backup_completo_docker.sh
@@ -137,7 +137,7 @@ npm update --save
 npm run build
 
 # 5. Riavvio servizi
-docker-compose up -d
+docker compose up -d
 ```
 
 #### 3.3 Verifica Post-Aggiornamento
@@ -339,7 +339,7 @@ npm run build  # Se funziona, procedi
 docker ps | grep gestionale
 
 # Riavvia backend
-docker-compose restart backend
+docker compose restart backend
 
 # Controlla log errori
 docker logs gestionale-backend
@@ -351,7 +351,7 @@ docker logs gestionale-backend
 docker exec gestionale-postgres pg_isready -U postgres
 
 # Riavvia database
-docker-compose restart postgres
+docker compose restart postgres
 
 # Test connessione
 docker exec gestionale-postgres psql -U postgres -d gestionale -c "SELECT 1;"
@@ -364,7 +364,7 @@ cd frontend
 npm run build
 
 # Riavvia frontend
-docker-compose restart frontend
+docker compose restart frontend
 
 # Test accesso
 curl -s http://localhost:3000

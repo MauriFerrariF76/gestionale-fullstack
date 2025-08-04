@@ -360,7 +360,7 @@ newgrp docker
 #### Passo 5: Verifica Funzionamento
 ```bash
 # Controlla stato servizi
-docker-compose ps
+docker compose ps
 
 # Testa accesso web
 curl http://localhost/health
@@ -457,10 +457,10 @@ ssh root@IP_SERVER
 sudo cat /root/emergenza-passwords.md
 
 # 3. Verifica servizi Docker
-docker-compose ps
+docker compose ps
 
 # 4. Riavvia se necessario
-docker-compose restart
+docker compose restart
 ```
 
 #### **Scenario 2: Database corrotto, ripristino urgente**
@@ -472,10 +472,10 @@ sudo cat /root/emergenza-passwords.md
 ls -la /mnt/backup_gestionale/database/ | grep backup
 
 # 3. Ripristina database
-docker-compose exec postgres pg_restore -U gestionale_user -d gestionale backup_file.sql
+docker compose exec postgres pg_restore -U gestionale_user -d gestionale backup_file.sql
 
 # 4. Verifica integrità
-docker-compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT COUNT(*) FROM users;"
+docker compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT COUNT(*) FROM users;"
 ```
 
 #### **Scenario 3: Password admin dimenticata**
@@ -489,7 +489,7 @@ sudo cat /root/emergenza-passwords.md
 
 # 3. Se non funzionano, reset completo
 ./scripts/setup_secrets.sh
-docker-compose up -d
+docker compose up -d
 ```
 
 #### **Scenario 4: Server nuovo, ripristino completo**
@@ -511,7 +511,7 @@ sudo cat /root/emergenza-passwords.md
 ./scripts/restore_secrets.sh backup_file.tar.gz.gpg
 
 # 7. Avvia servizi
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 📋 Checklist Emergenza
@@ -549,7 +549,7 @@ cp /mnt/backup_gestionale/secrets_backup_2025-08-01.tar.gz.gpg ./
 ./scripts/restore_secrets.sh secrets_backup_2025-08-01.tar.gz.gpg
 
 # 3. Avvia i servizi
-sudo docker-compose up -d
+sudo docker compose up -d
 ```
 
 Per restore completo, vedi anche `scripts/restore_unified.sh`.

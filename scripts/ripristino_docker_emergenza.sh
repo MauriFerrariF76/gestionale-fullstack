@@ -45,7 +45,7 @@ ripristino_emergenza() {
     fi
     
     if ! docker compose version &> /dev/null; then
-        if ! command -v docker-compose &> /dev/null; then
+        if ! command -v docker > /dev/null || ! docker compose version > /dev/null 2>&1; then
             log_error "Docker Compose non installato!"
             echo "   Installazione automatica Docker Compose..."
             sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -154,8 +154,8 @@ backup_rapido() {
     fi
     
     # Backup database se attivo
-    if docker-compose ps postgres | grep -q "Up"; then
-        docker-compose exec -T postgres pg_dump -U gestionale_user gestionale > backup_emergenza_$(date +%F_%H%M).sql
+    if docker compose ps postgres | grep -q "Up"; then
+    docker compose exec -T postgres pg_dump -U gestionale_user gestionale > backup_emergenza_$(date +%F_%H%M).sql
         log_success "Backup database creato"
     fi
     
@@ -180,12 +180,12 @@ ripristino_da_backup() {
     
     # Ripristina database se presente
     if [ -f "backup_emergenza_*.sql" ]; then
-        docker-compose exec -T postgres psql -U gestionale_user -d gestionale < backup_emergenza_*.sql
+        docker compose exec -T postgres psql -U gestionale_user -d gestionale < backup_emergenza_*.sql
         log_success "Database ripristinato"
     fi
     
     # Riavvia servizi
-    docker-compose up -d
+    docker compose up -d
     
     log_success "Ripristino completato"
 }
@@ -200,7 +200,7 @@ reset_completo() {
         log_info "Reset completo in corso..."
         
         # Ferma e rimuovi tutto
-        docker-compose down -v 2>/dev/null || true
+        docker compose down -v 2>/dev/null || true
         docker rmi $(docker images -q gestionale-fullstack_*) 2>/dev/null || true
         docker volume prune -f 2>/dev/null || true
         
@@ -227,16 +227,16 @@ diagnostica() {
     # Verifica Docker
     echo "🐳 Docker:"
     docker --version 2>/dev/null || echo "   ❌ Non installato"
-    docker-compose --version 2>/dev/null || echo "   ❌ Non installato"
+    docker compose version 2>/dev/null || echo "   ❌ Non installato"
     
     # Verifica servizi
     echo ""
     echo "🔧 Servizi:"
     if [ -f "docker-compose.yml" ]; then
-        docker-compose ps 2>/dev/null || echo "   ❌ Errore docker-compose"
-    else
-        echo "   ❌ docker-compose.yml non trovato"
-    fi
+    docker compose ps 2>/dev/null || echo "   ❌ Errore docker compose"
+else
+    echo "   ❌ docker-compose.yml non trovato"
+fi
     
     # Verifica segreti
     echo ""
@@ -256,7 +256,7 @@ diagnostica() {
     # Verifica database
     echo ""
     echo "🗄️ Database:"
-    if docker-compose exec -T postgres pg_isready -U gestionale_user -d gestionale &>/dev/null; then
+    if docker compose exec -T postgres pg_isready -U gestionale_user -d gestionale &>/dev/null; then
         echo "   ✅ Database connesso"
     else
         echo "   ❌ Database non connesso"

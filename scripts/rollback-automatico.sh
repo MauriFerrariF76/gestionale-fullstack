@@ -78,7 +78,7 @@ rollback_database() {
     log "Ripristino da: $backup_file"
     
     # Stop servizi che usano il database
-    docker-compose -f "$PROJECT_DIR/docker-compose.yml" stop backend frontend || warning "Impossibile fermare servizi"
+    docker compose -f "$PROJECT_DIR/docker-compose.yml" stop backend frontend || warning "Impossibile fermare servizi"
     
     # Ripristino database
     docker exec -i gestionale-postgres psql -U postgres -d postgres -c "DROP DATABASE IF EXISTS gestionale;"
@@ -86,7 +86,7 @@ rollback_database() {
     docker exec -i gestionale-postgres psql -U postgres -d gestionale < "$backup_file" || error "Ripristino database fallito"
     
     # Riavvia servizi
-    docker-compose -f "$PROJECT_DIR/docker-compose.yml" start backend frontend || warning "Impossibile riavviare servizi"
+    docker compose -f "$PROJECT_DIR/docker-compose.yml" start backend frontend || warning "Impossibile riavviare servizi"
     
     success "Rollback database completato"
 }
@@ -103,13 +103,13 @@ rollback_config() {
     log "Ripristino da: $backup_file"
     
     # Stop servizi
-    docker-compose -f "$PROJECT_DIR/docker-compose.yml" down || warning "Impossibile fermare servizi"
+    docker compose -f "$PROJECT_DIR/docker-compose.yml" down || warning "Impossibile fermare servizi"
     
     # Ripristino configurazioni
     tar -xzf "$backup_file" -C "$PROJECT_DIR" || error "Ripristino configurazioni fallito"
     
     # Riavvia servizi
-    docker-compose -f "$PROJECT_DIR/docker-compose.yml" up -d || error "Impossibile riavviare servizi"
+    docker compose -f "$PROJECT_DIR/docker-compose.yml" up -d || error "Impossibile riavviare servizi"
     
     success "Rollback configurazioni completato"
 }

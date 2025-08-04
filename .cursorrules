@@ -99,6 +99,22 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - **Applicazione retroattiva**: quando si incontrano file con nomi non conformi, rinominarli seguendo questa convenzione.
 - **Consistenza**: mantenere questa convenzione per tutti i file del progetto, inclusi script, configurazioni e documentazione.
 
+## 10. Regola tassativa: sintassi Docker corretta
+
+- **SEMPRE usare `docker compose` (senza trattino)**: la sintassi `docker-compose` è DEPRECATA e non deve essere utilizzata.
+- **Sintassi corretta**:
+  - ✅ `docker compose up -d`
+  - ✅ `docker compose down`
+  - ✅ `docker compose ps`
+  - ✅ `docker compose logs`
+  - ❌ `docker-compose up -d` (DEPRECATO)
+  - ❌ `docker-compose down` (DEPRECATO)
+  - ❌ `docker-compose ps` (DEPRECATO)
+- **Controllo obbligatorio**: prima di ogni commit, verificare che tutti i file (script, documentazione, configurazioni) usino la sintassi corretta.
+- **Aggiornamento retroattivo**: tutti i file esistenti che usano la sintassi deprecata devono essere aggiornati immediatamente.
+- **Documentazione**: tutti i comandi Docker nella documentazione devono usare la sintassi corretta.
+- **Script**: tutti gli script bash, shell e di automazione devono usare la sintassi corretta.
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**

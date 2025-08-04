@@ -95,34 +95,34 @@ sudo cat /root/emergenza-passwords.md
 ./scripts/restore_secrets.sh backup_file.tar.gz.gpg
 
 # 3. Avvia servizi Docker
-docker-compose up -d
+docker compose up -d
 
 # 4. Verifica servizi
-docker-compose ps
+docker compose ps
 ```
 
 ### Reset Completo (Ultima Risorsa)
 ```bash
 # 1. Ferma tutti i servizi
-docker-compose down -v
+docker compose down -v
 
 # 2. Ricrea segreti
 ./scripts/setup_secrets.sh
 
 # 3. Avvia servizi
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Verifica Stato Servizi
 ```bash
 # Controlla container attivi
-docker-compose ps
+docker compose ps
 
 # Controlla log
-docker-compose logs -f
+docker compose logs -f
 
 # Controlla database
-docker-compose exec postgres psql -U gestionale_user -d gestionale
+docker compose exec postgres psql -U gestionale_user -d gestionale
 ```
 
 ---
@@ -145,10 +145,10 @@ docker-compose exec postgres psql -U gestionale_user -d gestionale
 ssh root@IP_SERVER
 
 # Verifica servizi Docker
-docker-compose ps
+docker compose ps
 
 # Riavvia se necessario
-docker-compose restart
+docker compose restart
 ```
 
 ### 2. Database Corrotto
@@ -157,10 +157,10 @@ docker-compose restart
 sudo cat /root/emergenza-passwords.md
 
 # Ripristina da backup
-docker-compose exec postgres pg_restore -U gestionale_user -d gestionale backup_file.sql
+docker compose exec postgres pg_restore -U gestionale_user -d gestionale backup_file.sql
 
 # Verifica integrità
-docker-compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT COUNT(*) FROM users;"
+docker compose exec postgres psql -U gestionale_user -d gestionale -c "SELECT COUNT(*) FROM users;"
 ```
 
 ### 3. Password Dimenticate
@@ -170,7 +170,7 @@ sudo cat /root/emergenza-passwords.md
 
 # Se non funzionano, reset completo:
 ./scripts/setup_secrets.sh
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 4. Backup Non Funziona
