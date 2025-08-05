@@ -29,6 +29,12 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Aggiornamenti sicurezza**: Patch applicate regolarmente
 - [ ] **TTL DNS**: Impostare a 1 ora (3600 secondi) per resilienza
 
+### Automazione Sicurezza
+- [x] **Dependabot**: Monitoraggio automatico vulnerabilità (settimanale)
+- [x] **Security scan**: npm audit automatico
+- [x] **CVE monitoring**: Controllo vulnerabilità note
+- [x] **Auto-update**: Aggiornamenti sicurezza automatici
+
 ### Aggiornamenti Software
 - [x] **Node.js aggiornato**: Da v18.20.8 a v20.19.4 (2025-08-04)
   - Backend: Node.js 20.19.4 attivo
@@ -63,6 +69,8 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [ ] **High availability**: Load balancer per ridondanza
 - [ ] **Database clustering**: Replicazione database per resilienza
 - [ ] **Backup cross-site**: Backup automatico su siti multipli
+- [ ] **CI/CD Pipeline**: GitHub Actions per deploy automatico
+- [ ] **Ambiente sviluppo nativo**: Setup PostgreSQL + npm run dev su pc-mauri-vaio
 
 ### Procedure di Fallback (Aggiornamenti)
 - [ ] **Script test falliti**: Usare test manuali incrementali
