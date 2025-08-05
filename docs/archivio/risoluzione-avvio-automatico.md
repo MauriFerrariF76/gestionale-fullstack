@@ -29,8 +29,8 @@ After=network-online.target
 Type=oneshot
 RemainAfterExit=yes
 WorkingDirectory=/home/mauri/gestionale-fullstack
-ExecStart=/usr/bin/docker-compose up -d
-ExecStop=/usr/bin/docker-compose down
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
 TimeoutStartSec=0
 
 [Install]
@@ -134,7 +134,7 @@ sudo journalctl -u gestionale-docker.service -f
 sudo systemctl restart gestionale-docker.service
 
 # Avvio manuale Docker Compose (emergenza)
-cd /home/mauri/gestionale-fullstack && docker-compose up -d
+cd /home/mauri/gestionale-fullstack && docker compose up -d
 ```
 
 ### **Se i Container Non Partono**:
@@ -142,11 +142,11 @@ cd /home/mauri/gestionale-fullstack && docker-compose up -d
 # Verifica Docker
 docker info
 
-# Verifica docker-compose
-docker-compose ps
+# Verifica docker compose
+docker compose ps
 
 # Riavvio completo
-docker-compose down && docker-compose up -d
+docker compose down && docker compose up -d
 
 # Test health check
 curl -f http://localhost/health

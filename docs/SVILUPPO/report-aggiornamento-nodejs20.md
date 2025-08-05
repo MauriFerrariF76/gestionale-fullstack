@@ -124,8 +124,8 @@ FROM node:20-alpine AS runner
 
 ### Script Utilizzati
 - `scripts/backup_completo_docker.sh`
-- `docker-compose build --no-cache`
-- `docker-compose up -d`
+- `docker compose build --no-cache`
+- `docker compose up -d`
 
 ---
 

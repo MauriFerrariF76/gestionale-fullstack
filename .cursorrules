@@ -134,6 +134,29 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
   - ❌ Componenti troppo specifici che non possono essere riutilizzati
 - **Documentazione dei componenti**: ogni componente riutilizzabile deve essere documentato con esempi di utilizzo e props disponibili.
 
+## 12. Gestione warning e elementi deprecati/obsoleti
+
+- **NON ignorare mai i warning del terminale**: ogni warning deve essere analizzato e risolto.
+- **Attenzione agli elementi deprecati**: identificare e aggiornare immediatamente elementi deprecati o obsoleti.
+- **Best practice per la gestione dei warning**:
+  - **Analisi immediata**: quando appare un warning, fermarsi e analizzarlo
+  - **Ricerca soluzioni**: cercare la causa del warning e le soluzioni disponibili
+  - **Applicazione correzioni**: implementare le correzioni necessarie prima di procedere
+  - **Test post-correzione**: verificare che la correzione non introduca nuovi problemi
+  - **Documentazione**: documentare le correzioni applicate e le motivazioni
+- **Esempi di warning da non ignorare**:
+  - ✅ Warning di sintassi deprecata (es. `docker-compose` vs `docker compose`)
+  - ✅ Warning di configurazione obsoleta (es. `version` in docker-compose.yml)
+  - ✅ Warning di sicurezza (es. vulnerabilità note)
+  - ✅ Warning di performance (es. buildx non installato)
+- **Procedura standard per i warning**:
+  1. **Identificare** il tipo di warning
+  2. **Ricercare** la causa e le soluzioni
+  3. **Applicare** la correzione più appropriata
+  4. **Testare** che tutto funzioni correttamente
+  5. **Documentare** la correzione applicata
+- **Controllo obbligatorio**: prima di ogni commit, verificare che non ci siano warning attivi nel sistema.
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**
