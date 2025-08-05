@@ -1,6 +1,6 @@
 -- Script di inizializzazione database Gestionale
--- Versione: 1.0
--- Descrizione: Crea le tabelle principali del sistema
+-- Versione: 1.1 (2025-08-05)
+-- Descrizione: Crea le tabelle principali del sistema e risolve i problemi noti
 
 -- Imposta encoding e locale
 SET client_encoding = 'UTF8';
@@ -137,25 +137,26 @@ CREATE TABLE IF NOT EXISTS dipendenti (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabella audit log
-CREATE TABLE IF NOT EXISTS audit_log (
+-- Tabella audit_logs (nuova, con colonne ip e details)
+CREATE TABLE IF NOT EXISTS audit_logs (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
+    user_id UUID REFERENCES users(id),
     action VARCHAR(50) NOT NULL,
     table_name VARCHAR(50),
     record_id INTEGER,
     old_values JSONB,
     new_values JSONB,
-    ip_address INET,
+    ip VARCHAR(64),
+    details TEXT,
     user_agent TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabella refresh tokens per autenticazione JWT
+-- Tabella refresh_tokens aggiornata (token più lungo)
 CREATE TABLE IF NOT EXISTS refresh_tokens (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    token VARCHAR(255) UNIQUE NOT NULL,
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    token VARCHAR(500) UNIQUE NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_revoked BOOLEAN DEFAULT false
@@ -168,20 +169,40 @@ CREATE INDEX IF NOT EXISTS idx_clienti_ragionesociale ON clienti("RagioneSociale
 CREATE INDEX IF NOT EXISTS idx_fornitori_name ON fornitori(name);
 CREATE INDEX IF NOT EXISTS idx_commesse_client_id ON commesse(client_id);
 CREATE INDEX IF NOT EXISTS idx_commesse_status ON commesse(status);
-CREATE INDEX IF NOT EXISTS idx_audit_log_user_id ON audit_log(user_id);
-CREATE INDEX IF NOT EXISTS idx_audit_log_created_at ON audit_log(created_at);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);
 CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens(user_id);
 CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens(token);
 CREATE INDEX IF NOT EXISTS idx_refresh_tokens_expires_at ON refresh_tokens(expires_at);
 
--- Inserisci utente admin di default (password: admin123)
-INSERT INTO users (username, email, password_hash, role) 
-VALUES ('admin', 'admin@gestionale.local', '$2b$10$rQZ8K9mN2vL1pX3sY4tU5wA6bC7dE8fG9hI0jK1lM2nO3pQ4rS5tU6vW7xY8z', 'admin')
-ON CONFLICT (username) DO NOTHING;
+-- GRANT permessi a gestionale_user su tutte le tabelle e sequenze
+DO $$
+DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN SELECT tablename FROM pg_tables WHERE schemaname = 'public' LOOP
+        EXECUTE 'GRANT ALL PRIVILEGES ON TABLE public.' || quote_ident(r.tablename) || ' TO gestionale_user;';
+    END LOOP;
+    FOR r IN SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = 'public' LOOP
+        EXECUTE 'GRANT USAGE, SELECT ON SEQUENCE public.' || quote_ident(r.sequence_name) || ' TO gestionale_user;';
+    END LOOP;
+END $$;
+
+-- Esempio: inserimento utente admin (password: admin123, hash generato con bcrypt 12 rounds)
+-- Sostituisci l'hash con quello desiderato se vuoi cambiare la password
+INSERT INTO users (email, nome, cognome, password_hash, roles, is_active)
+VALUES ('admin@gestionale.local', 'Admin', 'Sistema', '$2b$12$Mmk23P3lmwQo55r0znDLX.TftC/ESJ3mkl7Kg47cH7ZepYPB2lfW6', ARRAY['admin'], true)
+ON CONFLICT (email) DO NOTHING;
+
+-- Esempio: inserimento utente custom (password: gigi, hash generato con bcrypt 12 rounds)
+INSERT INTO users (email, nome, cognome, password_hash, roles, is_active)
+VALUES ('mauriferrari76@gmail.com', 'Mauri', 'Ferrari', '$2b$12$G36z0pT60MGC47K4XGUbfOgk336TIfrbRnwrNahgYIhjJ35upnZiW', ARRAY['admin'], true)
+ON CONFLICT (email) DO NOTHING;
 
 -- Messaggio di conferma
 DO $$
 BEGIN
     RAISE NOTICE 'Database inizializzato con successo!';
-    RAISE NOTICE 'Utente admin creato: username=admin, password=admin123';
+    RAISE NOTICE 'Utente admin creato: email=admin@gestionale.local, password=admin123';
+    RAISE NOTICE 'Utente Mauri creato: email=mauriferrari76@gmail.com, password=gigi';
 END $$; 

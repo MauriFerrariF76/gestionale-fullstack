@@ -3,7 +3,7 @@
 -- Descrizione: Corregge i problemi identificati nelle tabelle
 
 -- Espande il campo token in refresh_tokens per supportare JWT lunghi
-ALTER TABLE refresh_tokens ALTER COLUMN token TYPE VARCHAR(512);
+ALTER TABLE refresh_tokens ALTER COLUMN token TYPE VARCHAR(500);
 
 -- Rinomina audit_log in audit_logs per allinearsi con il codice
 DO $$
@@ -41,14 +41,5 @@ BEGIN
     END IF;
 END $$;
 
--- Aggiunge il campo timestamp se mancante in audit_logs
-DO $$
-BEGIN
-    IF EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'audit_logs') 
-    AND NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'audit_logs' AND column_name = 'timestamp') THEN
-        ALTER TABLE audit_logs ADD COLUMN timestamp TIMESTAMPTZ DEFAULT NOW();
-        RAISE NOTICE 'Campo timestamp aggiunto a audit_logs';
-    ELSE
-        RAISE NOTICE 'Campo timestamp già presente o tabella audit_logs non trovata';
-    END IF;
-END $$; 
+-- Nota: Il campo created_at è già presente e sufficiente per il timestamp
+-- Non serve aggiungere un campo timestamp separato 

@@ -59,6 +59,13 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 
 ## Accesso e Deploy
 
+### 🖥️ Ambiente Sviluppo (pc-mauri-vaio)
+- **Frontend**: http://localhost:3000 | http://10.10.10.15:3000
+- **Backend**: http://localhost:3001 | http://10.10.10.15:3001
+- **Database**: PostgreSQL (porta 5432)
+- **Stato**: ✅ Attivo e funzionante
+- **Accesso rete**: ✅ Configurato per IP 10.10.10.15
+
 ### 🌐 Accesso Produzione
 - **URL**: https://gestionale.carpenteriaferrari.com
 - **HTTPS**: Certificati Let's Encrypt automatici
@@ -90,6 +97,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Architettura**: `/docs/SVILUPPO/architettura-e-docker.md`
 - **Automazione**: `/docs/SVILUPPO/automazione.md`
 - **Checklist operativa**: `/docs/SVILUPPO/checklist-operativa-unificata.md`
+- **Script database**: `/docs/SVILUPPO/script-database-inizializzazione.md`
 
 ### 📖 Manuali
 - **Utente**: `/docs/MANUALE/manuale-utente.md`

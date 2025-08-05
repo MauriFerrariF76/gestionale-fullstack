@@ -70,7 +70,19 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [ ] **Database clustering**: Replicazione database per resilienza
 - [ ] **Backup cross-site**: Backup automatico su siti multipli
 - [ ] **CI/CD Pipeline**: GitHub Actions per deploy automatico
-- [ ] **Ambiente sviluppo nativo**: Setup PostgreSQL + npm run dev su pc-mauri-vaio
+- [x] **Ambiente sviluppo nativo**: Setup PostgreSQL + npm run dev su pc-mauri-vaio
+
+### Ambiente Sviluppo (pc-mauri-vaio) ✅
+- [x] **PostgreSQL nativo**: Porta 5432 attiva e funzionante
+- [x] **Backend Node.js**: Porta 3001 attiva e connesso al database
+- [x] **Frontend Next.js**: Porta 3000 attiva e funzionante
+- [x] **Database inizializzato**: Tabelle users, clienti, fornitori, commesse, dipendenti create
+- [x] **Warning risolti**: StagewiseToolbar rimosso, warning iframe eliminati
+- [x] **Errori ENOENT risolti**: Cache .next pulita, frontend stabile
+- [x] **Processi ottimizzati**: Nessun processo zombie, solo servizi necessari attivi
+- [x] **Sicurezza**: Nessun warning di sicurezza attivo
+- [x] **Performance**: Sistema ottimizzato e stabile
+- [x] **Pulizia ambiente**: File Docker non necessari rimossi ✅
 
 ### Procedure di Fallback (Aggiornamenti)
 - [ ] **Script test falliti**: Usare test manuali incrementali
@@ -267,6 +279,19 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - Resource limits container
 - Health checks avanzati
 - Logging centralizzato
+
+### ✅ Ambiente Sviluppo Nativo - IMPLEMENTATO E FUNZIONANTE
+- [x] **Documentazione completa**: `docs/SVILUPPO/ambiente-sviluppo-nativo.md`
+- [x] **Script setup completo**: `scripts/setup-ambiente-sviluppo.sh` ✅ FUNZIONANTE
+- [x] **Script sincronizzazione**: `scripts/sync-dev-to-prod.sh` ✅ FUNZIONANTE
+- [x] **Script utilità**: start-sviluppo.sh, stop-sviluppo.sh, backup-sviluppo.sh ✅ CREATI
+- [x] **Configurazioni**: PostgreSQL nativo, Backend nativo, Frontend nativo ✅ FUNZIONANTI
+- [x] **Workflow sviluppo**: Ambiente ibrido (sviluppo nativo + produzione containerizzata) ✅ ATTIVO
+- [x] **Target**: pc-mauri-vaio (10.10.10.15) - TUTTO NATIVO ✅ IMPLEMENTATO
+- [x] **Porte**: PostgreSQL 5432, Backend 3001, Frontend 3000 ✅ ATTIVE
+- [x] **Database**: gestionale (STESSO per sviluppo e produzione) ✅ CONFIGURATO
+- [x] **Architettura**: Sviluppo nativo → Produzione containerizzata ✅ FUNZIONANTE
+- [x] **Test completati**: Backend OK, Frontend OK, Database OK ✅ VERIFICATO
 
 ---
 
