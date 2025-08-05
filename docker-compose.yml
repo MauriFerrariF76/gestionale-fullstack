@@ -1,8 +1,7 @@
 # Docker Compose per Gestionale Fullstack
-# Versione: 1.0
+# Versione: 2.0 (Docker Compose V2)
 # Descrizione: Orchestrazione completa di backend, frontend, database e nginx
-
-version: '3.8'
+# Sintassi: docker compose (senza trattino)
 
 services:
   # Database PostgreSQL - Database Docker isolato

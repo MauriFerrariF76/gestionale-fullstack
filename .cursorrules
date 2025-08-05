@@ -115,6 +115,25 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - **Documentazione**: tutti i comandi Docker nella documentazione devono usare la sintassi corretta.
 - **Script**: tutti gli script bash, shell e di automazione devono usare la sintassi corretta.
 
+## 11. Componenti riutilizzabili
+
+- **Priorità ai componenti riutilizzabili**: dove possibile, creare componenti che possono essere riutilizzati in diverse parti dell'applicazione.
+- **Principi di design**:
+  - **Composizione**: preferire componenti piccoli e specializzati che possono essere combinati
+  - **Props configurabili**: rendere i componenti flessibili tramite props per adattarli a diversi contesti
+  - **Separazione delle responsabilità**: ogni componente deve avere una responsabilità specifica e ben definita
+- **Vantaggi**:
+  - Riduzione della duplicazione del codice
+  - Facilità di manutenzione e aggiornamenti
+  - Consistenza nell'interfaccia utente
+  - Migliore testabilità dei componenti
+- **Esempi di componenti riutilizzabili**:
+  - ✅ Bottoni, input, modali, tabelle, form
+  - ✅ Layout components (header, sidebar, footer)
+  - ✅ Utility components (loading, error, empty state)
+  - ❌ Componenti troppo specifici che non possono essere riutilizzati
+- **Documentazione dei componenti**: ogni componente riutilizzabile deve essere documentato con esempi di utilizzo e props disponibili.
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**
