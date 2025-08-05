@@ -122,17 +122,53 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
   - **Composizione**: preferire componenti piccoli e specializzati che possono essere combinati
   - **Props configurabili**: rendere i componenti flessibili tramite props per adattarli a diversi contesti
   - **Separazione delle responsabilità**: ogni componente deve avere una responsabilità specifica e ben definita
+  - **Principio DRY (Don't Repeat Yourself)**: evitare duplicazione di codice tra componenti simili
 - **Vantaggi**:
   - Riduzione della duplicazione del codice
   - Facilità di manutenzione e aggiornamenti
   - Consistenza nell'interfaccia utente
   - Migliore testabilità dei componenti
-- **Esempi di componenti riutilizzabili**:
-  - ✅ Bottoni, input, modali, tabelle, form
-  - ✅ Layout components (header, sidebar, footer)
-  - ✅ Utility components (loading, error, empty state)
-  - ❌ Componenti troppo specifici che non possono essere riutilizzati
-- **Documentazione dei componenti**: ogni componente riutilizzabile deve essere documentato con esempi di utilizzo e props disponibili.
+  - Riduzione del tempo di sviluppo per nuove funzionalità
+- **Componenti UI di base obbligatori**:
+  - ✅ **Button**: con varianti (primary, secondary, danger, success, ghost, outline) e stati (loading, disabled)
+  - ✅ **Input**: con supporto per label, error, helper, icone (left/right)
+  - ✅ **Modal/Dialog**: componente modale riutilizzabile per form e contenuti
+  - ✅ **Table/DataTable**: componente tabella con sorting, filtering, pagination
+  - ✅ **Form**: sistema di form riutilizzabile con validazione
+  - ✅ **LoadingSpinner**: indicatore di caricamento standardizzato
+  - ✅ **ErrorMessage**: gestione errori uniforme
+  - ✅ **EmptyState**: stati vuoti per liste e contenuti
+- **Layout components**:
+  - ✅ Header, sidebar, footer, navigation
+  - ✅ AppLayout, ClientLayout, ProtectedRoute
+- **Utility components**:
+  - ✅ Loading states, error states, empty states
+  - ✅ Confirmation dialogs, tooltips, dropdowns
+- **Componenti da evitare**:
+  - ❌ Componenti monolitici troppo specifici (es. FormClienteCompleto di 74KB)
+  - ❌ Componenti che duplicano logica esistente
+  - ❌ Componenti che non possono essere riutilizzati in altri contesti
+- **Best practice per la creazione**:
+  - **Refactoring graduale**: suddividere componenti grandi in componenti più piccoli
+  - **Composizione vs ereditarietà**: preferire la composizione di componenti piccoli
+  - **Props interface**: definire sempre interfacce TypeScript per le props
+  - **Default props**: fornire valori di default sensati per le props opzionali
+  - **ForwardRef**: utilizzare React.forwardRef per componenti che devono esporre ref
+- **Documentazione dei componenti**:
+  - Ogni componente riutilizzabile deve essere documentato con esempi di utilizzo
+  - Includere tutte le props disponibili con tipi TypeScript
+  - Fornire esempi di codice per i casi d'uso più comuni
+  - Documentare eventuali limitazioni o requisiti specifici
+- **Organizzazione dei file**:
+  - **`/components/ui/`**: componenti UI di base riutilizzabili
+  - **`/components/layout/`**: componenti di layout (header, sidebar, footer)
+  - **`/components/forms/`**: componenti specifici per form riutilizzabili
+  - **`/components/tables/`**: componenti per tabelle e data display
+  - **`/components/modals/`**: componenti modali e dialog
+- **Controllo qualità**:
+  - Prima di ogni commit, verificare che non ci sia duplicazione di codice tra componenti
+  - Assicurarsi che i componenti esistenti vengano riutilizzati invece di crearne di nuovi
+  - Testare che i componenti funzionino correttamente in diversi contesti
 
 ## 12. Gestione warning e elementi deprecati/obsoleti
 
