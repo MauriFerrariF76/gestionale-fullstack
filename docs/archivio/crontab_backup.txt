@@ -5,7 +5,7 @@
 30 2 * * * /home/mauri/gestionale-fullstack/docs/server/backup_database_adaptive.sh
 
 # Test restore settimanale dinamico (ogni domenica alle 03:00)
-0 3 * * 0 /home/mauri/gestionale-fullstack/docs/server/test_restore_backup_dynamic.sh
+0 3 * * 0 /home/mauri/gestionale-fullstack/scripts/test_restore_backup_dynamic.sh
 
 # Report settimanale backup (ogni domenica alle 08:00)
-0 8 * * 0 /home/mauri/gestionale-fullstack/docs/server/backup_weekly_report.sh
+0 8 * * 0 /home/mauri/gestionale-fullstack/scripts/backup_weekly_report.sh

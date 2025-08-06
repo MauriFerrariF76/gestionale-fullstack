@@ -71,7 +71,7 @@ sudo mount -t cifs //10.10.10.21/backup_gestionale /mnt/backup_gestionale \
 - **Frequenza**: Automatico (cron)
 
 ### **3. Report Settimanale**
-- **Script**: `docs/server/backup_weekly_report.sh`
+- **Script**: `scripts/backup_weekly_report.sh`
 - **Funzione**: Report spazio e stato backup
 - **Notifica**: Email automatica
 
