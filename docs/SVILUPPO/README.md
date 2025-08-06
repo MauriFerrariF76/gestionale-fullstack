@@ -48,6 +48,12 @@
   - Gestione script pubblici e repository
   - **Stato**: ✅ ATTIVA
 
+- **`checklist-riorganizzazione-frontend.md`** 🎨 **FRONTEND**
+  - Piano completo di riorganizzazione componenti riutilizzabili
+  - Sintesi rapida + checklist dettagliata + struttura target
+  - Refactoring componente gigante e criteri di successo
+  - **Stato**: ✅ ATTIVA - Riferimento completo riorganizzazione frontend
+
 #### 🔍 Verifica e Monitoraggio
 - **`verifica-server-produzione.md`**
   - Procedure di verifica server produzione
@@ -85,6 +91,7 @@
 ### Per Sviluppo
 1. **Convenzioni**: `convenzioni-nomenclatura.md`
 2. **Script pubblici**: `gestione-script-pubblici.md`
+3. **Frontend**: `checklist-riorganizzazione-frontend.md`
 
 ### Per Miglioramenti Futuri
 1. **Architettura**: Best practices in `architettura-completa.md`
