@@ -13,10 +13,12 @@ export default function ClientLayout({
   const isLoginPage = pathname === "/login";
   const isTestPage = pathname === "/test-componenti";
   const isTestPage2 = pathname === "/test-componenti-fase2";
+  const isTestSistemaForm = pathname === "/test-sistema-form";
+  const isTestHookForm = pathname === "/test-hook-form";
   return (
     <AuthProvider>
       <TableConfigProvider>
-        {isLoginPage || isTestPage || isTestPage2 ? children : <ProtectedRoute>{children}</ProtectedRoute>}
+        {isLoginPage || isTestPage || isTestPage2 || isTestSistemaForm || isTestHookForm ? children : <ProtectedRoute>{children}</ProtectedRoute>}
       </TableConfigProvider>
     </AuthProvider>
   );

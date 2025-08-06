@@ -8,10 +8,12 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 
 ### 📁 `/docs/SVILUPPO/` - Materiale di Sviluppo
 - **Checklist operativa unificata**: `checklist-operativa-unificata.md` ⭐ **PRINCIPALE**
-- **Automazione**: `automazione.md`
-- **Architettura**: `architettura-e-docker.md`
+- **Riorganizzazione frontend**: `checklist-riorganizzazione-frontend.md` 🎨 **FRONTEND**
+- **Architettura completa**: `architettura-completa.md` 🏗️ **ARCHITETTURA**
+- **Docker e best practice**: `docker-sintassi-e-best-practice.md` 🐳 **DOCKER**
+- **Aggiornamenti e manutenzione**: `aggiornamenti-e-manutenzione.md` 🔄 **AGGIORNAMENTI**
 - **Configurazioni**: `configurazione-*.md`
-- **Emergenza**: `emergenza-passwords.md`
+- **Emergenza**: `emergenza-passwords.md` 🚨 **CRITICO**
 - **Sviluppo**: `convenzioni-nomenclatura.md`
 - **Organizzazione**: `README.md` (guida alla cartella)
 
@@ -20,11 +22,17 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Guide operative**: `guida-*.md`
 - **Procedure backup**: `guida-backup-e-ripristino.md`
 - **Deploy**: `guida-deploy-automatico-produzione.md`
+- **Docker**: `guida-docker.md`
+- **Gestione log**: `guida-gestione-log.md`
+- **Aggiornamenti sicuri**: `guida-aggiornamento-sicuro.md`
+- **Basi solide**: `basi-solide-e-robuste.md`
+- **Guida definitiva**: `guida-definitiva-gestionale-fullstack.md`
 
 ### 📁 `/docs/server/` - Configurazioni Server
 - **Script di backup**: `backup_*.sh`
 - **Configurazioni nginx**: `nginx_production.conf`
 - **Log e report**: `*.log`
+- **Test restore**: `test_restore_docker_backup.sh`
 
 ### 📁 `/docs/archivio/` - Materiale Storico
 - **File obsoleti**: Configurazioni e script sostituiti
@@ -39,6 +47,28 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Reverse Proxy**: Nginx con HTTPS
 - **Infrastruttura**: Docker, MikroTik, Let's Encrypt
 
+## Sistema di Form Riutilizzabile
+
+### 🎯 **Componenti Principali**
+- **`Form.tsx`**: Componente principale orchestratore
+- **`FormField.tsx`**: Gestione campi con errori e helper
+- **`FormSection.tsx`**: Sezioni collassabili
+- **`FormTabs.tsx`**: Layout a tab
+- **`FormActions.tsx`**: Azioni standard (Salva, Annulla, Elimina)
+
+### 🎣 **Hook Personalizzato**
+- **`useForm.ts`**: Gestione stato avanzata con validazione
+- **Validazione type-safe** per stringhe, numeri, booleani
+- **Validazione in tempo reale** con feedback immediato
+- **Gestione errori** robusta e flessibile
+
+### 🧪 **Pagine di Test**
+- **`/test-sistema-form`**: Dimostrazione completa del sistema
+- **`/test-hook-form`**: Esempio con hook useForm
+
+### 📚 **Documentazione**
+- **`sistema-form.md`**: Guida completa con esempi e best practice
+
 ## Automazione e Sicurezza
 
 ### 🔒 Automazione Essenziale
@@ -47,7 +77,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Monitoraggio continuo**: Server, database, SSL
 - **Manutenzione quasi zero**: Sistema automatizzato
 
-**Documentazione**: `/docs/SVILUPPO/automazione.md`
+**Documentazione**: `/docs/SVILUPPO/checklist-operativa-unificata.md`
 
 ### 📋 Checklist Operativa
 - **Checklist unificata**: `/docs/SVILUPPO/checklist-operativa-unificata.md`
@@ -94,19 +124,50 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 ## Documentazione Principale
 
 ### 🛠️ Sviluppo
-- **Architettura**: `/docs/SVILUPPO/architettura-e-docker.md`
-- **Automazione**: `/docs/SVILUPPO/automazione.md`
+- **Architettura**: `/docs/SVILUPPO/architettura-completa.md`
+- **Docker**: `/docs/SVILUPPO/docker-sintassi-e-best-practice.md`
 - **Checklist operativa**: `/docs/SVILUPPO/checklist-operativa-unificata.md`
+- **Riorganizzazione frontend**: `/docs/SVILUPPO/checklist-riorganizzazione-frontend.md`
 - **Script database**: `/docs/SVILUPPO/script-database-inizializzazione.md`
+- **Aggiornamenti**: `/docs/SVILUPPO/aggiornamenti-e-manutenzione.md`
 
 ### 📖 Manuali
 - **Utente**: `/docs/MANUALE/manuale-utente.md`
 - **Backup**: `/docs/MANUALE/guida-backup-e-ripristino.md`
 - **Deploy**: `/docs/MANUALE/guida-deploy-automatico-produzione.md`
+- **Docker**: `/docs/MANUALE/guida-docker.md`
+- **Aggiornamenti**: `/docs/MANUALE/guida-aggiornamento-sicuro.md`
+- **Basi solide**: `/docs/MANUALE/basi-solide-e-robuste.md`
+- **Guida definitiva**: `/docs/MANUALE/guida-definitiva-gestionale-fullstack.md`
 
 ### ⚙️ Server
 - **Backup**: `/docs/server/backup_*.sh`
 - **Configurazioni**: `/docs/server/nginx_production.conf`
+- **Test restore**: `/docs/server/test_restore_docker_backup.sh`
+
+## Stato Riorganizzazione Frontend
+
+### ✅ **Completato (FASI 1-2)**
+- ✅ **Struttura cartelle**: Tutte le cartelle create correttamente
+- ✅ **Componenti UI di base**: Modal, LoadingSpinner, ErrorMessage, EmptyState, Select, Checkbox, Radio, Table
+- ✅ **Componenti Layout**: Header, Footer, SimpleLayout, AuthLayout
+- ✅ **Componenti Forms**: FormSection, FormField, FormActions, FormTabs
+- ✅ **Sistema Form Riutilizzabile**: Creato e funzionante con validazione
+- ✅ **Hook useForm**: Implementato con gestione stato avanzata
+- ✅ **Pagine di test**: `/test-sistema-form` e `/test-hook-form` funzionanti
+
+### 🚧 **In Corso (FASE 3)**
+- ✅ **Analisi completata**: FormClienteCompleto.tsx (1829 righe) analizzato
+- ✅ **Sistema form riutilizzabile**: Creato e funzionante
+- ❌ **Componenti specifici cliente**: Da creare (FormClienteAnagrafica, FormClienteContatti, ecc.)
+- ❌ **Estrazione logica comune**: Utils e hooks da creare
+- ❌ **Refactoring completo**: Da completare
+
+### ❌ **Da Fare (FASI 4-7)**
+- ❌ **Componenti shared**: FormAnagrafica, FormContatti, FormIndirizzi
+- ❌ **Tables e modals**: DataTable, ConfirmDialog, FormModal
+- ❌ **Testing e documentazione**: Verifica funzionamento e guide
+- ❌ **Pulizia e ottimizzazione**: Performance e bundle size
 
 ---
 

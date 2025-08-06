@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
 
 export interface FormActionsProps {
-  onSave?: () => void;
+  onSave?: (e?: React.FormEvent) => void;
   onCancel?: () => void;
   onDelete?: () => void;
   loading?: boolean;
@@ -63,7 +63,7 @@ const FormActions: React.FC<FormActionsProps> = ({
         
         {onSave && (
           <Button
-            onClick={onSave}
+            onClick={() => onSave()}
             isLoading={loading}
             disabled={disabled}
           >
