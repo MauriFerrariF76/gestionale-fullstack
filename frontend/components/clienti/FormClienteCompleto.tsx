@@ -230,7 +230,8 @@ const FormClienteCompleto = ({
           console.log("nuovoId generato:", nuovoId);
           setCliente({ ...initialCliente, IdCliente: nuovoId });
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error("Errore nel recupero max-id:", error);
           setCliente({ ...initialCliente, IdCliente: "C00.0001" });
         });
     } else if (clienteEdit) {
@@ -319,6 +320,8 @@ const FormClienteCompleto = ({
     if (idCheckError) return;
     try {
       const clienteDaInviare = normalizzaNumerici(cliente);
+      let clienteDaInviareFinale = clienteDaInviare; // Definisci qui per avere scope globale
+      
       if (clienteEdit) {
         if (!clienteEdit.IdCliente) {
           alert("ID cliente mancante!");
@@ -326,14 +329,42 @@ const FormClienteCompleto = ({
         }
         await modificaCliente(clienteEdit.IdCliente, clienteDaInviare);
       } else {
-        await creaCliente(clienteDaInviare);
+        // Tentativo di creazione con retry automatico in caso di conflitto
+        let tentativiRimanenti = 3;
+        
+        while (tentativiRimanenti > 0) {
+          try {
+            console.log("DEBUG - Tentativo di creazione cliente con ID:", clienteDaInviareFinale.IdCliente);
+            await creaCliente(clienteDaInviareFinale);
+            break; // Successo, esci dal loop
+          } catch (error: unknown) {
+            console.log("DEBUG - Errore durante creazione:", error);
+            if (error instanceof Error && (error.message.includes("già esistente") || error.message.includes("409"))) {
+              tentativiRimanenti--;
+              if (tentativiRimanenti > 0) {
+                console.log("DEBUG - ID già esistente, generando nuovo ID (tentativi rimanenti:", tentativiRimanenti, ")");
+                const maxId = await getMaxIdCliente();
+                const nuovoId = generaProssimoIdCliente(maxId);
+                clienteDaInviareFinale = { ...clienteDaInviareFinale, IdCliente: nuovoId };
+                setCliente(clienteDaInviareFinale);
+              } else {
+                setSubmitError("Impossibile generare un ID cliente univoco dopo più tentativi.");
+                return;
+              }
+            } else {
+              // Errore diverso dal conflitto di ID, ri-lancia
+              throw error;
+            }
+          }
+        }
       }
-      onSave(clienteDaInviare);
+      onSave(clienteDaInviareFinale);
       onClose();
     } catch (error: unknown) {
-      if (error instanceof Error && error.message === "ID Cliente già esistente") {
+      console.error("DEBUG - Errore nel salvataggio:", error);
+      if (error instanceof Error && (error.message.includes("già esistente") || error.message.includes("409"))) {
         setErrors((prev) => ({ ...prev, IdCliente: true }));
-        setSubmitError("ID Cliente già esistente. Scegli un altro ID.");
+        setSubmitError("ID Cliente già esistente. Impossibile generare un ID univoco.");
       } else {
         setSubmitError("Errore durante il salvataggio. Riprova.");
       }

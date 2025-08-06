@@ -11,10 +11,12 @@ export default function ClientLayout({
 }) {
   const pathname = usePathname();
   const isLoginPage = pathname === "/login";
+  const isTestPage = pathname === "/test-componenti";
+  const isTestPage2 = pathname === "/test-componenti-fase2";
   return (
     <AuthProvider>
       <TableConfigProvider>
-        {isLoginPage ? children : <ProtectedRoute>{children}</ProtectedRoute>}
+        {isLoginPage || isTestPage || isTestPage2 ? children : <ProtectedRoute>{children}</ProtectedRoute>}
       </TableConfigProvider>
     </AuthProvider>
   );

@@ -7,10 +7,11 @@ export async function getClienti(page = 1, pageSize = 20): Promise<Cliente[]> {
 
 export async function creaCliente(cliente: Cliente): Promise<Cliente> {
   try {
-    return await apiFetch<Cliente>(`/clienti`, {
+    const result = await apiFetch<Cliente>(`/clienti`, {
       method: "POST",
       body: JSON.stringify(cliente),
     });
+    return result;
   } catch (err: unknown) {
     if (
       typeof err === "object" &&
@@ -52,7 +53,12 @@ export async function checkIdClienteUnivoco(id: string): Promise<boolean> {
 }
 
 export async function getMaxIdCliente(): Promise<string | null> {
-  const res = await fetch("http://localhost:3001/api/clienti/max-id");
+  const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
+  if (!API_URL) {
+    throw new Error("API base URL non definita");
+  }
+  const url = `${API_URL}/clienti/max-id`;
+  const res = await fetch(url);
   if (!res.ok) throw new Error("Errore nel recupero del massimo IdCliente");
   const data = await res.json();
   return data.maxIdCliente ?? null;

@@ -167,6 +167,18 @@ function normalizeClienteForUpdate(data: Partial<Cliente>): (string | boolean | 
 // Lista clienti (GET)
 router.get('/', async (req: Request, res: Response) => {
   try {
+    // Se viene fornito un parametro id, controlla l'unicità
+    if (req.query.id) {
+      const id = req.query.id as string;
+      const result = await pool.query(
+        'SELECT 1 FROM clienti WHERE "IdCliente" = $1 LIMIT 1',
+        [id]
+      );
+      const exists = (result.rowCount ?? 0) > 0;
+      return res.json({ exists });
+    }
+    
+    // Altrimenti restituisce tutti i clienti
     const result = await pool.query('SELECT * FROM clienti ORDER BY "IdCliente"');
     res.json(result.rows as Cliente[]);
   } catch (error: unknown) {

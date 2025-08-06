@@ -51,10 +51,12 @@ export default function Login() {
 
   return (
     <AppLayout
-      pageTitle="Login"
-      pageDescription="Accedi al gestionale aziendale."
+      pageTitle="Accesso Sistema"
+      pageDescription="Accedi al gestionale aziendale"
     >
-      <div className="max-w-md mx-auto bg-neutral-800 border border-neutral-700 rounded-lg p-8 mt-8 shadow-lg">
+      <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
+        <div className="w-full max-w-md">
+          <div className="bg-neutral-700/60 border border-neutral-600/60 rounded-lg p-8 shadow-lg">
         {loading && <div className="mb-4 text-info">Caricamento...</div>}
         {!isAuthenticated && !mfaRequired && (
           <form onSubmit={handleLogin} className="space-y-6 mb-4">
@@ -114,6 +116,8 @@ export default function Login() {
           </div>
         )}
         {error && <div className="text-error font-semibold mt-2">{error}</div>}
+          </div>
+        </div>
       </div>
     </AppLayout>
   );

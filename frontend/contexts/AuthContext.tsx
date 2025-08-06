@@ -185,14 +185,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         method: "GET",
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+      
+      if (res.status === 401) {
+        // Token scaduto o non valido, pulisce la sessione
+        console.log("DEBUG - Token scaduto, pulizia sessione");
+        setUser(null);
+        setAccessToken(null);
+        setRefreshToken(null);
+        return;
+      }
+      
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
+      }
+      
       const data = await res.json();
       if (data.user) {
         setUser(data.user);
       } else {
         setUser(null);
       }
-    } catch {
+    } catch (error) {
+      console.warn("DEBUG - Errore recupero utente:", error);
       setUser(null);
+      // Non pulire i token per altri errori (es. rete)
     } finally {
       setLoading(false);
     }

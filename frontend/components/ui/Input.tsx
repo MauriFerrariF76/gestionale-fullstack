@@ -1,5 +1,5 @@
 // components/ui/Input.tsx
-import React from 'react';
+import React, { useId } from 'react';
 import { cn } from '@/lib/utils';
 import { AlertCircle } from 'lucide-react';
 
@@ -14,7 +14,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   function Input({ label, error, helper, leftIcon, rightIcon, required, className, id, ...props }, ref) {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+    const generatedId = useId();
+    const inputId = id || generatedId;
     
     return (
       <div className="space-y-2">
@@ -90,7 +91,8 @@ interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement
 
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   function TextArea({ label, error, helper, required, className, id, ...props }, ref) {
-    const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
+    const generatedId = useId();
+    const textareaId = id || generatedId;
     
     return (
       <div className="space-y-2">
