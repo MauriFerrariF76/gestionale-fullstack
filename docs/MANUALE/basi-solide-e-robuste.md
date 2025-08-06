@@ -49,7 +49,7 @@ Database GUI: Prisma Studio + pgAdmin
 App: Next.js in Docker container
 Database: PostgreSQL container
 Reverse Proxy: Nginx container
-Orchestration: docker-compose
+Orchestration: docker compose
 Persistence: Docker volumes
 Backup: Automated scripts + cron
 
@@ -133,9 +133,9 @@ git push origin main
 ssh gestionale-server
 cd /opt/gestionale-fullstack
 git pull origin main
-docker-compose build app --no-cache
-docker-compose up -d
-docker-compose logs -f        # Verifica tutto ok
+docker compose build app --no-cache
+docker compose up -d
+docker compose logs -f        # Verifica tutto ok
 
 ### Database Changes
 # Sviluppo (pc-mauri-vaio)
@@ -179,16 +179,16 @@ set -e
 echo "🚨 EMERGENCY ROLLBACK INITIATED"
 
 # Stop current version
-docker-compose down
+docker compose down
 
 # Restore from backup (latest)
 LATEST_BACKUP=$(ls -t /opt/backups/db_backup_*.sql | head -n1)
-docker-compose up -d postgres
+docker compose up -d postgres
 sleep 10
 cat $LATEST_BACKUP | docker exec -i gestionale-postgres psql -U postgres -d gestionale
 
 # Start previous app version
-docker-compose -f docker-compose.backup.yml up -d
+docker compose -f docker-compose.backup.yml up -d
 
 echo "✅ Rollback completed. Check application status."
 
@@ -217,10 +217,10 @@ fi
 
 ### Competenze Minime Richieste
 # Docker basics
-docker-compose up -d          # Start services
-docker-compose down           # Stop services  
-docker-compose logs app       # View logs
-docker-compose build --no-cache # Rebuild containers
+docker compose up -d          # Start services
+docker compose down           # Stop services  
+docker compose logs app       # View logs
+docker compose build --no-cache # Rebuild containers
 
 # PostgreSQL basics
 pg_dump -U postgres gestionale > backup.sql    # Backup
@@ -241,11 +241,11 @@ systemctl status service     # Check service status
 
 ### Troubleshooting Guide
 # App non risponde
-docker-compose logs app
-docker-compose restart app
+docker compose logs app
+docker compose restart app
 
 # Database problemi
-docker-compose logs postgres
+docker compose logs postgres
 docker exec -it postgres psql -U postgres
 # Check connections: SELECT * FROM pg_stat_activity;
 

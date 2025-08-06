@@ -146,7 +146,7 @@ sudo certbot renew
 sudo systemctl reload nginx
 
 # Riavvio container Docker
-docker-compose restart nginx
+docker compose restart nginx
 ```
 
 ### **Se i Certificati Non Funzionano**:

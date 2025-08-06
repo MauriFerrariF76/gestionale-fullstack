@@ -44,6 +44,16 @@
   - Standard di nomenclatura del progetto
   - **Stato**: ✅ ATTIVA
 
+- **`convenzioni-nomenclatura-aggiornate.md`**
+  - Convenzioni di nomenclatura complete e aggiornate
+  - File, codice, Docker, documentazione
+  - **Stato**: ✅ ATTIVA - Riferimento completo nomenclatura
+
+- **`aggiornamento-documentazione-completo.md`**
+  - Riepilogo completo delle modifiche apportate alla documentazione
+  - Consolidamento, correzioni, nuovi file
+  - **Stato**: ✅ ATTIVA - Riferimento aggiornamenti documentazione
+
 - **`gestione-script-pubblici.md`**
   - Gestione script pubblici e repository
   - **Stato**: ✅ ATTIVA
@@ -53,6 +63,12 @@
   - Sintesi rapida + checklist dettagliata + struttura target
   - Refactoring componente gigante e criteri di successo
   - **Stato**: ✅ ATTIVA - Riferimento completo riorganizzazione frontend
+
+- **`sistema-form-riutilizzabile.md`** 📝 **SISTEMA FORM**
+  - Documentazione completa del sistema form riutilizzabile
+  - Architettura componenti, hook useForm, best practice
+  - Stato refactoring e checklist per completamento
+  - **Stato**: ✅ ATTIVA - Riferimento sistema form
 
 #### 🔍 Verifica e Monitoraggio
 - **`verifica-server-produzione.md`**
@@ -70,6 +86,7 @@
 - **`aggiornamento-sintassi-docker-compose-v2.md`** + **`correzione-sintassi-docker-compose.md`** → **`docker-sintassi-e-best-practice.md`**
 - **`aggiornamenti-software.md`** + **`checklist-aggiornamento-sicuro.md`** → **`aggiornamenti-e-manutenzione.md`**
 - **`automazione.md`** → Integrato in **`checklist-operativa-unificata.md`**
+- **`guida-definitiva-gestionale-fullstack.md`** → Spostato in **`/docs/MANUALE/`** (consolidato)
 
 ---
 

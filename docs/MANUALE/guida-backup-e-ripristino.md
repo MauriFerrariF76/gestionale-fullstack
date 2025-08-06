@@ -226,8 +226,9 @@ sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 
 # Installa Docker Compose
-sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+# NOTA: Docker Compose è ora integrato in Docker Desktop e Docker Engine
+# Per installare il plugin docker-compose:
+sudo apt update && sudo apt install docker-compose-plugin
 
 # Verifica installazione
 docker --version

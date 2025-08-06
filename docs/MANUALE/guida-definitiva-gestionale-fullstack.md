@@ -38,12 +38,13 @@ Development: npm run dev (hot reload istantaneo)
 App: Next.js containerizzato
 Database: PostgreSQL container
 Reverse Proxy: Nginx container
-Orchestration: docker-compose
+Orchestration: docker compose
 
 ## 📋 Configurazione Production-Ready
 
 ### docker-compose.yml (REVISIONATO)
 # docker-compose.yml - PRODUCTION-READY
+# IMPORTANTE: Usare sempre 'docker compose' (senza trattino)
 version: '3.8'
 
 services:
@@ -183,11 +184,11 @@ cd /opt/gestionale-fullstack
 git pull origin main
 
 # 3. Deploy con migrations automatiche
-docker-compose build app --no-cache
-docker-compose up -d
+docker compose build app --no-cache
+docker compose up -d
 
 # 4. Verifica deployment
-docker-compose logs -f app
+docker compose logs -f app
 curl http://localhost/api/health  # Se hai endpoint health
 
 ## 🛡️ Safety Net Robusto
@@ -202,7 +203,7 @@ BACKUP_DIR="/opt/backups"
 RETENTION_DAYS=30
 
 # Database backup
-docker-compose exec postgres pg_dump -U postgres gestionale > $BACKUP_DIR/db_backup_$DATE.sql
+docker compose exec postgres pg_dump -U postgres gestionale > $BACKUP_DIR/db_backup_$DATE.sql
 
 # Application backup
 tar -czf $BACKUP_DIR/app_backup_$DATE.tar.gz /opt/gestionale-fullstack
@@ -232,20 +233,20 @@ fi
 echo "Found latest backup: $LATEST_DB_BACKUP"
 
 # Start postgres service
-docker-compose up -d postgres
+docker compose up -d postgres
 
 # Wait for database to be ready (ROBUST)
 echo "Waiting for database to be ready..."
-until docker-compose exec postgres pg_isready -U postgres -d gestionale; do
+until docker compose exec postgres pg_isready -U postgres -d gestionale; do
     >&2 echo "Postgres is unavailable - sleeping"
     sleep 2
 done
 
 echo "✅ Database is ready. Restoring from backup..."
-cat $LATEST_DB_BACKUP | docker-compose exec -T postgres psql -U postgres -d gestionale
+cat $LATEST_DB_BACKUP | docker compose exec -T postgres psql -U postgres -d gestionale
 
 echo "✅ Database restore completed."
-echo "MANUAL ACTION REQUIRED: Deploy last known good version via git and docker-compose."
+echo "MANUAL ACTION REQUIRED: Deploy last known good version via git and docker compose."
 
 ### Health Monitoring (ESSENZIALE)
 #!/bin/bash
@@ -258,7 +259,7 @@ if ! curl -f http://localhost &>/dev/null; then
 fi
 
 # Check database
-if ! docker-compose exec postgres pg_isready -U postgres -d gestionale &>/dev/null; then
+if ! docker compose exec postgres pg_isready -U postgres -d gestionale &>/dev/null; then
     echo "❌ Database health check failed" | mail -s "Alert: DB Down" admin@company.com
 fi
 
@@ -298,11 +299,11 @@ rclone config
 
 ### Comandi Essential Daily
 # Docker operations
-docker-compose up -d              # Start services
-docker-compose down               # Stop services
-docker-compose logs app           # View app logs
-docker-compose build --no-cache   # Rebuild containers
-docker-compose exec postgres psql -U postgres # DB access
+docker compose up -d              # Start services
+docker compose down               # Stop services
+docker compose logs app           # View app logs
+docker compose build --no-cache   # Rebuild containers
+docker compose exec postgres psql -U postgres # DB access
 
 # Prisma operations
 npx prisma migrate dev            # Create migration (dev)

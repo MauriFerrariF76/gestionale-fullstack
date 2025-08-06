@@ -12,6 +12,9 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **Architettura completa**: `architettura-completa.md` 🏗️ **ARCHITETTURA**
 - **Docker e best practice**: `docker-sintassi-e-best-practice.md` 🐳 **DOCKER**
 - **Aggiornamenti e manutenzione**: `aggiornamenti-e-manutenzione.md` 🔄 **AGGIORNAMENTI**
+- **Sistema form riutilizzabile**: `sistema-form-riutilizzabile.md` 📝 **SISTEMA FORM**
+- **Convenzioni nomenclatura**: `convenzioni-nomenclatura-aggiornate.md` 📋 **CONVENZIONI**
+- **Aggiornamento documentazione**: `aggiornamento-documentazione-completo.md` 📚 **AGGIORNAMENTI DOC**
 - **Configurazioni**: `configurazione-*.md`
 - **Emergenza**: `emergenza-passwords.md` 🚨 **CRITICO**
 - **Sviluppo**: `convenzioni-nomenclatura.md`
@@ -67,7 +70,7 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - **`/test-hook-form`**: Esempio con hook useForm
 
 ### 📚 **Documentazione**
-- **`sistema-form.md`**: Guida completa con esempi e best practice
+- **`sistema-form-riutilizzabile.md`**: Guida completa con esempi e best practice
 
 ## Automazione e Sicurezza
 
@@ -168,6 +171,21 @@ Questo gestionale web aziendale gestisce clienti, fornitori, commesse, dipendent
 - ❌ **Tables e modals**: DataTable, ConfirmDialog, FormModal
 - ❌ **Testing e documentazione**: Verifica funzionamento e guide
 - ❌ **Pulizia e ottimizzazione**: Performance e bundle size
+
+## Sintassi Docker Corretta
+
+### ✅ **Comandi Corretti**
+- `docker compose up -d`
+- `docker compose down`
+- `docker compose ps`
+- `docker compose logs -f`
+
+### ❌ **Comandi Deprecati**
+- `docker-compose up -d` (DEPRECATO)
+- `docker-compose down` (DEPRECATO)
+- `docker-compose ps` (DEPRECATO)
+
+**Nota**: Tutta la documentazione è stata aggiornata per utilizzare la sintassi corretta di Docker Compose v2.
 
 ---
 

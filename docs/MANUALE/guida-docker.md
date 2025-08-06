@@ -245,7 +245,7 @@ docker system prune -a --volumes
 
 ```
 gestionale-fullstack/
-├── docker-compose.yml          # Orchestrazione servizi
+├── docker-compose.yml          # Orchestrazione servizi (file di configurazione)
 ├── backend/
 │   └── Dockerfile             # Container backend
 ├── frontend/

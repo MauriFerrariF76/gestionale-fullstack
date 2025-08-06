@@ -58,6 +58,7 @@ docker-compose build --no-cache
 # Versione: 2.0 (Docker Compose V2)
 # Descrizione: Orchestrazione completa di backend, frontend, database e nginx
 # Sintassi: docker compose (senza trattino)
+# IMPORTANTE: Usare sempre 'docker compose' (senza trattino)
 
 services:
   # Database PostgreSQL - Database Docker isolato
