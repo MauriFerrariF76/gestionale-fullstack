@@ -25,6 +25,46 @@
 - **Segreti**: Password, chiavi di accesso, certificati
 - **Codice**: Applicazione web e API
 
+### 🏗️ Strategia Backup per Ambiente Ibrido
+
+#### **PRINCIPIO FONDAMENTALE: SEPARAZIONE DELLE RESPONSABILITÀ**
+
+**Ambiente Sviluppo (pc-mauri-vaio) - SOLO BACKUP SVILUPPO**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database sviluppo (gestionale_dev)
+- Backup configurazioni sviluppo
+- Backup codice sorgente (Git)
+- Log di sviluppo
+
+❌ NON DOVREBBE CONTENERE:
+- Backup database produzione (gestionale)
+- Backup configurazioni produzione
+- Dati sensibili produzione
+```
+
+**Ambiente Produzione (gestionale-server) - SOLO BACKUP PRODUZIONE**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database produzione (gestionale)
+- Backup configurazioni produzione
+- Backup segreti produzione
+- Log di produzione
+
+❌ NON DOVREBBE CONTENERE:
+- Backup sviluppo (gestionale_dev)
+- Codice sorgente (solo runtime)
+```
+
+**NAS Synology (10.10.10.21) - BACKUP CENTRALIZZATO**
+```
+✅ CONTIENE:
+- Copia di sicurezza produzione
+- Copia di sicurezza sviluppo (opzionale)
+- Versioning e deduplicazione
+- Cifratura GPG per sicurezza
+```
+
 ---
 
 ## 2. Backup manuale e automatico
@@ -49,6 +89,36 @@ Aggiungi una riga a `crontab -e` per backup giornaliero:
 ```
 0 2 * * * pg_dump -U gestionale_user -h localhost -F c -b -v -f /percorso/backup/gestionale_db_$(date +\%F).backup gestionale
 ```
+
+### 🚀 Workflow Backup Corretto
+
+#### **Sviluppo Quotidiano**
+```bash
+# 1. Sviluppo su pc-mauri-vaio
+git add . && git commit -m "feature"
+./scripts/backup-sviluppo.sh          # Backup sviluppo
+
+# 2. Deploy su produzione
+./scripts/sync-dev-to-prod.sh          # Sync dev → prod
+# Il server produzione fa backup automatico
+```
+
+#### **Disaster Recovery**
+```bash
+# Se pc-mauri-vaio si rompe:
+git clone /path/to/repo                # Ripristina codice
+./scripts/restore-sviluppo.sh          # Ripristina sviluppo
+
+# Se gestionale-server si rompe:
+docker compose up -d                    # Ripristina produzione
+./scripts/restore-produzione.sh        # Ripristina dati
+```
+
+#### **Vantaggi di Questa Strategia**
+- ✅ **Sicurezza**: Dati sensibili separati
+- ✅ **Performance**: Backup veloci e locali
+- ✅ **Manutenibilità**: Responsabilità chiare
+- ✅ **Scalabilità**: Ogni ambiente gestisce i suoi dati
 
 ### Backup automatico Docker su NAS
 

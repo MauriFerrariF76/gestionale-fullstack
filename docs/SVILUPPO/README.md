@@ -1,192 +1,157 @@
-# Documentazione Sviluppo - Gestionale Fullstack
+# 📋 Documentazione Sviluppo - Gestionale Fullstack
 
-## 📁 Struttura della Cartella
+## Panoramica
+Questa directory contiene tutta la documentazione di sviluppo del gestionale fullstack, organizzata in checklist gerarchiche e specifiche.
 
-### 🟢 FILE ATTIVI (In Uso)
-
-#### 📋 Documenti Principali
-- **`checklist-operativa-unificata.md`** ⭐ **PRINCIPALE**
-  - Checklist unificata che sostituisce tutte le altre
-  - Contiene: Sicurezza, Backup, Monitoraggio, Server, Deploy
-  - **Stato**: ✅ ATTIVA - Usa questa per tutte le operazioni
-
-- **`architettura-completa.md`** 🏗️ **ARCHITETTURA**
-  - Architettura completa con strategia deploy CI/CD
-  - Ambiente sviluppo nativo + produzione containerizzata
-  - **Stato**: ✅ ATTIVA - Riferimento architettura
-
-- **`docker-sintassi-e-best-practice.md`** 🐳 **DOCKER**
-  - Docker Compose V2 e best practice
-  - Sintassi corretta e troubleshooting
-  - **Stato**: ✅ ATTIVA - Riferimento Docker
-
-- **`aggiornamenti-e-manutenzione.md`** 🔄 **AGGIORNAMENTI**
-  - Strategia aggiornamenti e manutenzione
-  - Procedure di fallback e monitoring
-  - **Stato**: ✅ ATTIVA - Riferimento aggiornamenti
-
-#### 🔐 Sicurezza e Configurazioni
-- **`configurazione-https-lets-encrypt.md`**
-  - Configurazione SSL/HTTPS
-  - **Stato**: ✅ ATTIVA
-
-- **`configurazione-nas.md`**
-  - Configurazione backup NAS
-  - **Stato**: ✅ ATTIVA
-
-#### 🚨 Emergenza
-- **`emergenza-passwords.md`**
-  - Credenziali di emergenza (accesso: `sudo cat /root/emergenza-passwords.md`)
-  - **Stato**: ✅ ATTIVA - CRITICO
-
-#### 📝 Sviluppo e Analisi
-- **`convenzioni-nomenclatura.md`**
-  - Standard di nomenclatura del progetto
-  - **Stato**: ✅ ATTIVA
-
-- **`convenzioni-nomenclatura-aggiornate.md`**
-  - Convenzioni di nomenclatura complete e aggiornate
-  - File, codice, Docker, documentazione
-  - **Stato**: ✅ ATTIVA - Riferimento completo nomenclatura
-
-- **`aggiornamento-documentazione-completo.md`**
-  - Riepilogo completo delle modifiche apportate alla documentazione
-  - Consolidamento, correzioni, nuovi file
-  - **Stato**: ✅ ATTIVA - Riferimento aggiornamenti documentazione
-
-- **`gestione-script-pubblici.md`**
-  - Gestione script pubblici e repository
-  - **Stato**: ✅ ATTIVA
-
-- **`checklist-riorganizzazione-frontend.md`** 🎨 **FRONTEND**
-  - Piano completo di riorganizzazione componenti riutilizzabili
-  - Sintesi rapida + checklist dettagliata + struttura target
-  - Refactoring componente gigante e criteri di successo
-  - **Stato**: ✅ ATTIVA - Riferimento completo riorganizzazione frontend
-
-- **`sistema-form-riutilizzabile.md`** 📝 **SISTEMA FORM**
-  - Documentazione completa del sistema form riutilizzabile
-  - Architettura componenti, hook useForm, best practice
-  - Stato refactoring e checklist per completamento
-  - **Stato**: ✅ ATTIVA - Riferimento sistema form
-
-#### 🔍 Verifica e Monitoraggio
-- **`verifica-server-produzione.md`**
-  - Procedure di verifica server produzione
-  - **Stato**: ✅ ATTIVA
+**Versione**: 1.0  
+**Data**: 8 Agosto 2025  
+**Stato**: ✅ ATTIVA
 
 ---
 
-### 🟡 FILE CONSOLIDATI (Aggiornati)
+## 📁 **STRUTTURA DOCUMENTAZIONE**
 
-> **📁 Consolidamento**: I file sono stati consolidati per eliminare ridondanze
-
-#### 📋 File Consolidati
-- **`architecture_summary.md`** + **`architettura-e-docker.md`** + **`deploy_strategy.md`** → **`architettura-completa.md`**
-- **`aggiornamento-sintassi-docker-compose-v2.md`** + **`correzione-sintassi-docker-compose.md`** → **`docker-sintassi-e-best-practice.md`**
-- **`aggiornamenti-software.md`** + **`checklist-aggiornamento-sicuro.md`** → **`aggiornamenti-e-manutenzione.md`**
-- **`automazione.md`** → Integrato in **`checklist-operativa-unificata.md`**
-- **`guida-definitiva-gestionale-fullstack.md`** → Spostato in **`/docs/MANUALE/`** (consolidato)
-
----
-
-## 🎯 Come Usare Questa Cartella
-
-### Per Operazioni Quotidiane
-1. **Usa sempre**: `checklist-operativa-unificata.md`
-2. **Consulta**: `architettura-completa.md` per architettura
-3. **Riferimento**: `docker-sintassi-e-best-practice.md` per Docker
-
-### Per Aggiornamenti
-1. **Procedura sicura**: `aggiornamenti-e-manutenzione.md`
-2. **Verifica**: `verifica-server-produzione.md`
-
-### Per Emergenze
-1. **Credenziali**: `sudo cat /root/emergenza-passwords.md`
-2. **Checklist**: Sezione "Interventi Solo Se" in `checklist-operativa-unificata.md`
-
-### Per Sviluppo
-1. **Convenzioni**: `convenzioni-nomenclatura.md`
-2. **Script pubblici**: `gestione-script-pubblici.md`
-3. **Frontend**: `checklist-riorganizzazione-frontend.md`
-
-### Per Miglioramenti Futuri
-1. **Architettura**: Best practices in `architettura-completa.md`
-2. **Checklist**: Miglioramenti in `checklist-operativa-unificata.md`
-3. **Docker**: Best practice in `docker-sintassi-e-best-practice.md`
-
----
-
-## 📊 Mappa di Integrazione
-
-### Documenti Principali Integrano:
-
+### **📋 Checklist Operative**
 ```
-📋 Documenti Principali
-├── 🔒 checklist-operativa-unificata.md
-│   ├── Sicurezza e deploy
-│   ├── Backup e disaster recovery
-│   ├── Monitoraggio e automazione
-│   └── Server e infrastruttura
-├── 🏗️ architettura-completa.md
-│   ├── Ambiente sviluppo (nativo)
-│   ├── Ambiente produzione (containerizzato)
-│   ├── Strategia deploy CI/CD
-│   └── Monitoring e alerting
-├── 🐳 docker-sintassi-e-best-practice.md
-│   ├── Sintassi Docker Compose V2
-│   ├── Best practice sicurezza
-│   ├── Troubleshooting
-│   └── Aggiornamenti e manutenzione
-└── 🔄 aggiornamenti-e-manutenzione.md
-    ├── Strategia aggiornamenti
-    ├── Checklist aggiornamento sicuro
-    ├── Procedure di fallback
-    └── Monitoring post-aggiornamento
+docs/SVILUPPO/
+├── checklist-operativa-unificata.md     # 🎯 MAJOR CHECKLIST (overview completo)
+├── checklist/                           # 📋 CHILD CHECKLISTS (dettagli specifici)
+│   ├── README.md                       # 🧭 Guida navigazione
+│   ├── 01-foundation.md               # 🏗️ Foundation
+│   ├── 02-security.md                 # 🔒 Security
+│   ├── 03-deploy.md                   # 🚀 Deploy
+│   ├── 04-backup.md                   # 💾 Backup
+│   ├── 05-monitoring.md               # 📊 Monitoring
+│   ├── 06-development.md              # 🛠️ Development
+│   ├── 07-maintenance.md              # 🔧 Maintenance
+│   └── 08-emergency.md                # 🚨 Emergency
+└── checklist-riorganizzazione-frontend.md  # 🎨 Checklist specifica frontend
 ```
 
 ---
 
-## 📋 Quick Reference
+## 🎯 **COME UTILIZZARE LE CHECKLIST**
 
-### File Principali (Usa Questi):
-- ⭐ **`checklist-operativa-unificata.md`** - Checklist principale
-- 🏗️ **`architettura-completa.md`** - Architettura e deploy
-- 🐳 **`docker-sintassi-e-best-practice.md`** - Docker e best practice
-- 🔄 **`aggiornamenti-e-manutenzione.md`** - Aggiornamenti e manutenzione
-- 🚨 **`emergenza-passwords.md`** - Credenziali critiche
+### **1. Overview Rapido**
+```bash
+# Consulta major checklist per stato generale
+cat checklist-operativa-unificata.md
+```
 
-### File di Supporto:
-- **`convenzioni-nomenclatura.md`** - Standard progetto
-- **`gestione-script-pubblici.md`** - Script pubblici
-- **`verifica-server-produzione.md`** - Verifica server
+### **2. Dettagli Specifici**
+```bash
+# Consulta child checklist per approfondimenti
+cat checklist/01-foundation.md
+cat checklist/02-security.md
+# ... etc
+```
 
-### File di Configurazione:
-- **`configurazione-https-lets-encrypt.md`** - SSL/HTTPS
-- **`configurazione-nas.md`** - Backup NAS
+### **3. Navigazione Guidata**
+```bash
+# Consulta guida navigazione
+cat checklist/README.md
+```
 
----
-
-## 🎯 Strategia Consolidamento
-
-### ✅ Benefici Ottenuti
-- **Riduzione ridondanze**: Eliminati 6 file duplicati
-- **Documentazione pulita**: Struttura più chiara e organizzata
-- **Manutenzione semplificata**: Meno file da aggiornare
-- **Coerenza**: Informazioni uniformi e aggiornate
-
-### 📚 Documenti Consolidati
-1. **Architettura**: 3 file → 1 file completo
-2. **Docker**: 2 file → 1 file con best practice
-3. **Aggiornamenti**: 2 file → 1 file con procedure complete
-4. **Automazione**: Integrata nella checklist principale
-
-### 🔄 Prossimi Step
-- **Ambiente sviluppo nativo**: Setup PostgreSQL + npm run dev
-- **CI/CD Pipeline**: GitHub Actions per deploy automatico
-- **Monitoring avanzato**: Prometheus/Grafana
-- **High availability**: Load balancer e replicazione
+### **4. Sviluppo Frontend**
+```bash
+# Consulta checklist specifica frontend
+cat checklist-riorganizzazione-frontend.md
+```
 
 ---
 
-**Nota**: La documentazione è stata consolidata per eliminare ridondanze e migliorare la manutenibilità. Tutti i file consolidati contengono le informazioni più aggiornate e complete. 
+## 📊 **STATO GENERALE PROGETTO**
+
+### ✅ **Completato (Priorità Alta)**
+- **Foundation**: 90% - Architettura base solida
+- **Security**: 85% - Sicurezza implementata  
+- **Deploy**: 80% - Workflow funzionante
+
+### ⚠️ **In Corso (Priorità Media)**
+- **Backup**: 70% - Strategia definita, script da completare
+- **Monitoring**: 60% - Base implementato, avanzato da fare
+- **Development**: 50% - Ambiente funzionante, tools da aggiungere
+
+### 🔄 **Da Implementare (Priorità Bassa)**
+- **Maintenance**: 40% - Base configurato, automazioni da completare
+- **Emergency**: 30% - Procedure base, escalation da definire
+
+---
+
+## 🎨 **SVILUPPO FRONTEND**
+
+### **Checklist Specifica Frontend**
+- **File**: `checklist-riorganizzazione-frontend.md`
+- **Obiettivo**: Eliminare FormClienteCompleto.tsx (75KB, 1829 righe)
+- **Stato**: Fasi 1-2 completate, Fase 3 in corso
+- **Risultato**: Componenti riutilizzabili e modulari
+
+### **Progresso Frontend**
+- ✅ **Fase 1**: Struttura cartelle e componenti UI base
+- ✅ **Fase 2**: Layout e forms riutilizzabili
+- 🚧 **Fase 3**: Sistema form riutilizzabile (in corso)
+- ⏳ **Fase 4**: Componenti shared
+- ⏳ **Fase 5**: Tables e modals
+- ⏳ **Fase 6**: Testing e documentazione
+- ⏳ **Fase 7**: Pulizia e ottimizzazione
+
+---
+
+## 🔗 **CROSS-REFERENCES**
+
+### **Relazioni tra Checklist**
+- **Major Checklist** → **Child Checklists**: Overview → Dettagli
+- **Foundation** → **Deploy**: Architettura supporta workflow
+- **Security** → **Emergency**: Sicurezza previene emergenze
+- **Development** → **Frontend**: Ambiente sviluppo supporta refactoring
+
+### **Script Condivisi**
+- `scripts/backup-sviluppo.sh`: Usato da Backup e Development
+- `scripts/sync-dev-to-prod.sh`: Usato da Deploy e Development
+- `scripts/restore_unified.sh`: Usato da Backup e Emergency
+
+---
+
+## 📝 **NOTE OPERATIVE**
+
+### **Aggiornamento Documentazione**
+1. **Modifica major checklist**: Aggiorna overview generale
+2. **Modifica child checklist**: Aggiorna dettagli specifici
+3. **Sincronizza stati**: Mantieni coerenza tra major e child
+4. **Documenta cambiamenti**: Aggiorna versioni e date
+
+### **Best Practices**
+- **Sempre consultare major checklist** per overview
+- **Usare child checklist** per dettagli specifici
+- **Mantenere cross-references** aggiornate
+- **Testare procedure** prima di marcarle complete
+
+### **Commit e Versioning**
+- **Commit solo versioni funzionanti**: Testare ogni modifica
+- **Documentazione sempre aggiornata**: Aggiornare checklist ad ogni passo
+- **Principio DRY**: Evitare duplicazione di documentazione
+
+---
+
+## 🚀 **PROSSIMI PASSI**
+
+### **Priorità Immediata**
+1. **Completare Fase 3 Frontend**: Sistema form riutilizzabile
+2. **Implementare script verifica backup**: `scripts/verify-backup-dev.sh`
+3. **Completare monitoring base**: `scripts/monitoraggio-base.sh`
+
+### **Priorità Media**
+1. **Installare DBeaver**: Editor database per sviluppo
+2. **Implementare Prisma ORM**: Sistema migrations
+3. **Completare componenti shared**: Frontend
+
+### **Priorità Bassa**
+1. **Ottimizzare performance**: Monitoring avanzato
+2. **Implementare CI/CD**: GitHub Actions
+3. **Completare emergency procedures**: Escalation
+
+---
+
+**✅ Documentazione organizzata e navigabile!**
+
+**📋 Struttura gerarchica implementata con successo.** 

@@ -40,6 +40,52 @@ Database: PostgreSQL container
 Reverse Proxy: Nginx container
 Orchestration: docker compose
 
+### 🏗️ Strategia Backup per Ambiente Ibrido
+
+#### **PRINCIPIO FONDAMENTALE: SEPARAZIONE DELLE RESPONSABILITÀ**
+
+**Ambiente Sviluppo (pc-mauri-vaio) - SOLO BACKUP SVILUPPO**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database sviluppo (locale)
+- Backup configurazioni sviluppo
+- Backup codice sorgente (Git)
+- Log di sviluppo
+
+❌ NON DOVREBBE CONTENERE:
+- Backup database produzione
+- Backup configurazioni produzione
+- Dati sensibili produzione
+```
+
+**Ambiente Produzione (gestionale-server) - SOLO BACKUP PRODUZIONE**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database produzione
+- Backup configurazioni produzione
+- Backup segreti produzione
+- Log di produzione
+
+❌ NON DOVREBBE CONTENERE:
+- Backup sviluppo
+- Codice sorgente (solo runtime)
+```
+
+**NAS Synology (10.10.10.21) - BACKUP CENTRALIZZATO**
+```
+✅ CONTIENE:
+- Copia di sicurezza produzione
+- Copia di sicurezza sviluppo (opzionale)
+- Versioning e deduplicazione
+- Cifratura GPG per sicurezza
+```
+
+#### **Vantaggi di Questa Strategia**
+- ✅ **Sicurezza**: Dati sensibili separati
+- ✅ **Performance**: Backup veloci e locali
+- ✅ **Manutenibilità**: Responsabilità chiare
+- ✅ **Scalabilità**: Ogni ambiente gestisce i suoi dati
+
 ## 📋 Configurazione Production-Ready
 
 ### docker-compose.yml (REVISIONATO)

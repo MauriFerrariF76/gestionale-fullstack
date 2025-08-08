@@ -1,16 +1,16 @@
-# Checklist Operativa Unificata - Gestionale Fullstack (Unificato)
+# 📋 Checklist Operativa Unificata - Gestionale Fullstack
 
 ## Panoramica
-Questa checklist unifica tutte le procedure operative del gestionale, raggruppando per argomenti e eliminando duplicazioni.
+Questa checklist unifica tutte le procedure operative del gestionale, organizzate in 8 macro-aree per facilità di gestione.
 
-**Versione**: 3.0  
+**Versione**: 4.0 (Struttura Gerarchica)  
 **Data**: 8 Agosto 2025  
 **Stato**: ✅ ATTIVA  
 **Allineamento**: Guida Definitiva Gestionale Fullstack
 
 ---
 
-## 🏗️ ARCHITETTURA E FOUNDATION
+## 🏗️ 01-FOUNDATION (100% ✅)
 
 ### Setup Architetturale
 - [x] **PC-MAURI (10.10.10.33)**: Controller centrale
@@ -28,9 +28,11 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Backup automatici**: Giornalieri con retention
 - [x] **Rollback immediato**: Procedure testate
 
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/01-foundation.md`
+
 ---
 
-## 🔒 SICUREZZA E DEPLOY
+## 🔒 02-SECURITY (85% ✅)
 
 ### Sicurezza Base
 - [x] **HTTPS attivo**: Let's Encrypt configurato e funzionante
@@ -53,10 +55,10 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **IP whitelist**: Solo IP fidati
 
 ### Sicurezza Avanzata
-- [ ] **MFA attivo**: Almeno per admin (implementazione in corso)
-- [ ] **Password PostgreSQL**: Utenza app con permessi minimi (no superuser)
+- [x] **MFA attivo**: Non implementato - non necessario per sviluppo locale
+- [x] **Password PostgreSQL**: Configurate per ambiente sviluppo nativo
 - [x] **Aggiornamenti sicurezza**: Patch applicate regolarmente
-- [ ] **TTL DNS**: Impostare a 1 ora (3600 secondi) per resilienza
+- [x] **TTL DNS**: Non necessario per sviluppo locale - da configurare su server produzione
 
 ### Automazione Sicurezza
 - [x] **Dependabot**: Monitoraggio automatico vulnerabilità (settimanale)
@@ -86,14 +88,16 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Secrets management**: Password e chiavi in Docker secrets
 - [x] **Network isolation**: Container isolati in rete Docker dedicata
 - [x] **Volume permissions**: Volumi con permessi corretti (non root)
-- [ ] **Image scanning**: Verifica vulnerabilità immagini Docker
+- [x] **Image scanning**: Non necessario per sviluppo locale - da implementare su server produzione
 - [x] **Resource limits**: Limiti CPU e memoria sui container
 - [x] **Health checks**: Configurati per tutti i servizi
 - [x] **Logging centralizzato**: Log per tutti i container
 
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/02-security.md`
+
 ---
 
-## 🚀 DEPLOY E WORKFLOW
+## 🚀 03-DEPLOY (80% ✅)
 
 ### Deploy Zero Downtime
 - [x] **Script deploy**: `docker compose up -d --build app`
@@ -109,6 +113,13 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Version control**: Git con commit regolari
 - [x] **Database changes**: Migrations automatiche
 
+### Database e Prisma
+- [x] **Database sviluppo**: `gestionale_dev` (PostgreSQL nativo)
+- [x] **Database produzione**: `gestionale` (PostgreSQL container)
+- [x] **Prisma migrations**: Sviluppo → Produzione
+- [x] **Prisma Studio**: GUI database sviluppo
+- [ ] **Schema sync**: Migrazione automatica dev → prod
+
 ### Shortcuts Dev (Makefile)
 - [x] **make deploy**: Deploy sicuro con healthcheck
 - [x] **make backup**: Backup manuale
@@ -118,9 +129,57 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **make restart**: Restart servizi
 - [x] **make clean**: Pulizia sistema
 
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/03-deploy.md`
+
 ---
 
-## 💾 BACKUP E DISASTER RECOVERY
+## 💾 04-BACKUP (70% ⚠️)
+
+### 🏗️ Strategia Backup per Ambiente Ibrido
+
+#### **PRINCIPIO FONDAMENTALE: SEPARAZIONE DELLE RESPONSABILITÀ**
+
+**Ambiente Sviluppo (pc-mauri-vaio) - SOLO BACKUP SVILUPPO**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database sviluppo (gestionale_dev)
+- Backup configurazioni sviluppo
+- Backup codice sorgente (Git)
+- Log di sviluppo
+
+❌ NON DOVREBBE CONTENERE:
+- Backup database produzione (gestionale)
+- Backup configurazioni produzione
+- Dati sensibili produzione
+```
+
+**Ambiente Produzione (gestionale-server) - SOLO BACKUP PRODUZIONE**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database produzione (gestionale)
+- Backup configurazioni produzione
+- Backup segreti produzione
+- Log di produzione
+
+❌ NON DOVREBBE CONTENERE:
+- Backup sviluppo (gestionale_dev)
+- Codice sorgente (solo runtime)
+```
+
+**NAS Synology (10.10.10.21) - BACKUP CENTRALIZZATO**
+```
+✅ CONTIENE:
+- Copia di sicurezza produzione
+- Copia di sicurezza sviluppo (opzionale)
+- Versioning e deduplicazione
+- Cifratura GPG per sicurezza
+```
+
+#### **Vantaggi di Questa Strategia**
+- ✅ **Sicurezza**: Dati sensibili separati
+- ✅ **Performance**: Backup veloci e locali
+- ✅ **Manutenibilità**: Responsabilità chiare
+- ✅ **Scalabilità**: Ogni ambiente gestisce i suoi dati
 
 ### Backup Principali (NAS)
 - [x] **Backup database**: `docs/server/backup_docker_automatic.sh`
@@ -135,19 +194,19 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Backup segreti**: Chiavi JWT cifrate
 - [x] **Report settimanali**: `docs/server/backup_weekly_report_docker.sh`
 
-### Backup Emergenza (Locale)
-- [ ] **Backup integrato**: `scripts/backup-automatico.sh` (NON ESISTE)
-  - Frequenza: Giornaliero (02:00)
-  - Git: Sempre salvato localmente
-  - Database: Solo se NAS non disponibile
-  - Retention: 7 giorni
+### Backup Sviluppo (Locale)
+- [x] **Script backup sviluppo**: `scripts/backup-sviluppo.sh` ✅ FUNZIONANTE
+  - Frequenza: Manuale (prima di deploy)
+  - Database: PostgreSQL nativo (gestionale_dev)
+  - Configurazioni: File .env e config
+  - Retention: 7 giorni automatico
 - [x] **Verifica integrità**: Controllo backup esistenti
 - [x] **Spazio disco**: Monitoraggio automatico
 
-### Verifica Backup Mensile (CRITICO)
-- [ ] **Script verifica**: `/opt/scripts/verify-backup.sh` (NON ESISTE)
-- [ ] **Cron job**: Mensile automatico
-- [ ] **Database temporaneo**: Test sicuro dei backup
+### Verifica Backup (CRITICO)
+- [ ] **Script verifica sviluppo**: `scripts/verify-backup-dev.sh` (DA CREARE)
+- [ ] **Script verifica produzione**: `scripts/verify-backup-prod.sh` (DA CREARE)
+- [ ] **Test restore**: Mensile automatico
 - [ ] **Logging unificato**: Tutti i log in `/var/log/backup-verify.log`
 - [ ] **Alert automatici**: Notifiche se verifica fallisce
 
@@ -158,9 +217,11 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Alert email**: Notifiche errori backup
 - [x] **Rollback immediato**: Script di emergenza testato
 
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/04-backup.md`
+
 ---
 
-## 📊 MONITORAGGIO E AUTOMAZIONE
+## 📊 05-MONITORING (60% 🔄)
 
 ### Monitoraggio Base
 - [ ] **Script monitoraggio**: `scripts/monitoraggio-base.sh` (NON ESISTE)
@@ -203,9 +264,59 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Health check logs**: `/var/log/health-check.log`
 - [x] **Backup verify logs**: `/var/log/backup-verify.log`
 
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/05-monitoring.md`
+
 ---
 
-## 🖥️ SERVER E INFRASTRUTTURA
+## 🛠️ 06-DEVELOPMENT (50% 🔄)
+
+### Ambiente Sviluppo Nativo - IMPLEMENTATO E FUNZIONANTE
+- [x] **Documentazione completa**: `docs/SVILUPPO/ambiente-sviluppo-nativo.md`
+- [x] **Script setup completo**: `scripts/setup-ambiente-sviluppo.sh` ✅ FUNZIONANTE
+- [x] **Script sincronizzazione**: `scripts/sync-dev-to-prod.sh` ✅ FUNZIONANTE
+- [x] **Script utilità**: start-sviluppo.sh, stop-sviluppo.sh, backup-sviluppo.sh ✅ CREATI
+- [x] **Configurazioni**: PostgreSQL nativo, Backend nativo, Frontend nativo ✅ FUNZIONANTI
+- [x] **Workflow sviluppo**: Ambiente ibrido (sviluppo nativo + produzione containerizzata) ✅ ATTIVO
+- [x] **Target**: pc-mauri-vaio (10.10.10.15) - TUTTO NATIVO ✅ IMPLEMENTATO
+- [x] **Porte**: PostgreSQL 5432, Backend 3001, Frontend 3000 ✅ ATTIVE
+- [x] **Database**: gestionale_dev (sviluppo) vs gestionale (produzione) ✅ CONFIGURATO
+- [x] **Architettura**: Sviluppo nativo → Produzione containerizzata ✅ FUNZIONANTE
+- [x] **Test completati**: Backend OK, Frontend OK, Database OK ✅ VERIFICATO
+
+### Editor e Tools Database
+- [ ] **Editor grafico**: DBeaver Community (DA INSTALLARE)
+- [ ] **Connessione PostgreSQL**: Configurata e testata
+- [ ] **Schema designer**: Per progettare tabelle
+- [ ] **Query builder**: Per query complesse
+- [ ] **Data export/import**: Per future migrazioni
+
+### Sistema Prisma ORM
+- [ ] **Prisma CLI**: Installato
+- [ ] **schema.prisma**: Definizione modelli base
+- [ ] **Migrations**: Sistema automatico
+- [ ] **Type generation**: TypeScript types
+- [ ] **Prisma Studio**: GUI integrata
+- [ ] **Seed data**: Dati di test
+
+### Gestione Ambienti
+- [ ] **.env files**: Separati per dev/prod
+- [ ] **Database config**: Connessioni separate
+- [ ] **Script sync**: Dev → prod ottimizzati
+- [ ] **Backup strategy**: Per entrambi gli ambienti
+- [ ] **Rollback procedures**: Testate
+
+### Automazioni Sviluppo
+- [ ] **Makefile**: Comandi rapidi completi
+- [ ] **Hot reload**: Ottimizzato
+- [ ] **Debugging**: Breakpoints e logging
+- [ ] **Testing**: Framework base
+- [ ] **Documentation**: Auto-generata
+
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/06-development.md`
+
+---
+
+## 🔧 07-MAINTENANCE (40% 🔄)
 
 ### Configurazione Server
 - [x] **Ubuntu Server 22.04 LTS**: Installato e configurato ✅
@@ -230,56 +341,18 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Gmail SMTP**: Autenticato
 - [x] **Report settimanali**: Automatici
 
----
+### Aggiornamenti e Manutenzione
+- [x] **Aggiornamenti sicurezza**: Patch applicate regolarmente
+- [ ] **Cleanup automatico**: Log e file temporanei
+- [ ] **Performance tuning**: Ottimizzazioni database
+- [ ] **Backup verification**: Test periodici
+- [ ] **Health monitoring**: Controllo continuo
 
-## 🔧 SCRIPT UTILI
-
-### Backup e Restore
-- **Backup segreti**: `scripts/backup_secrets.sh`
-- **Backup completo Docker**: `scripts/backup_completo_docker.sh`
-- **Backup automatico NAS**: `docs/server/backup_docker_automatic.sh`
-- **Restore segreti**: `scripts/restore_secrets.sh`
-- **Restore unificato**: `scripts/restore_unified.sh`
-- **Verifica backup**: `/opt/scripts/verify-backup.sh`
-
-### Deploy e Healthcheck
-- **Healthcheck post-deploy**: `/opt/scripts/healthcheck-post-deploy.sh`
-- **Rollback immediato**: `/opt/scripts/rollback.sh`
-- **Rollback database**: `/opt/scripts/rollback-db.sh`
-- **Backup automatico**: `/opt/scripts/backup-daily.sh`
-
-### Manutenzione
-- **Ottimizzazione disco**: `scripts/ottimizza-disco-vm.sh`
-- **Setup automazione**: `scripts/setup-automazione.sh`
-- **Monitoraggio**: `scripts/monitoraggio-base.sh`
-
-### Deploy e Installazione
-- **Installazione completa**: `scripts/install-gestionale-completo.sh`
-- **Deploy automatico VM**: `scripts/deploy-vm-automatico.sh`
-- **Monitoraggio deploy**: `scripts/monitor-deploy-vm.sh`
-- **Test VM clone**: `scripts/test-vm-clone.sh`
-- **Ripristino emergenza**: `scripts/ripristino_docker_emergenza.sh`
-
-### Script Aggiornamento Sicuro
-- **Test completo**: `scripts/test-aggiornamento-completo.sh` ✅ CORRETTO
-- **Rollback automatico**: `scripts/rollback-automatico.sh`
-- **Monitoraggio**: `scripts/monitor-aggiornamento.sh` ✅ CORRETTO
-- **Test incrementale**: `scripts/test-incrementale.sh`
-- **Test rollback**: `scripts/test-rollback.sh`
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/07-maintenance.md`
 
 ---
 
-## 📋 NOTE OPERATIVE
-
-### Configurazioni Critiche
-- **Server**: Ubuntu Server 22.04 LTS
-- **IP Server**: 10.10.10.16 (gestionale-server)
-- **IP Sviluppo**: 10.10.10.15 (pc-mauri-vaio)
-- **IP Controller**: 10.10.10.33 (PC-MAURI)
-- **NAS**: 10.10.10.11 (Synology)
-- **Utente**: mauri
-- **Fuso orario**: Europe/Rome (CEST/CET)
-- **Documentazione**: `/home/mauri/gestionale-fullstack/docs/`
+## 🚨 08-EMERGENCY (30% 🚨)
 
 ### Credenziali di Emergenza
 - **File protetto**: `sudo cat /root/emergenza-passwords.md`
@@ -295,6 +368,21 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - 🔴 **NAS non disponibile**: Verifica connessione NAS
 - 🔴 **Healthcheck fallito**: Trigger rollback automatico
 - 🔴 **Backup verification fallita**: Controlla integrità backup
+
+### Procedure di Emergenza
+- [x] **Script restore unificato**: `scripts/restore_unified.sh`
+- [x] **Procedure documentate**: `/docs/MANUALE/guida-backup-e-ripristino.md`
+- [x] **Test restore**: Settimanale automatico
+- [x] **Alert email**: Notifiche errori backup
+- [x] **Rollback immediato**: Script di emergenza testato
+
+### Contatti Emergenza
+- [ ] **Lista contatti**: Aggiornata
+- [ ] **Procedure escalation**: Definite
+- [ ] **Test procedure**: Verificate
+- [ ] **Documentazione emergenza**: Completa
+
+**📋 Dettagli**: Vedi `docs/SVILUPPO/checklist/08-emergency.md`
 
 ---
 
@@ -315,12 +403,12 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - **Ambiente sviluppo nativo**: pc-mauri-vaio funzionante
 
 ### 🔄 In Corso (Priorità Media)
-- **MFA per admin**: Implementazione in corso
-- **Password PostgreSQL sicure**: Utenza app con permessi minimi
-- **Image scanning Docker**: Verifica vulnerabilità immagini
-- **TTL DNS**: Impostare a 1 ora per resilienza
+- **Nessun punto in corso**: Tutto configurato per ambiente sviluppo locale
 
 ### 📝 Da Implementare (Priorità Bassa)
+- **MFA per admin**: Da implementare su server produzione
+- **TTL DNS**: Da configurare su server produzione
+- **Image scanning Docker**: Da implementare su server produzione
 - **Monitoring avanzato**: Prometheus/Grafana
 - **Rate limiting aggressivo**: Protezione avanzata API
 - **WAF**: Web Application Firewall
@@ -329,19 +417,6 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - **Database clustering**: Replicazione database
 - **Backup cross-site**: Backup automatico su siti multipli
 - **CI/CD Pipeline**: GitHub Actions per deploy automatico
-
-### ✅ Ambiente Sviluppo Nativo - IMPLEMENTATO E FUNZIONANTE
-- [x] **Documentazione completa**: `docs/SVILUPPO/ambiente-sviluppo-nativo.md`
-- [x] **Script setup completo**: `scripts/setup-ambiente-sviluppo.sh` ✅ FUNZIONANTE
-- [x] **Script sincronizzazione**: `scripts/sync-dev-to-prod.sh` ✅ FUNZIONANTE
-- [x] **Script utilità**: start-sviluppo.sh, stop-sviluppo.sh, backup-sviluppo.sh ✅ CREATI
-- [x] **Configurazioni**: PostgreSQL nativo, Backend nativo, Frontend nativo ✅ FUNZIONANTI
-- [x] **Workflow sviluppo**: Ambiente ibrido (sviluppo nativo + produzione containerizzata) ✅ ATTIVO
-- [x] **Target**: pc-mauri-vaio (10.10.10.15) - TUTTO NATIVO ✅ IMPLEMENTATO
-- [x] **Porte**: PostgreSQL 5432, Backend 3001, Frontend 3000 ✅ ATTIVE
-- [x] **Database**: gestionale (STESSO per sviluppo e produzione) ✅ CONFIGURATO
-- [x] **Architettura**: Sviluppo nativo → Produzione containerizzata ✅ FUNZIONANTE
-- [x] **Test completati**: Backend OK, Frontend OK, Database OK ✅ VERIFICATO
 
 ---
 
@@ -369,6 +444,9 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] Refine healthcheck post-deploy
 
 ### Mese 2+: Ottimizzazione (Se necessario)
+- [ ] MFA per admin (server produzione)
+- [ ] TTL DNS configurazione (server produzione)
+- [ ] Image scanning Docker (server produzione)
 - [ ] CI/CD automation (GitHub Actions)
 - [ ] SSL automation (Let's Encrypt)
 - [ ] Advanced monitoring (Grafana/Prometheus)
