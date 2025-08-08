@@ -1,8 +1,8 @@
-# 📝 Convenzioni di Nomenclatura - Gestionale Fullstack
+# 📝 Convenzioni di Nomenclatura - Gestionale Fullstack (Unificato)
 
-**Data:** $(date +%F)  
-**Versione:** 1.0  
-**Stato:** ✅ Implementate  
+**Data:** 8 Agosto 2025  
+**Versione:** 2.0  
+**Stato:** ✅ Implementate e Aggiornate  
 
 ---
 
@@ -97,6 +97,66 @@ StrategiaDocker.md
 GUIDA_BACKUP.md
 CHECKLIST_SICUREZZA.md
 STRATEGIA_DOCKER.md
+```
+
+## 🏗️ Convenzioni Codice (Aggiunte)
+
+### Componenti React
+
+#### Nomi Componenti
+- **PascalCase**: Per i nomi dei componenti
+- **Descrittivi**: Nomi che descrivono chiaramente la funzione
+
+```typescript
+// ✅ CORRETTO
+export const FormClienteAnagrafica = () => { ... }
+export const DataTable = () => { ... }
+export const LoadingSpinner = () => { ... }
+
+// ❌ SBAGLIATO
+export const Form = () => { ... }
+export const Table = () => { ... }
+export const Spinner = () => { ... }
+```
+
+#### File Componenti
+- **PascalCase**: Nome file uguale al nome del componente
+- **Estensione .tsx**: Per componenti con JSX
+
+```
+✅ FormClienteAnagrafica.tsx
+✅ DataTable.tsx
+✅ LoadingSpinner.tsx
+❌ form-cliente-anagrafica.tsx
+❌ data-table.tsx
+```
+
+### Hook Personalizzati
+
+#### Nomi Hook
+- **use + PascalCase**: Prefisso "use" seguito da nome descrittivo
+
+```typescript
+// ✅ CORRETTO
+export const useForm = () => { ... }
+export const useCliente = () => { ... }
+export const useFornitore = () => { ... }
+
+// ❌ SBAGLIATO
+export const formHook = () => { ... }
+export const clienteHook = () => { ... }
+```
+
+#### File Hook
+- **camelCase**: Nome file in camelCase
+- **Estensione .ts**: Per hook senza JSX
+
+```
+✅ useForm.ts
+✅ useCliente.ts
+✅ useFornitore.ts
+❌ use-form.ts
+❌ use_cliente.ts
 ```
 
 ### **❌ Mixed case**

@@ -72,14 +72,14 @@ Implementazione di un ambiente di sviluppo **TUTTO NATIVO** su pc-mauri-vaio (10
 ## 📋 Checklist Implementazione
 
 ### Setup PostgreSQL Nativo
-- [ ] **Installazione PostgreSQL**: Ubuntu 22.04
-- [ ] **Configurazione database**: Utente e database gestionale_dev
+- [x] **Installazione PostgreSQL**: Ubuntu 22.04 ✅ (versione 16.9)
+- [x] **Configurazione database**: Utente e database gestionale ✅
 - [ ] **Migrazione schema**: Schema da produzione
 - [ ] **Configurazione sicurezza**: Accesso locale
-- [ ] **Backup sviluppo**: Script backup locale
+- [x] **Backup sviluppo**: Script backup locale ✅ (scripts/backup-sviluppo.sh)
 
 ### Setup Backend Nativo
-- [ ] **Installazione Node.js**: Versione 20.19.4
+- [x] **Installazione Node.js**: Versione 20.19.4 ✅
 - [ ] **Configurazione ambiente**: Variabili d'ambiente
 - [ ] **Dependencies**: npm install
 - [ ] **Script sviluppo**: npm run dev
@@ -94,10 +94,10 @@ Implementazione di un ambiente di sviluppo **TUTTO NATIVO** su pc-mauri-vaio (10
 - [ ] **Debugging**: React DevTools
 
 ### Script di Sincronizzazione
-- [ ] **Script dev → prod**: Deploy automatico
+- [x] **Script dev → prod**: Deploy automatico ✅ (scripts/sync-dev-to-prod.sh)
 - [ ] **Script database**: Migrazione schema
 - [ ] **Script configurazioni**: Sync env files
-- [ ] **Script backup**: Backup pre-deploy
+- [x] **Script backup**: Backup pre-deploy ✅ (scripts/backup-sviluppo.sh)
 - [ ] **Script rollback**: Rollback automatico
 
 ### Documentazione e Workflow
@@ -117,7 +117,7 @@ sudo apt update
 sudo apt install postgresql postgresql-contrib
 
 # Configurazione utente (STESSO di produzione)
-sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD 'gestionale2025';"
+sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD '[VEDERE FILE sec.md]';"
 sudo -u postgres psql -c "CREATE DATABASE gestionale OWNER gestionale_user;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE gestionale TO gestionale_user;"
 
@@ -137,7 +137,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=gestionale
 DB_USER=gestionale_user
-DB_PASSWORD=gestionale2025
+DB_PASSWORD=[VEDERE FILE sec.md]
 PORT=3001
 JWT_SECRET=dev_jwt_secret_2025
 ```

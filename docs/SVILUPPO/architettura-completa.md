@@ -46,7 +46,8 @@ gestionale-fullstack/
 │   └── src/                   # Codice sorgente
 ├── frontend/
 │   ├── Dockerfile             # Container per Next.js
-│   └── app/                   # Codice sorgente
+│   ├── app/                   # Codice sorgente
+│   └── package.json           # Material Tailwind + Tailwind CSS v4
 ├── nginx/
 │   └── nginx-ssl.conf         # Configurazione reverse proxy
 ├── postgres/
@@ -337,6 +338,38 @@ docker compose up -d --build
 
 ---
 
+## 🎨 Tecnologie UI e Frontend
+
+### 🎯 Stack Frontend
+- **Framework**: Next.js 15.4.5 (React 18)
+- **Styling**: Material Tailwind + Tailwind CSS v4
+- **Componenti**: @material-tailwind/react@2.1.10
+- **Utility**: tailwind-merge@3.3.1
+
+### 🎨 Design System
+- **Material Design**: Componenti professionali
+- **Responsive**: Adattamento automatico dispositivi
+- **Accessibilità**: Componenti WCAG compliant
+- **Temi**: Dark/Light mode supportati
+
+### 🧩 Componenti Disponibili
+- **Button**: Varianti (primary, secondary, danger, success, ghost, outline)
+- **Input**: Con label, error, helper, icone (left/right)
+- **Modal/Dialog**: Componenti modali riutilizzabili
+- **Table/DataTable**: Tabelle con sorting, filtering, pagination
+- **Form**: Sistema di form riutilizzabile con validazione
+- **LoadingSpinner**: Indicatori di caricamento standardizzati
+- **ErrorMessage**: Gestione errori uniforme
+- **EmptyState**: Stati vuoti per liste e contenuti
+
+### 🚀 Vantaggi UI
+- **Sviluppo veloce**: Componenti pronti all'uso
+- **Consistenza**: Design system uniforme
+- **Professionalità**: Interfaccia moderna e aziendale
+- **Manutenibilità**: Componenti riutilizzabili
+
+---
+
 ## ⚖️ Vantaggi della Soluzione
 
 ### ✅ Vantaggi
@@ -369,6 +402,6 @@ docker compose up -d --build
 - **Rete**: 10.10.10.x (LAN aziendale)
 - **SSH**: Accesso da PC-MAURI a entrambi i server
 - **Database**: PostgreSQL (nativo dev, container prod)
-- **App**: Next.js fullstack
+- **App**: Next.js fullstack + Material Tailwind
 - **Deploy**: GitHub Actions + Docker Compose
 - **Sintassi Docker**: `docker compose` (senza trattino) - V2 

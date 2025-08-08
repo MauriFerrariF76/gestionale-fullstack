@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Carica configurazione centralizzata
+# Carica configurazione centralizzata
+if [ -f "scripts/config.sh" ]; then
+    source "scripts/config.sh"
+elif [ -f "../scripts/config.sh" ]; then
+    source "../scripts/config.sh"
+else
+    echo "❌ Errore: File config.sh non trovato"
+    exit 1
+fi
+
 # Script per backup ambiente sviluppo NATIVO
 echo "💾 Backup ambiente sviluppo NATIVO..."
 
@@ -10,9 +21,9 @@ BACKUP_FILE="$BACKUP_DIR/backup_sviluppo_$DATE.sql"
 # Crea directory backup
 mkdir -p "$BACKUP_DIR"
 
-    # Backup database
-    echo "📊 Backup database..."
-    pg_dump -h localhost -U gestionale_user -d gestionale > "$BACKUP_FILE"
+# Backup database
+echo "📊 Backup database..."
+PGPASSWORD="$DB_PASSWORD" pg_dump -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" > "$BACKUP_FILE"
 
 # Backup configurazioni
 echo "⚙️ Backup configurazioni..."

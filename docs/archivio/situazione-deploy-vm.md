@@ -8,7 +8,7 @@
 ## Completato con Successo
 1. ✅ Installazione Ubuntu Server
 2. ✅ Configurazione IP statico: 10.10.10.43
-3. ✅ SSH su porta 65 (sicurezza)
+3. ✅ SSH su porta 27 (sicurezza)
 4. ✅ Connettività testata
 5. ✅ Git clone progetto
 6. ✅ Docker installato (28.3.3)

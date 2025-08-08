@@ -343,12 +343,17 @@ const FormClienteCompleto = ({
               tentativiRimanenti--;
               if (tentativiRimanenti > 0) {
                 console.log("DEBUG - ID già esistente, generando nuovo ID (tentativi rimanenti:", tentativiRimanenti, ")");
+                // Ottieni il max ID aggiornato dal server
                 const maxId = await getMaxIdCliente();
                 const nuovoId = generaProssimoIdCliente(maxId);
+                console.log("DEBUG - Nuovo ID generato:", nuovoId);
                 clienteDaInviareFinale = { ...clienteDaInviareFinale, IdCliente: nuovoId };
                 setCliente(clienteDaInviareFinale);
+                // Aggiorna anche l'interfaccia utente
+                setErrors((prev) => ({ ...prev, IdCliente: false }));
+                setIdCheckError(null);
               } else {
-                setSubmitError("Impossibile generare un ID cliente univoco dopo più tentativi.");
+                setSubmitError("Impossibile generare un ID cliente univoco dopo più tentativi. Riprova manualmente.");
                 return;
               }
             } else {
@@ -551,7 +556,31 @@ const FormClienteCompleto = ({
                 <div className="text-xs text-red-500 mt-1">{idCheckError}</div>
               )}
               {submitError && (
-                <div className="text-xs text-red-500 mt-1">{submitError}</div>
+                <div className="text-xs text-red-500 mt-1">
+                  <div className="flex justify-between items-center">
+                    <span>{submitError}</span>
+                    {submitError.includes("già esistente") && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          try {
+                            const maxId = await getMaxIdCliente();
+                            const nuovoId = generaProssimoIdCliente(maxId);
+                            setCliente(prev => ({ ...prev, IdCliente: nuovoId }));
+                            setErrors(prev => ({ ...prev, IdCliente: false }));
+                            setIdCheckError(null);
+                            setSubmitError(null);
+                          } catch (error) {
+                            console.error("Errore nel generare nuovo ID:", error);
+                          }
+                        }}
+                        className="ml-2 px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700"
+                      >
+                        Genera Nuovo ID
+                      </button>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
             {/* Sezione: Dati Anagrafici */}

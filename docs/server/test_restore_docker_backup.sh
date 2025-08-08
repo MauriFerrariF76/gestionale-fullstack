@@ -8,7 +8,16 @@
 # Configurazione
 DB_NAME="gestionale"
 DB_USER="gestionale_user"
-DB_PASSWORD="gestionale2025"
+# Carica configurazione centralizzata
+# Carica configurazione centralizzata
+if [ -f "scripts/config.sh" ]; then
+    source "scripts/config.sh"
+elif [ -f "../scripts/config.sh" ]; then
+    source "../scripts/config.sh"
+else
+    echo "❌ Errore: File config.sh non trovato"
+    exit 1
+fi
 BACKUP_DIR="/mnt/backup_gestionale/database"
 LOG="/home/mauri/gestionale-fullstack/docs/server/test_restore_docker_backup.log"
 TEST_DB_NAME="gestionale_test_restore_docker"

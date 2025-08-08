@@ -113,8 +113,8 @@ docker compose exec postgres pg_isready -U gestionale_user -d gestionale
 ```
 
 ### Password Memorizzate
-- **Database**: `gestionale2025`
-- **JWT**: `GestionaleFerrari2025JWT_UltraSecure_v1!`
+- **Database**: `[VEDERE FILE sec.md]`
+- **JWT**: `[VEDERE FILE sec.md]`
 - **Master**: `"La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo"`
 
 ---

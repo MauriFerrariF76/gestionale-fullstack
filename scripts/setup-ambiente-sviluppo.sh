@@ -94,7 +94,17 @@ setup_postgresql() {
     log_info "Configurazione database sviluppo (STESSO di produzione)..."
     
     # Crea utente gestionale_user (STESSO di produzione)
-    sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD 'gestionale2025';" 2>/dev/null || log_warning "Utente gestionale_user già esistente"
+    # Carica configurazione centralizzata
+# Carica configurazione centralizzata
+if [ -f "scripts/config.sh" ]; then
+    source "scripts/config.sh"
+elif [ -f "../scripts/config.sh" ]; then
+    source "../scripts/config.sh"
+else
+    echo "❌ Errore: File config.sh non trovato"
+    exit 1
+fi
+sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD '$DB_PASSWORD';" 2>/dev/null || log_warning "Utente gestionale_user già esistente"
     
     # Crea database gestionale (STESSO di produzione)
     sudo -u postgres psql -c "CREATE DATABASE gestionale OWNER gestionale_user;" 2>/dev/null || log_warning "Database gestionale già esistente"
@@ -170,7 +180,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=gestionale
 DB_USER=gestionale_user
-DB_PASSWORD=gestionale2025
+# Password caricata da config.sh
 PORT=3001
 JWT_SECRET=dev_jwt_secret_2025_$(date +%s)
 
@@ -710,7 +720,7 @@ test_setup() {
     fi
     
     # Test database
-    if PGPASSWORD=gestionale2025 psql -h localhost -U gestionale_user -d gestionale -c "SELECT 1;" &> /dev/null; then
+    if PGPASSWORD="$DB_PASSWORD" psql -h localhost -U gestionale_user -d gestionale -c "SELECT 1;" &> /dev/null; then
         log_success "Database accessibile"
     else
         log_error "Database non accessibile"

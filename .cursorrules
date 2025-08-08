@@ -193,6 +193,27 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
   5. **Documentare** la correzione applicata
 - **Controllo obbligatorio**: prima di ogni commit, verificare che non ci siano warning attivi nel sistema.
 
+## 13. Gestione documentazione e file .md
+
+- **Limitare la generazione di file .md superflui**: prima di creare un nuovo file .md, verificare se esiste già documentazione sull'argomento.
+- **Priorità alla documentazione esistente**: cercare di utilizzare e aggiornare i file .md già presenti piuttosto che crearne di nuovi.
+- **Unificazione per logica e argomenti**: raggruppare informazioni correlate negli stessi file, evitando frammentazione.
+- **Eliminazione risultati non critici**: i risultati di test e analisi possono essere eliminati se non critici per il funzionamento o la sicurezza.
+- **Best practice per la documentazione**:
+  - **Ricerca prima di creare**: controllare sempre se esiste già documentazione sull'argomento
+  - **Aggiornamento vs creazione**: preferire l'aggiornamento di file esistenti
+  - **Raggruppamento logico**: mantenere informazioni correlate nello stesso file
+  - **Eliminazione selettiva**: rimuovere solo risultati non critici, mantenendo informazioni importanti
+  - **Struttura pulita**: evitare proliferazione di file con contenuti simili
+- **Criteri per eliminazione**:
+  - ✅ Risultati di test temporanei non critici
+  - ✅ Analisi preliminari superate da versioni definitive
+  - ✅ Log di debug non essenziali
+  - ❌ Informazioni di sicurezza critiche
+  - ❌ Configurazioni operative importanti
+  - ❌ Procedure di backup e ripristino
+  - ❌ Documentazione di architettura e struttura
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**

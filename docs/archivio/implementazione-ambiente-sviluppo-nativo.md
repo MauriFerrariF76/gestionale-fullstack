@@ -151,7 +151,7 @@ Documento di riepilogo dell'implementazione dell'ambiente di sviluppo **TUTTO NA
 sudo apt install postgresql postgresql-contrib
 
 # Configurazione utente (STESSO di produzione)
-sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD 'gestionale2025';"
+sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD '[VEDERE FILE sec.md]';"
 sudo -u postgres psql -c "CREATE DATABASE gestionale OWNER gestionale_user;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE gestionale TO gestionale_user;"
 
@@ -171,7 +171,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=gestionale
 DB_USER=gestionale_user
-DB_PASSWORD=gestionale2025
+DB_PASSWORD=[VEDERE FILE sec.md]
 PORT=3001
 JWT_SECRET=dev_jwt_secret_2025
 

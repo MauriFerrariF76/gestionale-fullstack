@@ -108,7 +108,7 @@ pg_isready -h localhost -p 5432
 # Risultato: ✅ Connesso
 
 # Test database
-PGPASSWORD=gestionale2025 psql -h localhost -U gestionale_user -d gestionale -c "SELECT 'OK' as status;"
+PGPASSWORD=[VEDERE FILE sec.md] psql -h localhost -U gestionale_user -d gestionale -c "SELECT 'OK' as status;"
 # Risultato: ✅ Database accessibile
 ```
 

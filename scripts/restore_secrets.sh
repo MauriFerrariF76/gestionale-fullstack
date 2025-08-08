@@ -7,7 +7,7 @@ echo "🔄 Ripristino Segreti Docker Gestionale"
 echo "======================================"
 
 # Verifica che siamo nella directory corretta
-if [ ! -f "docker-compose.yml" ]; then
+if [ ! -f "package.json" ] && [ ! -f "backend/package.json" ]; then
     echo "❌ Errore: Esegui questo script dalla directory root del progetto"
     echo "   cd gestionale-fullstack"
     echo "   ./scripts/restore_secrets.sh backup_file.tar.gz.gpg"
@@ -110,7 +110,7 @@ echo "🚀 Prossimi passi:"
     echo "   2. docker compose up -d"
 echo "   3. Verifica che l'applicazione funzioni correttamente"
 echo ""
-echo "🔑 Master Password: 'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
+echo "🔑 Master Password: [CONSULTA DOCUMENTAZIONE CARTACEA]"
 echo ""
 echo "⚠️  IMPORTANTE:"
 echo "   - Verifica che l'applicazione funzioni dopo il ripristino"

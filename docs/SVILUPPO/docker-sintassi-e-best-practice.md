@@ -71,7 +71,7 @@ services:
     environment:
       POSTGRES_DB: gestionale
       POSTGRES_USER: gestionale_user
-      POSTGRES_PASSWORD: gestionale2025
+      POSTGRES_PASSWORD: [VEDERE FILE sec.md]
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - postgres_data:/var/lib/postgresql/data

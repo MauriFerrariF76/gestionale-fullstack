@@ -81,9 +81,11 @@ fi
 print_status "Configurazione database..."
 
 # Crea utente e database se non esistono
-sudo -u postgres psql -c "CREATE USER gestionale_user WITH PASSWORD 'gestionale2025';" 2>/dev/null || true
-sudo -u postgres psql -c "CREATE DATABASE gestionale OWNER gestionale_user;" 2>/dev/null || true
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE gestionale TO gestionale_user;" 2>/dev/null || true
+# Carica configurazione centralizzata
+source "$PROJECT_ROOT/scripts/config.sh"
+sudo -u postgres psql -c "CREATE USER gestionale_dev_user WITH PASSWORD '$DB_DEV_PASSWORD';" 2>/dev/null || true
+sudo -u postgres psql -c "CREATE DATABASE gestionale_dev OWNER gestionale_dev_user;" 2>/dev/null || true
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE gestionale_dev TO gestionale_dev_user;" 2>/dev/null || true
 
 print_success "Database configurato"
 
@@ -108,14 +110,32 @@ fi
 npm run dev &
 BACKEND_PID=$!
 
-# Verifica che il backend sia partito
-sleep 5
-if ! kill -0 $BACKEND_PID 2>/dev/null; then
-    print_error "Errore nell'avvio del backend"
+# Verifica che il backend sia partito - controlla se il server è in ascolto sulla porta
+print_status "Verifica avvio backend..."
+sleep 8  # Diamo più tempo per l'avvio
+
+# Funzione per verificare se il server è in ascolto
+check_server_running() {
+    local port=$1
+    local max_attempts=10
+    local attempt=1
+    
+    while [ $attempt -le $max_attempts ]; do
+        if ss -tlnp | grep -q ":$port "; then
+            return 0  # Server attivo
+        fi
+        sleep 1
+        attempt=$((attempt + 1))
+    done
+    return 1  # Server non attivo
+}
+
+if check_server_running 3001; then
+    print_success "Backend avviato e in ascolto sulla porta 3001"
+else
+    print_error "Errore nell'avvio del backend - server non in ascolto sulla porta 3001"
     exit 1
 fi
-
-print_success "Backend avviato (PID: $BACKEND_PID)"
 
 # 4. AVVIO FRONTEND
 print_status "Avvio Frontend..."
@@ -136,18 +156,20 @@ if [ ! -d "node_modules" ]; then
 fi
 
 # Avvia frontend in background
-npm run dev &
+PORT=3000 npm run dev &
 FRONTEND_PID=$!
 
-# Verifica che il frontend sia partito
-sleep 5
-if ! kill -0 $FRONTEND_PID 2>/dev/null; then
-    print_error "Errore nell'avvio del frontend"
+# Verifica che il frontend sia partito - controlla se il server è in ascolto sulla porta
+print_status "Verifica avvio frontend..."
+sleep 8  # Diamo più tempo per l'avvio
+
+if check_server_running 3000; then
+    print_success "Frontend avviato e in ascolto sulla porta 3000"
+else
+    print_error "Errore nell'avvio del frontend - server non in ascolto sulla porta 3000"
     cleanup
     exit 1
 fi
-
-print_success "Frontend avviato (PID: $FRONTEND_PID)"
 
 # 5. INFORMAZIONI FINALI
 echo ""
@@ -162,14 +184,14 @@ echo ""
 
 # Mantieni script attivo e monitora i processi
 while true; do
-    # Verifica che i processi siano ancora attivi
-    if ! kill -0 $BACKEND_PID 2>/dev/null; then
+    # Verifica che i server siano ancora attivi
+    if ! check_server_running 3001; then
         print_error "Backend si è fermato inaspettatamente"
         cleanup
         exit 1
     fi
     
-    if ! kill -0 $FRONTEND_PID 2>/dev/null; then
+    if ! check_server_running 3000; then
         print_error "Frontend si è fermato inaspettatamente"
         cleanup
         exit 1

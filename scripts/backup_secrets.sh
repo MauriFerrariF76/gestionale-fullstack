@@ -7,7 +7,7 @@ echo "💾 Backup Segreti Docker Gestionale"
 echo "==================================="
 
 # Verifica che siamo nella directory corretta
-if [ ! -f "docker-compose.yml" ]; then
+if [ ! -f "package.json" ] && [ ! -f "backend/package.json" ]; then
     echo "❌ Errore: Esegui questo script dalla directory root del progetto"
     echo "   cd gestionale-fullstack"
     echo "   ./scripts/backup_secrets.sh"
@@ -89,7 +89,7 @@ else
     echo "   ${BACKUP_NAME}.tar.gz (non cifrato)"
 fi
 echo ""
-echo "🔑 Master Password: 'La Ferrari Pietro Snc è stata fondata nel 1963 in forma artigianale da Ferrari Pietro e dal nipote Carlo'"
+echo "🔑 Master Password: [CONSULTA DOCUMENTAZIONE CARTACEA]"
 echo ""
 echo "💡 Suggerimenti:"
 echo "   - Conserva il backup in luogo sicuro"

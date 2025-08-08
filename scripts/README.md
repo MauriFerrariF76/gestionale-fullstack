@@ -1,91 +1,83 @@
-# 🔧 Script Essenziali Gestionale
+# 🔧 Script Essenziali Gestionale - SVILUPPO NATIVO
 
 ## 📋 Descrizione
-Script essenziali per la gestione del gestionale aziendale.
+Script essenziali per la gestione del gestionale aziendale in ambiente di sviluppo NATIVO.
 
 ## 📁 Script Disponibili
 
-### 🚀 Deploy e Installazione
-- **`install-gestionale-completo.sh`** - Deploy automatico completo (Docker-based)
-
-### 💾 Backup e Ripristino
-- **`backup_completo_docker.sh`** - Backup completo del sistema Docker
-- **`restore_unified.sh`** - Ripristino unificato del sistema
-- **`backup_weekly_report.sh`** - Report settimanale automatico dei backup
-- **`test_restore_backup_dynamic.sh`** - Test dinamico del restore dei backup database
+### 🛠️ Sviluppo e Manutenzione
+- **`setup-ambiente-sviluppo.sh`** - Setup ambiente di sviluppo NATIVO
+- **`start-sviluppo.sh`** - Avvio ambiente di sviluppo NATIVO
+- **`stop-sviluppo.sh`** - Arresto ambiente di sviluppo NATIVO
+- **`database-setup-dev.sh`** - Configurazione database sviluppo
+- **`config.sh`** - Configurazione centralizzata
 
 ### 🔐 Gestione Segreti
 - **`setup_secrets.sh`** - Setup iniziale dei segreti
 - **`backup_secrets.sh`** - Backup dei segreti
 - **`restore_secrets.sh`** - Ripristino dei segreti
+- **`backup-secrets-file.sh`** - Backup file credenziali
+- **`restore-secrets-file.sh`** - Ripristino file credenziali
 
-### 🛠️ Sviluppo e Manutenzione
-- **`setup-ambiente-sviluppo.sh`** - Setup ambiente di sviluppo
-- **`sync-dev-to-prod.sh`** - Sincronizzazione da sviluppo a produzione
-- **`start-sviluppo.sh`** - Avvio ambiente di sviluppo
-- **`stop-sviluppo.sh`** - Arresto ambiente di sviluppo
+### 💾 Backup e Test
 - **`backup-sviluppo.sh`** - Backup ambiente di sviluppo
+- **`backup_weekly_report.sh`** - Report settimanale automatico dei backup
+- **`test_restore_backup_dynamic.sh`** - Test dinamico del restore dei backup database
+
+### ⚡ Ottimizzazione
+- **`ottimizza-prestazioni.sh`** - Ottimizzazione prestazioni sistema
 
 ## 🎯 Utilizzo
 
-### Deploy Automatico
+### Setup Ambiente Sviluppo
 ```bash
-# Dalla directory principale
-sudo ./scripts/install-gestionale-completo.sh
+# Setup completo ambiente sviluppo
+sudo ./scripts/setup-ambiente-sviluppo.sh
 ```
 
-### Backup Completo
+### Avvio Sviluppo
 ```bash
-# Backup di tutto il sistema
-sudo ./scripts/backup_completo_docker.sh
+# Avvio ambiente sviluppo
+./scripts/start-sviluppo.sh
 ```
 
-### Ripristino Completo
+### Arresto Sviluppo
 ```bash
-# Ripristino del sistema
-sudo ./scripts/restore_unified.sh
+# Arresto ambiente sviluppo
+./scripts/stop-sviluppo.sh
 ```
 
-### Test Backup Database
+### Configurazione Database
 ```bash
-# Test dinamico del restore
-sudo ./scripts/test_restore_backup_dynamic.sh
-```
-
-### Report Settimanale
-```bash
-# Genera e invia report settimanale backup
-sudo ./scripts/backup_weekly_report.sh
+# Setup database sviluppo
+./scripts/database-setup-dev.sh
 ```
 
 ### Gestione Segreti
 ```bash
 # Setup iniziale
-sudo ./scripts/setup_secrets.sh
+./scripts/setup_secrets.sh
 
 # Backup segreti
-sudo ./scripts/backup_secrets.sh
+./scripts/backup_secrets.sh
 
 # Ripristino segreti
-sudo ./scripts/restore_secrets.sh
+./scripts/restore_secrets.sh
 ```
 
-### Ambiente di Sviluppo
+### Backup Sviluppo
 ```bash
-# Setup ambiente
-sudo ./scripts/setup-ambiente-sviluppo.sh
+# Backup ambiente sviluppo
+./scripts/backup-sviluppo.sh
 
-# Avvio sviluppo
-sudo ./scripts/start-sviluppo.sh
+# Test restore backup
+./scripts/test_restore_backup_dynamic.sh
+```
 
-# Arresto sviluppo
-sudo ./scripts/stop-sviluppo.sh
-
-# Backup sviluppo
-sudo ./scripts/backup-sviluppo.sh
-
-# Sync dev-to-prod
-sudo ./scripts/sync-dev-to-prod.sh
+### Ottimizzazione
+```bash
+# Ottimizzazione prestazioni
+./scripts/ottimizza-prestazioni.sh
 ```
 
 ## 🔒 Sicurezza
@@ -97,10 +89,32 @@ sudo ./scripts/sync-dev-to-prod.sh
 
 ## 📊 Statistiche
 
-- **Script totali**: 13 (aggiornato)
-- **Funzionalità**: Deploy, backup, ripristino, gestione segreti, sviluppo, test
+- **Script sviluppo**: 12 (aggiornato)
+- **Script produzione**: Rimossi (ancora in sviluppo)
+- **Funzionalità**: Setup, sviluppo, backup, gestione segreti, test
 - **Manutenzione**: Semplificata e centralizzata
 
+## 📁 Organizzazione
+
+```
+scripts/
+├── README.md                    # Questo file
+├── config.sh                    # Configurazione centralizzata
+├── setup-ambiente-sviluppo.sh   # Setup ambiente sviluppo
+├── start-sviluppo.sh           # Avvio sviluppo
+├── stop-sviluppo.sh            # Arresto sviluppo
+├── database-setup-dev.sh       # Setup database sviluppo
+├── setup_secrets.sh            # Setup segreti
+├── backup_secrets.sh           # Backup segreti
+├── restore_secrets.sh          # Ripristino segreti
+├── backup-secrets-file.sh      # Backup file credenziali
+├── restore-secrets-file.sh     # Ripristino file credenziali
+├── backup-sviluppo.sh          # Backup sviluppo
+├── backup_weekly_report.sh     # Report settimanale
+├── test_restore_backup_dynamic.sh # Test restore
+└── ottimizza-prestazioni.sh    # Ottimizzazione
+```
+
 ---
-**Versione**: v2.1.0  
+**Versione**: v2.2.0  
 **Autore**: Mauri Ferrari 

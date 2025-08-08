@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script per configurazione database PostgreSQL
-# Gestisce utenti, database e permessi in modo sicuro
+# Script per configurazione database PostgreSQL SVILUPPO
+# Configurazione separata per ambiente sviluppo
 
 # Colori per output
 RED='\033[0;31m'
@@ -37,7 +37,7 @@ else
     exit 1
 fi
 
-print_status "Configurazione database PostgreSQL..."
+print_status "Configurazione database PostgreSQL SVILUPPO..."
 
 # Verifica se PostgreSQL è installato
 if ! command -v psql &> /dev/null; then
@@ -58,8 +58,8 @@ else
     print_success "PostgreSQL già in esecuzione"
 fi
 
-# Crea utente se non esiste
-print_status "Creazione utente database..."
+# Crea utente sviluppo se non esiste
+print_status "Creazione utente database sviluppo..."
 if sudo -u postgres psql -tAc "SELECT 1 FROM pg_roles WHERE rolname='$DB_USER'" | grep -q 1; then
     print_success "Utente $DB_USER già esistente"
 else
@@ -71,8 +71,8 @@ else
     fi
 fi
 
-# Crea database se non esiste
-print_status "Creazione database..."
+# Crea database sviluppo se non esiste
+print_status "Creazione database sviluppo..."
 if sudo -u postgres psql -lqt | cut -d \| -f 1 | grep -qw "$DB_NAME"; then
     print_success "Database $DB_NAME già esistente"
 else
@@ -92,22 +92,20 @@ sudo -u postgres psql -c "ALTER USER $DB_USER CREATEDB;" 2>/dev/null || true
 print_success "Permessi configurati"
 
 # Test connessione
-print_status "Test connessione database..."
+print_status "Test connessione database sviluppo..."
 if PGPASSWORD="$DB_PASSWORD" psql -h localhost -U "$DB_USER" -d "$DB_NAME" -c "SELECT version();" > /dev/null 2>&1; then
-    print_success "Connessione database riuscita"
+    print_success "Connessione database sviluppo riuscita"
 else
-    print_error "Errore nella connessione al database"
+    print_error "Errore nella connessione al database sviluppo"
     print_warning "Verifica le credenziali e la configurazione"
     exit 1
 fi
 
 echo ""
-print_success "Database configurato con successo!"
+print_success "Database SVILUPPO configurato con successo!"
 echo ""
-echo -e "${BLUE}📊 Database:${NC} $DB_NAME"
-echo -e "${BLUE}👤 Utente:${NC} $DB_USER"
-echo -e "${BLUE}🔑 Password:${NC} $DB_PASSWORD"
-echo -e "${BLUE}🌐 Host:${NC} localhost:5432"
+print_status "Credenziali SVILUPPO:"
+echo "  Database: $DB_NAME"
+echo "  User: $DB_USER"
+echo "  Password: $DB_PASSWORD"
 echo ""
-print_warning "Ricorda di aggiornare le variabili d'ambiente nel backend con queste credenziali"
-echo "" 

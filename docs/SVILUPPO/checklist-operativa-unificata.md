@@ -1,10 +1,10 @@
-# Checklist Operativa Unificata - Gestionale Fullstack
+# Checklist Operativa Unificata - Gestionale Fullstack (Unificato)
 
 ## Panoramica
 Questa checklist unifica tutte le procedure operative del gestionale, raggruppando per argomenti e eliminando duplicazioni.
 
-**Versione**: 2.0  
-**Data**: $(date +%Y-%m-%d)  
+**Versione**: 3.0  
+**Data**: 8 Agosto 2025  
 **Stato**: ✅ ATTIVA  
 **Allineamento**: Guida Definitiva Gestionale Fullstack
 
@@ -35,7 +35,7 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 ### Sicurezza Base
 - [x] **HTTPS attivo**: Let's Encrypt configurato e funzionante
 - [x] **Firewall MikroTik**: Solo porte 80/443 aperte verso server
-- [x] **SSH sicuro**: Accessibile solo da IP fidati, porta 65, anti-bruteforce
+- [x] **SSH sicuro**: Accessibile solo da IP fidati, porta 27, anti-bruteforce
 - [x] **Rate limiting**: Attivo su API sensibili (login/reset password)
 - [x] **Audit log**: Funzionante, logga tutte le azioni
 - [x] **HSTS**: Strict Transport Security attivo
@@ -49,7 +49,7 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Password authentication**: Disabilitata
 - [x] **Root login**: Disabilitato
 - [x] **SSH key authentication**: Configurata
-- [x] **Porta SSH**: 65 (non standard)
+- [x] **Porta SSH**: 27 (non standard)
 - [x] **IP whitelist**: Solo IP fidati
 
 ### Sicurezza Avanzata
@@ -71,6 +71,15 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
   - Build testati e funzionanti
   - Performance migliorate
   - Zero errori nei log
+
+### Sicurezza Password
+- [x] **Nessuna password hardcoded** nel codice
+- [x] **Variabili d'ambiente** per configurazione
+- [x] **Repository pubblico** sicuro
+- [x] **Best practices** implementate
+- [x] **Documentazione** aggiornata senza credenziali
+- [x] **Master password** rimossa dai log
+- [x] **Script produzione** rimossi (ancora in sviluppo)
 
 ### Sicurezza Docker
 - [x] **Container non-root**: Tutti i container con utente non-root
@@ -127,7 +136,7 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Report settimanali**: `docs/server/backup_weekly_report_docker.sh`
 
 ### Backup Emergenza (Locale)
-- [x] **Backup integrato**: `scripts/backup-automatico.sh`
+- [ ] **Backup integrato**: `scripts/backup-automatico.sh` (NON ESISTE)
   - Frequenza: Giornaliero (02:00)
   - Git: Sempre salvato localmente
   - Database: Solo se NAS non disponibile
@@ -136,11 +145,11 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 - [x] **Spazio disco**: Monitoraggio automatico
 
 ### Verifica Backup Mensile (CRITICO)
-- [x] **Script verifica**: `/opt/scripts/verify-backup.sh`
-- [x] **Cron job**: Mensile automatico
-- [x] **Database temporaneo**: Test sicuro dei backup
-- [x] **Logging unificato**: Tutti i log in `/var/log/backup-verify.log`
-- [x] **Alert automatici**: Notifiche se verifica fallisce
+- [ ] **Script verifica**: `/opt/scripts/verify-backup.sh` (NON ESISTE)
+- [ ] **Cron job**: Mensile automatico
+- [ ] **Database temporaneo**: Test sicuro dei backup
+- [ ] **Logging unificato**: Tutti i log in `/var/log/backup-verify.log`
+- [ ] **Alert automatici**: Notifiche se verifica fallisce
 
 ### Disaster Recovery
 - [x] **Script restore unificato**: `scripts/restore_unified.sh`
@@ -154,22 +163,22 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 ## 📊 MONITORAGGIO E AUTOMAZIONE
 
 ### Monitoraggio Base
-- [x] **Script monitoraggio**: `scripts/monitoraggio-base.sh`
-- [x] **Frequenza**: Ogni 6 ore (02:00, 08:00, 14:00, 20:00)
-- [x] **Controlli**:
+- [ ] **Script monitoraggio**: `scripts/monitoraggio-base.sh` (NON ESISTE)
+- [ ] **Frequenza**: Ogni 6 ore (02:00, 08:00, 14:00, 20:00)
+- [ ] **Controlli**:
   - Server online
   - Database connesso
   - Certificato SSL valido
   - Spazio disco
   - Container Docker attivi
-- [x] **Alert automatici**: Log e notifiche problemi
+- [ ] **Alert automatici**: Log e notifiche problemi
 
 ### Healthcheck Post-Deploy (ESSENZIALE)
-- [x] **Script healthcheck**: `/opt/scripts/healthcheck-post-deploy.sh`
-- [x] **Logging unificato**: `/var/log/healthcheck.log`
-- [x] **Rollback automatico**: Se healthcheck fallisce
-- [x] **Verifica app**: curl -f http://localhost
-- [x] **Verifica database**: pg_isready
+- [ ] **Script healthcheck**: `/opt/scripts/healthcheck-post-deploy.sh` (NON ESISTE)
+- [ ] **Logging unificato**: `/var/log/healthcheck.log`
+- [ ] **Rollback automatico**: Se healthcheck fallisce
+- [ ] **Verifica app**: curl -f http://localhost
+- [ ] **Verifica database**: pg_isready
 
 ### Monitoring Web (Uptime Kuma)
 - [x] **Setup Docker**: Container Uptime Kuma
@@ -199,14 +208,14 @@ Questa checklist unifica tutte le procedure operative del gestionale, raggruppan
 ## 🖥️ SERVER E INFRASTRUTTURA
 
 ### Configurazione Server
-- [x] **Ubuntu Server 22.04 LTS**: Installato e configurato
-- [x] **Rete e firewall**: UFW configurato
-- [x] **Fuso orario**: Europe/Rome (CEST/CET)
-- [x] **Node.js e npm**: Installati
-- [x] **PostgreSQL**: Configurato
-- [x] **Nginx**: Reverse proxy configurato
-- [x] **Certbot**: SSL automatico
-- [x] **Servizi systemd**: Configurati
+- [x] **Ubuntu Server 22.04 LTS**: Installato e configurato ✅
+- [x] **Rete e firewall**: UFW configurato ✅
+- [x] **Fuso orario**: Europe/Rome (CEST/CET) ✅
+- [x] **Node.js e npm**: Installati (v20.19.4, npm 10.8.2) ✅
+- [x] **PostgreSQL**: Configurato (versione 16.9) ✅
+- [ ] **Nginx**: Reverse proxy configurato (solo produzione)
+- [ ] **Certbot**: SSL automatico (solo produzione)
+- [ ] **Servizi systemd**: Configurati
 
 ### Gestione Log
 - [x] **Logrotate**: Configurato per backup

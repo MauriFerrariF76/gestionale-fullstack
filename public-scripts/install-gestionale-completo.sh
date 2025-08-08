@@ -291,8 +291,18 @@ setup_application() {
     
     log_info "Setup segreti Docker..."
     mkdir -p secrets
-    echo "gestionale2025" > secrets/db_password.txt
-    echo "GestionaleFerrari2025JWT_UltraSecure_v1!" > secrets/jwt_secret.txt
+    # Carica configurazione centralizzata
+# Carica configurazione centralizzata
+if [ -f "scripts/config.sh" ]; then
+    source "scripts/config.sh"
+elif [ -f "../scripts/config.sh" ]; then
+    source "../scripts/config.sh"
+else
+    echo "❌ Errore: File config.sh non trovato"
+    exit 1
+fi
+echo "$DB_PASSWORD" > secrets/db_password.txt
+echo "$JWT_SECRET" > secrets/jwt_secret.txt
     chmod 600 secrets/*.txt
     
     log_info "Build e avvio container..."
