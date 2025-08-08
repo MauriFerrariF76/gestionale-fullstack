@@ -1,39 +1,39 @@
-import pool from '../config/database';
+import prisma from '../config/database';
 import { RefreshToken } from '../models/RefreshToken';
 
 export async function findRefreshToken(token: string): Promise<RefreshToken | null> {
-  const res = await pool.query('SELECT * FROM refresh_tokens WHERE token = $1', [token]);
-  if (res.rows.length === 0) return null;
-  const row = res.rows[0];
+  const row = await prisma.refreshToken.findUnique({ where: { token } });
+  if (!row) return null;
   return {
     id: row.id,
-    userId: row.user_id,
+    userId: row.userId,
     token: row.token,
-    expiresAt: row.expires_at,
-    createdAt: row.created_at,
+    expiresAt: row.expiresAt,
+    createdAt: row.createdAt,
     revoked: row.revoked,
   };
 }
 
 export async function createRefreshToken(rt: Omit<RefreshToken, 'id' | 'createdAt' | 'revoked'>): Promise<RefreshToken> {
-  const res = await pool.query(
-    `INSERT INTO refresh_tokens (user_id, token, expires_at)
-     VALUES ($1, $2, $3) RETURNING *`,
-    [rt.userId, rt.token, rt.expiresAt]
-  );
-  const row = res.rows[0];
+  const row = await prisma.refreshToken.create({
+    data: {
+      userId: rt.userId,
+      token: rt.token,
+      expiresAt: rt.expiresAt,
+    },
+  });
   return {
     id: row.id,
-    userId: row.user_id,
+    userId: row.userId,
     token: row.token,
-    expiresAt: row.expires_at,
-    createdAt: row.created_at,
+    expiresAt: row.expiresAt,
+    createdAt: row.createdAt,
     revoked: row.revoked,
   };
 }
 
 export async function revokeRefreshToken(token: string): Promise<void> {
-  await pool.query('UPDATE refresh_tokens SET revoked = TRUE WHERE token = $1', [token]);
+  await prisma.refreshToken.update({ where: { token }, data: { revoked: true } });
 }
 
 export async function rotateRefreshToken(oldToken: string, newToken: Omit<RefreshToken, 'id' | 'createdAt' | 'revoked'>): Promise<RefreshToken> {

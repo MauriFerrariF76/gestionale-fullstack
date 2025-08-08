@@ -93,6 +93,12 @@ Implementazione di un ambiente di sviluppo **TUTTO NATIVO** su pc-mauri-vaio (10
 - [ ] **Proxy API**: Configurazione backend
 - [ ] **Debugging**: React DevTools
 
+### Avvio Automatico al Boot
+- [x] **Servizio systemd**: Configurazione servizio automatico ✅
+- [x] **Script installazione**: install-autostart.sh ✅
+- [x] **Script disinstallazione**: uninstall-autostart.sh ✅
+- [x] **Test avvio automatico**: Verifica funzionamento ✅
+
 ### Script di Sincronizzazione
 - [x] **Script dev → prod**: Deploy automatico ✅ (scripts/sync-dev-to-prod.sh)
 - [ ] **Script database**: Migrazione schema
@@ -230,6 +236,31 @@ config/
 
 ## 🚀 Workflow Sviluppo
 
+### 0. Avvio Automatico al Boot
+```bash
+# Installazione servizio automatico
+./scripts/install-autostart.sh
+
+# Verifica installazione
+sudo systemctl status gestionale-dev
+
+# Test avvio manuale
+sudo systemctl start gestionale-dev
+
+# Controllo log in tempo reale
+sudo journalctl -u gestionale-dev -f
+
+# Disinstallazione (se necessario)
+./scripts/uninstall-autostart.sh
+```
+
+**Vantaggi dell'avvio automatico:**
+- ✅ **Zero configurazione manuale** al riavvio del PC
+- ✅ **Avvio sequenziale** PostgreSQL → Backend → Frontend
+- ✅ **Gestione errori** automatica con restart
+- ✅ **Log centralizzati** tramite systemd
+- ✅ **Controllo completo** tramite comandi systemctl
+
 ### 1. Setup Iniziale
 ```bash
 # Clona repository
@@ -261,6 +292,28 @@ npm run dev
 
 # Verifica deploy
 ./scripts/test-deploy.sh
+```
+
+### 4. Gestione Servizio Automatico
+```bash
+# Controllo stato servizio
+sudo systemctl status gestionale-dev
+
+# Avvio manuale servizio
+sudo systemctl start gestionale-dev
+
+# Fermata servizio
+sudo systemctl stop gestionale-dev
+
+# Riavvio servizio
+sudo systemctl restart gestionale-dev
+
+# Visualizzazione log
+sudo journalctl -u gestionale-dev -f
+
+# Abilitazione/disabilitazione avvio automatico
+sudo systemctl enable gestionale-dev
+sudo systemctl disable gestionale-dev
 ```
 
 ---
@@ -327,6 +380,41 @@ cat frontend/next.config.js
 
 # Verifica variabili
 cat frontend/.env.local
+```
+
+#### Servizio automatico non si avvia
+```bash
+# Verifica stato servizio
+sudo systemctl status gestionale-dev
+
+# Controlla log dettagliati
+sudo journalctl -u gestionale-dev -n 50
+
+# Verifica dipendenze
+sudo systemctl status postgresql
+
+# Test avvio manuale
+sudo systemctl start gestionale-dev
+
+# Verifica permessi script
+ls -la scripts/start-sviluppo.sh
+chmod +x scripts/start-sviluppo.sh
+```
+
+#### Servizio si ferma inaspettatamente
+```bash
+# Controlla log per errori
+sudo journalctl -u gestionale-dev -f
+
+# Verifica risorse sistema
+free -h
+df -h
+
+# Riavvia servizio
+sudo systemctl restart gestionale-dev
+
+# Verifica configurazione
+sudo systemctl cat gestionale-dev
 ```
 
 ---

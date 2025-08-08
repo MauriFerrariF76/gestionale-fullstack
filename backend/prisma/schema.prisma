@@ -1,0 +1,160 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Modello Utente per autenticazione e gestione ruoli
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  nome         String
+  cognome      String
+  passwordHash String
+  roles        String[] @default([])
+  mfaEnabled   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relazioni
+  auditLogs    AuditLog[]
+  refreshTokens RefreshToken[]
+
+  @@map("users")
+}
+
+// Modello Cliente - entità principale del gestionale
+model Cliente {
+  id                    String  @id @default(cuid())
+  codiceMT              String? @unique
+  ragioneSocialeC       String?
+  referenteC            String?
+  indirizzoC            String?
+  capc                  String?
+  cittac                String?
+  provc                 String?
+  nazc                  String?
+  indirizzoC2           String?
+  capc2                 String?
+  cittac2               String?
+  provc2                String?
+  nazc2                 String?
+  indirizzoC3           String?
+  capc3                 String?
+  cittac3               String?
+  provc3                String?
+  nazc3                 String?
+  intestazioneSpedFat   String?
+  indirizzoC4           String?
+  capc4                 String?
+  cittac4               String?
+  provc4                String?
+  selezioneSpedFat      Boolean @default(false)
+  noteSpedFat           String?
+  descrizionePagamentoC String?
+  metodoPagamentoC      String?
+  condizioniPagamentoC  String?
+  resaC                 String?
+  trasportoC            String?
+  effettivoPotenziale   String?
+  categoriaMerceologica String?
+  attivoC               Boolean @default(true)
+  attivoDalC            DateTime?
+  nonAttivoDalC         DateTime?
+  annoUltimoVendita     String?
+  telefono              String?
+  fax                   String?
+  modem                 String?
+  codiceFiscale         String?
+  partitaIva            String?
+  bancaAppoggio         String?
+  codicePagamento       String?
+  sitoInternet          String?
+  esenzioneIva          String?
+  emailFatturazione     String?
+  codiceFornitore       String?
+  cin                   String?
+  abi                   String?
+  cab                   String?
+  cc                    String?
+  codiceIBAN            String?
+  tipoSpedizioneC       String?
+  articolo15            String?
+  nostraBancaAppoggioC  String?
+  ibanNostraBancaC      String?
+  percorsoCliente       String?
+  percorsoPDFClienteC   String?
+  percorsoDXFClienteC   String?
+  privato               Boolean @default(false)
+  iva                   String?
+  emailCertificati      String?
+  codiceSDI             String?
+  pecCliente            String?
+  speseBancarie         String?
+  richiesteCliente      String?
+  tipoCliente           String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("clienti")
+}
+
+// Modello Fornitore
+model Fornitore {
+  id                    String  @id @default(cuid())
+  codiceMT              String? @unique
+  ragioneSocialeF       String?
+  referenteF            String?
+  indirizzoF            String?
+  capf                  String?
+  cittaf                String?
+  provf                 String?
+  nazf                  String?
+  telefono              String?
+  fax                   String?
+  email                 String?
+  sitoInternet          String?
+  codiceFiscale         String?
+  partitaIva            String?
+  attivoF               Boolean @default(true)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@map("fornitori")
+}
+
+// Modello Audit Log per tracciamento attività
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String
+  ip        String
+  timestamp DateTime @default(now())
+  details   String?
+
+  // Relazioni
+  user User? @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+// Modello Refresh Token per autenticazione JWT
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  revoked   Boolean  @default(false)
+
+  // Relazioni
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("refresh_tokens")
+}

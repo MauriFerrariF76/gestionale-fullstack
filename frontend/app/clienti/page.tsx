@@ -34,11 +34,14 @@ export default function ClientiPage() {
     setLoading(true);
     getClienti()
       .then((data) => {
-        setClienti(data);
+        // Assicuriamoci che data sia sempre un array
+        const clientiArray = Array.isArray(data) ? data : [];
+        setClienti(clientiArray);
         setErrore(null);
         setLoading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Errore nel caricamento clienti:", error);
         setClienti([]);
         setErrore("Errore di rete o di backend");
         setLoading(false);
@@ -56,7 +59,7 @@ export default function ClientiPage() {
   }, [registerSchema]);
 
   // Filtro clienti
-  const clientiFiltrati = clienti.filter((cliente) => {
+  const clientiFiltrati = (Array.isArray(clienti) ? clienti : []).filter((cliente) => {
     const matchSearch =
       (cliente.RagioneSocialeC &&
         cliente.RagioneSocialeC.toLowerCase().includes(
@@ -164,13 +167,13 @@ export default function ClientiPage() {
   );
 
   // Contatori per le card
-  const totaleAttivi = clienti.filter((c) => c.AttivoC === true).length;
-  const totaleEffettivi = clienti.filter(
+  const totaleAttivi = Array.isArray(clienti) ? clienti.filter((c) => c.AttivoC === true).length : 0;
+  const totaleEffettivi = Array.isArray(clienti) ? clienti.filter(
     (c) => c.EffettivoPotenziale === "Effettivo"
-  ).length;
-  const totalePotenziali = clienti.filter(
+  ).length : 0;
+  const totalePotenziali = Array.isArray(clienti) ? clienti.filter(
     (c) => c.EffettivoPotenziale === "Potenziale"
-  ).length;
+  ).length : 0;
 
   if (errore) {
     return (
@@ -243,7 +246,7 @@ export default function ClientiPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-neutral-700/60 border border-neutral-600/60 rounded-lg p-4">
           <div className="text-2xl font-light text-neutral-100">
-            {clienti.length}
+            {Array.isArray(clienti) ? clienti.length : 0}
           </div>
           <div className="text-sm text-neutral-400">Totale Clienti</div>
         </div>
@@ -373,7 +376,7 @@ export default function ClientiPage() {
       {/* Pagination */}
       <div className="mt-6 flex items-center justify-between">
         <div className="text-sm text-neutral-400">
-          Visualizzati {clientiOrdinati.length} di {clienti.length} clienti
+          Visualizzati {clientiOrdinati.length} di {Array.isArray(clienti) ? clienti.length : 0} clienti
           {table.isClient && table.sortConfig && (
             <span className="ml-2 text-[#3B82F6]">
               • Ordinato per{" "}

@@ -67,4 +67,5 @@ export type Cliente = {
   PECcliente?: string | null;
   SpeseBancarie?: string | null;
   RichiesteCliente?: string | null;
+  Note?: string | null;
 };

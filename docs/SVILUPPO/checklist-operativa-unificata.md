@@ -59,12 +59,18 @@ Questa checklist unifica tutte le procedure operative del gestionale, organizzat
 - [x] **Password PostgreSQL**: Configurate per ambiente sviluppo nativo
 - [x] **Aggiornamenti sicurezza**: Patch applicate regolarmente
 - [x] **TTL DNS**: Non necessario per sviluppo locale - da configurare su server produzione
+- [x] **Middleware autenticazione**: ✅ Funzionante e configurato correttamente
+- [x] **Rate limiting**: ✅ Configurato ma disabilitato in sviluppo (corretto)
+- [x] **CORS**: ✅ Configurato correttamente per ambiente di sviluppo
+- [x] **Helmet**: ✅ Attivo per la sicurezza delle intestazioni HTTP
 
 ### Automazione Sicurezza
 - [x] **Dependabot**: Monitoraggio automatico vulnerabilità (settimanale)
 - [x] **Security scan**: npm audit automatico
 - [x] **CVE monitoring**: Controllo vulnerabilità note
 - [x] **Auto-update**: Aggiornamenti sicurezza automatici
+- [x] **Vulnerabilità backend**: ✅ Nessuna vulnerabilità trovata (npm audit)
+- [x] **Vulnerabilità frontend**: ✅ Nessuna vulnerabilità trovata (npm audit)
 
 ### Aggiornamenti Software
 - [x] **Node.js aggiornato**: Da v18.20.8 a v20.19.4 (2025-08-04)
@@ -268,7 +274,7 @@ Questa checklist unifica tutte le procedure operative del gestionale, organizzat
 
 ---
 
-## 🛠️ 06-DEVELOPMENT (50% 🔄)
+## 🛠️ 06-DEVELOPMENT (80% 🔄)
 
 ### Ambiente Sviluppo Nativo - IMPLEMENTATO E FUNZIONANTE
 - [x] **Documentazione completa**: `docs/SVILUPPO/ambiente-sviluppo-nativo.md`
@@ -279,9 +285,11 @@ Questa checklist unifica tutte le procedure operative del gestionale, organizzat
 - [x] **Workflow sviluppo**: Ambiente ibrido (sviluppo nativo + produzione containerizzata) ✅ ATTIVO
 - [x] **Target**: pc-mauri-vaio (10.10.10.15) - TUTTO NATIVO ✅ IMPLEMENTATO
 - [x] **Porte**: PostgreSQL 5432, Backend 3001, Frontend 3000 ✅ ATTIVE
-- [x] **Database**: gestionale_dev (sviluppo) vs gestionale (produzione) ✅ CONFIGURATO
+- [x] **Database**: gestionale_dev (sviluppo) ✅ CONFIGURATO
+- [x] **Prisma ORM**: schema, migrations, generate, seed ✅ COMPLETATO
+- [x] **API protette test**: GET/SEARCH/POST clienti ✅ PASSATI
 - [x] **Architettura**: Sviluppo nativo → Produzione containerizzata ✅ FUNZIONANTE
-- [x] **Test completati**: Backend OK, Frontend OK, Database OK ✅ VERIFICATO
+- [x] **Test completati**: Backend OK, Database OK ✅ VERIFICATO
 
 ### Editor e Tools Database
 - [ ] **Editor grafico**: DBeaver Community (DA INSTALLARE)

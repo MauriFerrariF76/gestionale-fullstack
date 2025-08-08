@@ -198,8 +198,8 @@ const FormCliente: React.FC<FormClienteProps> = ({
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setLoading(true);
 
     try {
@@ -481,7 +481,6 @@ const FormCliente: React.FC<FormClienteProps> = ({
             onSave={handleSubmit}
             onCancel={handleCancel}
             loading={loading}
-            isValid={Object.keys(errors).length === 0}
           />
         </div>
       </div>

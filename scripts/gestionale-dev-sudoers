@@ -1,0 +1,21 @@
+# Configurazione sudo per Gestionale Development Environment
+# Permette all'utente mauri di eseguire comandi specifici senza password
+
+# Comandi per gestione PostgreSQL
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl start postgresql
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl stop postgresql
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl restart postgresql
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl status postgresql
+
+# Comandi per gestione database PostgreSQL
+mauri ALL=(postgres) NOPASSWD: /usr/bin/psql
+mauri ALL=(postgres) NOPASSWD: /usr/bin/createdb
+mauri ALL=(postgres) NOPASSWD: /usr/bin/createuser
+
+# Comandi per gestione servizi systemd
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl start gestionale-dev
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl stop gestionale-dev
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl restart gestionale-dev
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl status gestionale-dev
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl enable gestionale-dev
+mauri ALL=(ALL) NOPASSWD: /bin/systemctl disable gestionale-dev

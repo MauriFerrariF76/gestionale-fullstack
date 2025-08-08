@@ -214,6 +214,211 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
   - ❌ Procedure di backup e ripristino
   - ❌ Documentazione di architettura e struttura
 
+## 14. REGOLA DI FERRO: Controllo servizi già avviati
+
+- **PRIMA DI AVVIARE UN SERVIZIO, VERIFICARE SEMPRE CHE NON SIA GIÀ AVVIATO**: questa è una regola di ferro che NON può essere ignorata.
+- **Controllo obbligatorio**: prima di ogni comando di avvio, eseguire sempre un controllo dello stato del servizio.
+- **Comandi di controllo standard**:
+  - ✅ `docker compose ps` - per verificare i container Docker attivi
+  - ✅ `systemctl status [servizio]` - per servizi systemd
+  - ✅ `ps aux | grep [processo]` - per processi generici
+  - ✅ `netstat -tulpn | grep [porta]` - per verificare porte in uso
+  - ✅ `lsof -i :[porta]` - per verificare processi su porte specifiche
+- **Procedura standard**:
+  1. **Controllare** lo stato del servizio prima di avviarlo
+  2. **Se attivo**: fermare il servizio esistente o scegliere una porta diversa
+  3. **Se inattivo**: procedere con l'avvio
+  4. **Verificare** che l'avvio sia avvenuto correttamente
+- **Servizi critici da controllare**:
+  - ✅ Database PostgreSQL (porta 5432)
+  - ✅ Backend Node.js (porta 3000/3001)
+  - ✅ Frontend Next.js (porta 3000/3001)
+  - ✅ Nginx (porta 80/443)
+  - ✅ Redis (se utilizzato)
+  - ✅ Altri servizi Docker
+- **Conseguenze del mancato controllo**:
+  - ❌ Conflitti di porta (Address already in use)
+  - ❌ Duplicazione di servizi
+  - ❌ Consumo eccessivo di risorse
+  - ❌ Instabilità del sistema
+  - ❌ Difficoltà nel debugging
+- **Best practice**:
+  - **Script di controllo**: creare script che verificano automaticamente lo stato prima dell'avvio
+  - **Documentazione**: annotare sempre le porte utilizzate da ogni servizio
+  - **Monitoraggio**: implementare monitoraggio continuo dello stato dei servizi
+  - **Logging**: mantenere log degli avvii/arresti dei servizi
+
+## 15. CONVENZIONI API E COMUNICAZIONE FRONTEND/BACKEND
+
+### 15.1. Struttura Risposta API Standardizzata
+- **SEMPRE** restituire formato `{success: boolean, data: any, message?: string}`
+- **Frontend** deve **SEMPRE** estrarre `response.data` dalle risposte API
+- **NON** usare mai direttamente la risposta completa dal frontend
+
+```typescript
+// ✅ CORRETTO - Backend
+res.json({
+  success: true,
+  data: mappedClienti,
+  pagination: result.pagination
+});
+
+// ✅ CORRETTO - Frontend
+const response = await apiFetch<{success: boolean, data: Cliente[]}>(`/clienti`);
+return response.data;
+
+// ❌ SBAGLIATO - Frontend
+return await apiFetch<Cliente[]>(`/clienti`);
+```
+
+### 15.2. Autenticazione Obbligatoria
+- **SEMPRE** usare `apiFetch` per chiamate autenticate
+- **MAI** usare `fetch` diretto per endpoint protetti
+- **Verificare** che il token sia presente prima delle chiamate
+
+```typescript
+// ✅ CORRETTO
+const response = await apiFetch<ResponseType>('/endpoint');
+
+// ❌ SBAGLIATO
+const response = await fetch('/endpoint');
+```
+
+### 15.3. Ordine Routes Critico
+- **Route specifiche PRIMA** di route con parametri
+- **Route con parametri ULTIME** nella definizione
+
+```typescript
+// ✅ CORRETTO
+router.get('/stats', controller.getStats);
+router.get('/max-id', controller.getMaxId);
+router.get('/search', controller.search);
+router.get('/:id', controller.getById); // ULTIMA
+
+// ❌ SBAGLIATO
+router.get('/:id', controller.getById);
+router.get('/stats', controller.getStats); // Non raggiungibile!
+```
+
+## 16. SISTEMA MAPPATURA CAMPI AUTOMATICA
+
+### 16.1. Convenzioni Naming
+- **Frontend**: PascalCase (es. `RagioneSocialeC`, `Telefono`, `IndirizzoC`)
+- **Backend/Database**: camelCase (es. `ragioneSocialeC`, `telefono`, `indirizzoC`)
+- **SEMPRE** usare le funzioni di mappatura automatica
+
+### 16.2. Mappatura Obbligatoria
+- **Frontend → Backend**: `mapClienteFields(clienteData)`
+- **Backend → Frontend**: `mapClienteFieldsToFrontend(clienteData)`
+- **NON** mappare mai manualmente i campi
+
+```typescript
+// ✅ CORRETTO - Validazione dopo mappatura
+const mappedData = mapClienteFields(clienteData);
+if (!mappedData.ragioneSocialeC) { ... }
+
+// ❌ SBAGLIATO - Validazione su campo sbagliato
+if (!clienteData.RagioneSocialeC) { ... }
+```
+
+### 16.3. Estensione per Nuove Entità
+- **Creare** mappa campi per ogni nuova entità
+- **Implementare** funzioni di mappatura bidirezionale
+- **Utilizzare** nei controller per tutte le operazioni
+
+## 17. GESTIONE ERRORI E AUDIT LOG
+
+### 17.1. Struttura Controller Standard
+```typescript
+async methodName(req: Request, res: Response) {
+  try {
+    // Logica business
+    const data = await repository.method();
+    
+    // Log audit per operazioni critiche
+    await createAuditLog({
+      userId: authUser?.id,
+      action: 'ACTION_NAME',
+      ip: (req.ip || 'unknown') as string, // Fallback obbligatorio
+      details: `Dettagli operazione`
+    });
+    
+    // Risposta successo standardizzata
+    res.json({
+      success: true,
+      data: data
+    });
+  } catch (error) {
+    console.error('❌ Errore specifico:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Messaggio utente-friendly',
+      error: process.env.NODE_ENV === 'development' ? error : undefined
+    });
+  }
+}
+```
+
+### 17.2. Audit Log Obbligatorio
+- **SEMPRE** loggare operazioni critiche (CREATE, UPDATE, DELETE)
+- **Includere** userId, action, ip, details
+- **Non bloccare** l'applicazione se l'audit fallisce
+- **Fallback** per IP mancante: `(req.ip || 'unknown')`
+
+### 17.3. Gestione Errori Frontend
+- **Gestire** sempre gli errori con try/catch
+- **Implementare** stati di loading e error
+- **Reindirizzare** al login per token scaduti
+
+## 18. CONVENZIONI NOMENCLATURA FILE
+
+### 18.1. File Markdown (.md)
+- **Kebab-Case** per file normali: `guida-backup.md`, `checklist-operativa.md`
+- **UPPERCASE** solo per file speciali: `README.md`, `LICENSE.md`
+- **NON** usare PascalCase per file markdown
+
+### 18.2. Script e Configurazioni
+- **Snake_Case** per script .sh: `backup_database.sh`, `setup_secrets.sh`
+- **Kebab-Case** per configurazioni: `nginx_gestionale.conf`
+
+### 18.3. Cartelle
+- **Kebab-Case** per cartelle principali: `docs/`, `server/`
+- **Snake_Case** per sottocartelle tecniche: `docs/server/scripts/`
+
+## 19. AMBIENTI DI SVILUPPO E PRODUZIONE
+
+### 19.1. Ambiente Sviluppo (pc-mauri-vaio)
+- **TUTTO LOCALE**: `npm run dev`, PostgreSQL nativo
+- **Motivo**: Massima velocità, hot reload istantaneo
+- **Workflow**: Modifiche immediate, zero overhead Docker
+
+### 19.2. Ambiente Produzione (gestionale-server)
+- **TUTTO CONTAINERIZZATO**: Docker Compose
+- **Motivo**: Isolamento, backup automatici, deploy atomico
+- **Componenti**: App container, DB container, Nginx container
+
+### 19.3. Strategia Ibrida
+- **Sviluppo**: Locale per velocità
+- **Produzione**: Container per stabilità
+- **Deploy**: Automatico da sviluppo a produzione
+
+## 20. SICUREZZA E BACKUP
+
+### 20.1. Gestione Credenziali
+- **SEMPRE** usare file separati per password
+- **NON** committare mai credenziali nel codice
+- **Utilizzare** variabili d'ambiente per configurazioni sensibili
+
+### 20.2. Backup Automatici
+- **NAS Synology**: Backup principale
+- **Locale**: Backup di emergenza
+- **Verificare** regolarmente i log di backup
+
+### 20.3. Monitoraggio
+- **Dependabot**: Monitoraggio vulnerabilità automatico
+- **Script automatici**: Controllo server, database, SSL
+- **Alert**: Notifiche per problemi critici
+
 ---
 
 **Queste regole sono parte integrante del progetto e vanno rispettate per garantire qualità, sicurezza e continuità operativa.**

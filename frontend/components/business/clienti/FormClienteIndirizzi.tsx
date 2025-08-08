@@ -335,7 +335,7 @@ const FormClienteIndirizzi: React.FC<FormClienteIndirizziProps> = ({
             
           >
             <select
-              value={data.SelezioneSpedFat || ""}
+              value={data.SelezioneSpedFat ? String(data.SelezioneSpedFat) : ""}
               onChange={(e) => handleFieldChange("SelezioneSpedFat", e.target.value)}
               className="w-full px-3 py-2 border border-neutral-300 dark:border-neutral-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-700 dark:text-white"
             >

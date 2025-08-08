@@ -2,16 +2,17 @@ import { Cliente } from "../../types/clienti/cliente";
 import { apiFetch } from "../api";
 
 export async function getClienti(page = 1, pageSize = 20): Promise<Cliente[]> {
-  return apiFetch<Cliente[]>(`/clienti?page=${page}&pageSize=${pageSize}`);
+  const response = await apiFetch<{ success: boolean; data: Cliente[]; pagination: any }>(`/clienti?page=${page}&pageSize=${pageSize}`);
+  return response.data;
 }
 
 export async function creaCliente(cliente: Cliente): Promise<Cliente> {
   try {
-    const result = await apiFetch<Cliente>(`/clienti`, {
+    const response = await apiFetch<{ success: boolean; message: string; data: Cliente }>(`/clienti`, {
       method: "POST",
       body: JSON.stringify(cliente),
     });
-    return result;
+    return response.data;
   } catch (err: unknown) {
     if (
       typeof err === "object" &&
@@ -33,10 +34,11 @@ export async function modificaCliente(
   id: string,
   cliente: Cliente
 ): Promise<Cliente> {
-  return apiFetch<Cliente>(`/clienti/${id}`, {
+  const response = await apiFetch<{ success: boolean; message: string; data: Cliente }>(`/clienti/${id}`, {
     method: "PUT",
     body: JSON.stringify(cliente),
   });
+  return response.data;
 }
 
 export async function eliminaCliente(id: string): Promise<void> {
@@ -53,13 +55,6 @@ export async function checkIdClienteUnivoco(id: string): Promise<boolean> {
 }
 
 export async function getMaxIdCliente(): Promise<string | null> {
-  const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "");
-  if (!API_URL) {
-    throw new Error("API base URL non definita");
-  }
-  const url = `${API_URL}/clienti/max-id`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Errore nel recupero del massimo IdCliente");
-  const data = await res.json();
-  return data.maxIdCliente ?? null;
+  const response = await apiFetch<{ success: boolean; data: { maxIdCliente: string } }>('/clienti/max-id');
+  return response.data.maxIdCliente ?? null;
 }

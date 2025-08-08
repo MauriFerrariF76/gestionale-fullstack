@@ -8,9 +8,10 @@ import cors, { CorsOptions } from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import pool from './config/database';
-import clientiRoutes from './routes/clienti/index';
+import prisma from './config/database';
+import clientiRoutes from './routes/clienti';
 import authRoutes from './routes/auth';
+import auditRoutes from './routes/audit';
 
 // Suggerimento: importa e usa un middleware di rate limiting per proteggere le API
 // import rateLimit from 'express-rate-limit';
@@ -61,11 +62,11 @@ app.get('/', (req: Request, res: Response) => {
 // Health check con test database
 app.get('/health', async (req: Request, res: Response) => {
   try {
-    const result = await pool.query('SELECT NOW() as current_time');
+    await prisma.$queryRaw`SELECT NOW() as current_time`;
     res.json({
       status: 'OK',
       database: 'connected',
-      time: result.rows[0].current_time
+      time: new Date().toISOString()
     });
   } catch (error: any) {
     res.status(500).json({
@@ -76,8 +77,9 @@ app.get('/health', async (req: Request, res: Response) => {
   }
 });
 
-// Rotte clienti
+// Rotte principali
 app.use('/api/clienti', clientiRoutes);
+app.use('/api/audit', auditRoutes);
 app.use('/api/auth', authRoutes);
 
 // TODO: aggiungi autenticazione e autorizzazione per proteggere le API sensibili

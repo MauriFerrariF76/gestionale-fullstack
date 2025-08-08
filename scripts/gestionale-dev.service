@@ -1,0 +1,23 @@
+[Unit]
+Description=Gestionale Development Environment
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=mauri
+Group=mauri
+WorkingDirectory=/home/mauri/gestionale-fullstack
+ExecStart=/home/mauri/gestionale-fullstack/scripts/start-sviluppo.sh
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+Environment=NODE_ENV=development
+
+# Sicurezza (modificata per permettere sudo)
+PrivateTmp=true
+ReadWritePaths=/home/mauri/gestionale-fullstack
+
+[Install]
+WantedBy=multi-user.target
