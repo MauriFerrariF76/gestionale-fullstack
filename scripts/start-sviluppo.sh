@@ -23,14 +23,30 @@ print_error() { echo -e "${RED}❌ $1${NC}"; }
 PROJECT_ROOT="/home/mauri/gestionale-fullstack"
 cd "$PROJECT_ROOT"
 
-echo "🚀 Avvio ambiente sviluppo NATIVO (Script Unificato)..."
+echo "🚀 Avvio ambiente sviluppo NATIVO (Script Unificato) - Avvia tutto automaticamente..."
 
-# 1. VERIFICA DATABASE
-print_status "Verifica database PostgreSQL..."
-if pg_isready -h localhost -p 5432 -U postgres >/dev/null 2>&1; then
-    print_success "Database PostgreSQL attivo"
+# 1. AVVIO E VERIFICA DATABASE POSTGRESQL
+print_status "Avvio database PostgreSQL di sviluppo..."
+if systemctl is-active --quiet postgresql; then
+    print_success "Database PostgreSQL già attivo"
 else
-    print_error "Database PostgreSQL non disponibile"
+    print_status "Avvio servizio PostgreSQL..."
+    if sudo systemctl start postgresql; then
+        print_success "Database PostgreSQL avviato con successo"
+        # Attendi che il servizio sia completamente attivo
+        sleep 3
+    else
+        print_error "Impossibile avviare PostgreSQL"
+        exit 1
+    fi
+fi
+
+# Verifica connessione database
+print_status "Verifica connessione database..."
+if pg_isready -h localhost -p 5432 -U postgres >/dev/null 2>&1; then
+    print_success "Database PostgreSQL pronto e connesso"
+else
+    print_error "Database PostgreSQL non risponde dopo l'avvio"
     exit 1
 fi
 
@@ -98,8 +114,8 @@ if [ ! -d "node_modules" ]; then
     npm install
 fi
 
-# Avvia frontend in background con nohup
-nohup PORT=3000 npm run dev > /dev/null 2>&1 &
+# Avvia frontend in background con nohup (porta esplicita)
+nohup bash -c "cd '$PROJECT_ROOT/frontend' && PORT=3000 npm run dev" > /dev/null 2>&1 &
 FRONTEND_PID=$!
 print_success "Frontend avviato in background (PID: $FRONTEND_PID)"
 
@@ -115,10 +131,16 @@ else
 fi
 
 # Verifica frontend
+print_status "Verifica frontend..."
 if curl -f http://localhost:3000 >/dev/null 2>&1; then
     print_success "Frontend risponde correttamente"
 else
-    print_warning "Frontend non ancora pronto (può richiedere più tempo)"
+    print_warning "Frontend non ancora pronto - verifico processo..."
+    if ps -p $FRONTEND_PID > /dev/null 2>&1; then
+        print_success "Frontend in esecuzione (PID: $FRONTEND_PID) - può richiedere più tempo per essere pronto"
+    else
+        print_error "Frontend non si è avviato correttamente"
+    fi
 fi
 
 # Verifica Prisma (test connessione database)
@@ -137,7 +159,7 @@ print_success "Ambiente sviluppo NATIVO avviato!"
 echo ""
 echo -e "${BLUE}📊 Backend:${NC} http://localhost:3001 (PID: $BACKEND_PID)"
 echo -e "${BLUE}🎨 Frontend:${NC} http://localhost:3000 (PID: $FRONTEND_PID)"
-echo -e "${BLUE}🗄️  Database:${NC} PostgreSQL (localhost:5432)"
+echo -e "${BLUE}🗄️  Database:${NC} PostgreSQL (localhost:5432) - Avviato automaticamente"
 echo -e "${BLUE}🔧 Prisma:${NC} Client generato e database sincronizzato"
 echo ""
 echo -e "${BLUE}📝 Script completato - servizi in esecuzione in background${NC}"
