@@ -1,5 +1,22 @@
 # Contesto applicativo - gestionale-fullstack
 
+## 🎯 Profilo e Obiettivi
+
+### Sviluppatore
+- **Tipo**: Part-time/hobby developer
+- **Esperienza**: Non programmatore professionale
+- **Priorità**: Tranquillità e affidabilità over complessità
+- **Approccio**: Basi robuste, evoluzione graduale
+- **Constraint**: Tempo limitato, zero tolerance per downtime produzione
+- **Obiettivo**: Peace of mind con setup enterprise-grade ma manageable
+
+### Principi Guida
+- **Semplicità first**: Soluzioni più semplici che funzionano
+- **Robustezza over features**: Affidabilità priorità assoluta
+- **Gradualità**: Implementare incrementalmente
+- **Professional grade**: Industry standard practices
+- **Documentazione**: Ogni procedura documentata e testata
+
 ## Descrizione generale
 Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipendenti e documenti, accessibile sia da LAN che da remoto tramite dominio pubblico e HTTPS.
 
@@ -26,6 +43,30 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 
 # Regole di Progetto - gestionale-fullstack
 
+## 🏗️ Architettura Foundation
+
+### Setup Definitivo
+PC-MAURI (10.10.10.33) - Controller
+├── Cursor AI Remote SSH
+└── pc-mauri-vaio (10.10.10.15) - SVILUPPO NATIVO
+    └── Deploy → gestionale-server (10.10.10.16) - PRODUZIONE DOCKER
+
+### Stack Tecnologico
+**Sviluppo (pc-mauri-vaio)**
+- **TUTTO LOCALE**: `npm run dev`, PostgreSQL nativo
+- **Motivo**: Massima velocità, hot reload istantaneo
+- **Workflow**: Modifiche immediate, zero overhead Docker
+
+**Produzione (gestionale-server)**
+- **TUTTO CONTAINERIZZATO**: Docker Compose
+- **Motivo**: Isolamento, backup automatici, deploy atomico
+- **Componenti**: App container, DB container, Nginx container
+
+### Strategia Ibrida
+- **Sviluppo**: Locale per velocità
+- **Produzione**: Container per stabilità
+- **Deploy**: Automatico da sviluppo a produzione
+
 ## 1. Documentazione e checklist
 
 - Tutta la documentazione del progetto si trova nella cartella `/docs`.
@@ -41,7 +82,6 @@ Gestionale web aziendale per la gestione di clienti, fornitori, commesse, dipend
 - **Evitare la proliferazione di documenti**: lavorare sui file esistenti quando possibile, creare nuovi file solo se l'argomento è completamente diverso e necessita di un documento dedicato.
 - **Mantenere la struttura pulita**: evitare di creare confusione con troppi file, concentrarsi sui file principali e creare nuovi file solo quando strettamente necessario secondo le best practice del progetto.
 - **Consolidare informazioni correlate**: quando possibile, aggiungere nuove informazioni ai documenti esistenti piuttosto che creare file separati per argomenti simili o correlati.
-
 
 ## 2. Regola generale per i commit
 
@@ -418,6 +458,141 @@ async methodName(req: Request, res: Response) {
 - **Dependabot**: Monitoraggio vulnerabilità automatico
 - **Script automatici**: Controllo server, database, SSL
 - **Alert**: Notifiche per problemi critici
+
+## 21. 🛡️ STRATEGIA BACKUP PER AMBIENTE IBRIDO
+
+### **PRINCIPIO FONDAMENTALE: SEPARAZIONE DELLE RESPONSABILITÀ**
+
+**Ambiente Sviluppo (pc-mauri-vaio) - SOLO BACKUP SVILUPPO**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database sviluppo (locale)
+- Backup configurazioni sviluppo
+- Backup codice sorgente (Git)
+- Log di sviluppo
+
+❌ NON DOVREBBE CONTENERE:
+- Backup database produzione
+- Backup configurazioni produzione
+- Dati sensibili produzione
+```
+
+**Ambiente Produzione (gestionale-server) - SOLO BACKUP PRODUZIONE**
+```
+✅ DOVREBBE CONTENERE:
+- Backup database produzione
+- Backup configurazioni produzione
+- Backup segreti produzione
+- Log di produzione
+
+❌ NON DOVREBBE CONTENERE:
+- Backup sviluppo
+- Codice sorgente (solo runtime)
+```
+
+**NAS Synology (10.10.10.21) - BACKUP CENTRALIZZATO**
+```
+✅ CONTIENE:
+- Copia di sicurezza produzione
+- Copia di sicurezza sviluppo (opzionale)
+- Versioning e deduplicazione
+- Cifratura GPG per sicurezza
+```
+
+### **Vantaggi di Questa Strategia**
+- ✅ **Sicurezza**: Dati sensibili separati
+- ✅ **Performance**: Backup veloci e locali
+- ✅ **Manutenibilità**: Responsabilità chiare
+- ✅ **Scalabilità**: Ogni ambiente gestisce i suoi dati
+
+## 22. 🔄 WORKFLOW ROBUSTO
+
+### Sviluppo Quotidiano
+```bash
+# Su pc-mauri-vaio via Cursor SSH
+cd gestionale-fullstack
+npm run dev                    # Sviluppo con hot reload
+npx prisma studio             # GUI database quando serve
+git add . && git commit -m "..." # Version control
+
+# Database changes
+npx prisma migrate dev --name "feature-name"  # Auto-migration
+```
+
+### Deploy Produzione (SICURO)
+```bash
+# 1. Push codice
+git push origin main
+
+# 2. Deploy su gestionale-server
+ssh gestionale-server
+cd /opt/gestionale-fullstack
+git pull origin main
+
+# 3. Deploy con migrations automatiche
+docker compose build app --no-cache
+docker compose up -d
+
+# 4. Verifica deployment
+docker compose logs -f app
+curl http://localhost/api/health  # Se hai endpoint health
+```
+
+## 23. 🎓 COMPETENZE MINIME RICHIESTE
+
+### Docker Basics
+```bash
+docker compose up -d          # Start services
+docker compose down           # Stop services  
+docker compose logs app       # View logs
+docker compose build --no-cache # Rebuild containers
+```
+
+### PostgreSQL Basics
+```bash
+pg_dump -U postgres gestionale > backup.sql    # Backup
+psql -U postgres -d gestionale < backup.sql    # Restore
+docker exec -it postgres psql -U postgres      # Connect
+```
+
+### Prisma Essentials
+```bash
+npx prisma migrate dev        # Create migration
+npx prisma migrate deploy     # Apply migrations
+npx prisma studio            # GUI database
+npx prisma generate          # Generate client
+```
+
+### Linux Basics
+```bash
+ssh user@server              # Remote access
+scp file user@server:/path   # Copy files
+crontab -e                   # Schedule tasks
+systemctl status service     # Check service status
+```
+
+## 24. 💡 GUIDELINES PER AI ASSISTANT
+
+### Principi Guida
+- **Semplicità first**: Sempre preferire soluzione più semplice che funzioni
+- **Robustezza over features**: Affidabilità priorità assoluta
+- **Documentazione**: Ogni procedura deve essere documentata
+- **Testing**: Ogni script/procedura deve essere testata
+- **Gradualità**: Implementare features incrementalmente
+
+### Quando Suggerire Cosa
+- **Problemi semplici**: Soluzioni native/dirette
+- **Problemi complessi**: Docker-based solutions
+- **Sicurezza**: Mai compromessi, sempre best practices
+- **Performance**: Bilanciare con semplicità di maintenance
+- **Scaling**: Solo quando realmente necessario
+
+### Red Flags da Evitare
+- ❌ Over-engineering per problemi semplici
+- ❌ Soluzioni che richiedono maintenance continua
+- ❌ Single points of failure senza backup
+- ❌ Configurazioni senza rollback plan
+- ❌ Security shortcuts per semplicità
 
 ---
 

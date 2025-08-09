@@ -1,0 +1,29 @@
+[Unit]
+Description=Gestionale System Stability Monitor
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=mauri
+Group=mauri
+WorkingDirectory=/home/mauri/gestionale-fullstack
+ExecStart=/home/mauri/gestionale-fullstack/scripts/monitor-stabilita.sh continuous
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Sicurezza
+PrivateTmp=true
+ReadWritePaths=/home/mauri/gestionale-fullstack/logs
+NoNewPrivileges=true
+
+# Timeout e gestione robusta
+TimeoutStartSec=30
+TimeoutStopSec=30
+KillMode=mixed
+KillSignal=SIGTERM
+
+[Install]
+WantedBy=multi-user.target

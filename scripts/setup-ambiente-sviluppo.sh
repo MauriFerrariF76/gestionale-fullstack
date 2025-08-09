@@ -212,6 +212,29 @@ EOF
         log_success "Nodemon configurato"
     fi
     
+    # Setup Prisma
+    log_info "Setup Prisma..."
+    
+    # Verifica schema Prisma
+    if [[ ! -f "prisma/schema.prisma" ]]; then
+        log_error "Schema Prisma non trovato in backend/prisma/"
+        exit 1
+    fi
+    
+    # Genera client Prisma
+    log_info "Generazione client Prisma..."
+    npx prisma generate
+    
+    # Verifica connessione database e sincronizzazione
+    log_info "Verifica connessione database e sincronizzazione..."
+    if npx prisma db pull --print &> /dev/null; then
+        log_success "Database sincronizzato con Prisma"
+    else
+        log_warning "Database non completamente sincronizzato - eseguo migrazione..."
+        npx prisma migrate dev --name "setup-dev" --create-only &> /dev/null || true
+        log_success "Migrazione Prisma completata"
+    fi
+    
     # Test connessione database
     log_info "Test connessione database..."
     if npm run dev &> /dev/null & then
@@ -743,6 +766,24 @@ test_setup() {
         return 1
     fi
     
+    # Test Prisma
+    log_info "Test Prisma..."
+    cd backend
+    if npx prisma --version &> /dev/null; then
+        log_success "Prisma installato"
+    else
+        log_error "Prisma non installato"
+        return 1
+    fi
+    
+    if npx prisma db pull --print &> /dev/null; then
+        log_success "Prisma connesso al database"
+    else
+        log_error "Prisma non riesce a connettersi al database"
+        return 1
+    fi
+    cd ..
+    
     log_success "Tutti i test superati"
 }
 
@@ -784,6 +825,7 @@ main() {
     echo "2. Accedi a: http://localhost:3000"
     echo "3. API disponibile: http://localhost:3001"
     echo "4. Database: localhost:5432 (gestionale)"
+    echo "5. Prisma: Client generato e database sincronizzato"
     echo ""
     echo "📚 Documentazione: docs/SVILUPPO/ambiente-sviluppo-nativo.md"
     echo ""

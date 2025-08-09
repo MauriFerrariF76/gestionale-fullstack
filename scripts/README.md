@@ -14,14 +14,10 @@ Script essenziali per la gestione del gestionale aziendale in ambiente di svilup
 
 ### 🔐 Gestione Segreti
 - **`setup_secrets.sh`** - Setup iniziale dei segreti
-- **`backup_secrets.sh`** - Backup dei segreti
 - **`restore_secrets.sh`** - Ripristino dei segreti
-- **`backup-secrets-file.sh`** - Backup file credenziali
-- **`restore-secrets-file.sh`** - Ripristino file credenziali
 
 ### 💾 Backup e Test
-- **`backup-sviluppo.sh`** - Backup ambiente di sviluppo
-- **`backup_weekly_report.sh`** - Report settimanale automatico dei backup
+- **`backup/backup.sh`** - Backup unificato (database|secrets|configs|development)
 - **`test_restore_backup_dynamic.sh`** - Test dinamico del restore dei backup database
 
 ### ⚡ Ottimizzazione
@@ -58,17 +54,23 @@ sudo ./scripts/setup-ambiente-sviluppo.sh
 # Setup iniziale
 ./scripts/setup_secrets.sh
 
-# Backup segreti
-./scripts/backup_secrets.sh
-
 # Ripristino segreti
 ./scripts/restore_secrets.sh
 ```
 
-### Backup Sviluppo
+### Backup
 ```bash
+# Backup database (schema)
+./scripts/backup/backup.sh database schema
+
+# Backup segreti
+./scripts/backup/backup.sh secrets
+
+# Backup config
+./scripts/backup/backup.sh configs
+
 # Backup ambiente sviluppo
-./scripts/backup-sviluppo.sh
+./scripts/backup/backup.sh development
 
 # Test restore backup
 ./scripts/test_restore_backup_dynamic.sh
@@ -105,12 +107,9 @@ scripts/
 ├── stop-sviluppo.sh            # Arresto sviluppo
 ├── database-setup-dev.sh       # Setup database sviluppo
 ├── setup_secrets.sh            # Setup segreti
-├── backup_secrets.sh           # Backup segreti
 ├── restore_secrets.sh          # Ripristino segreti
-├── backup-secrets-file.sh      # Backup file credenziali
 ├── restore-secrets-file.sh     # Ripristino file credenziali
-├── backup-sviluppo.sh          # Backup sviluppo
-├── backup_weekly_report.sh     # Report settimanale
+├── backup/backup.sh            # Backup unificato
 ├── test_restore_backup_dynamic.sh # Test restore
 └── ottimizza-prestazioni.sh    # Ottimizzazione
 ```

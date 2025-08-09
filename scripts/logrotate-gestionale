@@ -1,0 +1,39 @@
+# Configurazione logrotate per Gestionale Fullstack
+# Rotazione automatica dei log con compressione e retention
+
+/home/mauri/gestionale-fullstack/logs/*.log {
+    # Rotazione giornaliera
+    daily
+    
+    # Mantieni 30 giorni di log
+    rotate 30
+    
+    # Compressione automatica
+    compress
+    delaycompress
+    
+    # Non fallire se il file non esiste
+    missingok
+    
+    # Non ruotare se il file è vuoto
+    notifempty
+    
+    # Gestione permessi - usa utente mauri per la rotazione
+    su mauri mauri
+    
+    # Crea nuovo file con permessi corretti
+    create 644 mauri mauri
+    
+    # Script post-rotazione per ricaricare servizi se necessario
+    postrotate
+        # Ricarica configurazione systemd se necessario
+        systemctl daemon-reload > /dev/null 2>&1 || true
+    endscript
+    
+    # Log delle operazioni di rotazione
+    dateext
+    dateformat -%Y%m%d
+    
+    # Evita errori se il file è in uso
+    copytruncate
+}
